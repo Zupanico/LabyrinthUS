@@ -31,7 +31,9 @@ int fenetre::getHauteur() const
 }
 
 void fenetre::afficher() const
-{
+{   // fonction pour imprimer le cadre de la fenetre
+
+    // ligne du haut
     for (int column = 0; column < _largeur; ++column)
     {
         cout << _cr;
@@ -41,23 +43,22 @@ void fenetre::afficher() const
 
     for (int row = 0; row < _hauteur; ++row)
     {
-        // print the left "wall"
+        // mur de gauche
         cout << _cr;
-        // now print 78 spaces
+        // _largeur-2 espaces
         for (int column = 0; column < _largeur-2; ++column)
         {
             cout << " ";
         }
-        // finally print the right "wall" and a carraige return
+        // mur de droite + retour de ligne
         cout << "\u25A0\n";
-        // continue the for loop to print the next row
     }
 
-    // Once the loop is done, we can print the bottom wall the same way we printed the top one.
+    // ligne du bas
     for (int column = 0; column < _largeur; ++column)
     {
         cout << _cr;
     }
-    // now print a carraige return, so we can start printing on the next line
+    // fin de ligne
     cout << "\n";
 }

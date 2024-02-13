@@ -5,7 +5,6 @@
 
 // Inclusion des librairies
 // =========================
-#include <iostream>
 #include "fenetre.h"
 
 using namespace std;
@@ -30,35 +29,40 @@ int fenetre::getHauteur() const
     return _hauteur;
 }
 
-void fenetre::afficher() const
-{   // fonction pour imprimer le cadre de la fenetre
+void fenetre::print(ostream &output) const
+{ // fonction pour imprimer le cadre de la fenetre
 
-    // ligne du haut
-    for (int column = 0; column < _largeur; ++column)
-    {
-        cout << _cr;
-    }
-    
-    cout << "\n";
+    initscr();
+    cbreak();
+    noecho();
 
-    for (int row = 0; row < _hauteur-2; ++row)
+    move(0, 0);
+    for (int i = 0; i < _largeur; i++)
     {
-        // mur de gauche
-        cout << _cr;
-        // _largeur-2 espaces
-        for (int column = 0; column < _largeur-2; ++column)
-        {
-            cout << " ";
-        }
-        // mur de droite + retour de ligne
-        cout << _cr << endl;
+        printw("%s", _cr);
     }
 
+    // milieu
+    for (int i = 0; i < _hauteur-2; i++){
+        mvprintw(i + 1, 0, "%s", _cr);
+
+        mvprintw(i + 1, _largeur, "%s", _cr);
+    }
+
+    move(_hauteur - 1, 0);
     // ligne du bas
-    for (int column = 0; column < _largeur; ++column)
+    for (int i = 0; i < _largeur; i++)
     {
-        cout << _cr;
+        printw("%s", _cr);
     }
-    // fin de ligne
-    cout << "\n";
+
+    // Refresh the screen
+    refresh();
+
+    // Wait for user input to exit
+    getch();
+
+    endwin();
+
+    // End ncurses
 }

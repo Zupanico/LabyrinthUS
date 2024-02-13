@@ -3,6 +3,9 @@
 // Date : 2024-02-10
 // Auteur : Nicolas Garant
 
+
+// Pour Windows
+// ========================
 #ifdef _WIN32
 #include <io.h>
 #include <fcntl.h>
@@ -12,6 +15,16 @@
 #ifdef _WIN32
 _setmode(_fileno(stdout), _O_U16TEXT);
 #endif
+// ========================
+
+// Inclusion des librairies
+// ========================
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <ncurses.h>
+
+using namespace std;
 
 class fenetre
 {
@@ -30,5 +43,5 @@ public:
     int getHauteur() const;
 
     // Méthodes
-    void afficher() const;
+    void print(ostream &output) const;
 };

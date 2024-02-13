@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    fenetre f(80,40);
+    fenetre f(80,24);
     f.afficher();
     return 0;
 }

@@ -41,7 +41,7 @@ void fenetre::afficher() const
     
     cout << "\n";
 
-    for (int row = 0; row < _hauteur; ++row)
+    for (int row = 0; row < _hauteur-2; ++row)
     {
         // mur de gauche
         cout << _cr;
@@ -51,7 +51,7 @@ void fenetre::afficher() const
             cout << " ";
         }
         // mur de droite + retour de ligne
-        cout << "\u25A0\n";
+        cout << _cr << endl;
     }
 
     // ligne du bas

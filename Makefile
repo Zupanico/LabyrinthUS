@@ -1,5 +1,5 @@
 main: main.o fenetre.o game.o
-	g++ main.o fenetre.o game.o -o labyrinth -lncurses
+	g++ main.o fenetre.o game.o -o labyrinthus
 
 main.o: main.cpp fenetre.h game.h
 	g++ -c main.cpp

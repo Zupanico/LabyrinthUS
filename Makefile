@@ -1,13 +1,14 @@
-# Makefile
+main: main.o fenetre.o game.o
+	g++ main.o fenetre.o game.o -o labyrinth -lncurses
 
-main: main.o fenetre.o
-	g++ main.o fenetre.o -o main
-
-main.o: main.cpp fenetre.h
+main.o: main.cpp fenetre.h game.h
 	g++ -c main.cpp
 
 fenetre.o: fenetre.cpp fenetre.h
 	g++ -c fenetre.cpp
 
+game.o: game.cpp game.h
+	g++ -c game.cpp
+
 clean:
-	rm *.o main
+	rm -f *.o labyrinth

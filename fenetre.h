@@ -20,5 +20,5 @@ public:
     int getHauteur() const;
 
     // Méthodes
-    void print(ostream &output) const;
+    // void print(ostream &output) const;
 };

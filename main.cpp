@@ -7,6 +7,10 @@
 // Inclusion des librairies
 // =========================
 #include "fenetre.h"
+#include "personnage.h"
+#include <string>
+#include <fstream>
+#include <iostream>
 #include "game.h"
 
 using namespace std;

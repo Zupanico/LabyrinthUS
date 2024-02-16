@@ -5,7 +5,6 @@
 
 // Inclusion des librairies
 // =========================
-#include <iostream>
 #include "fenetre.h"
 
 using namespace std;
@@ -30,34 +29,40 @@ int fenetre::getHauteur() const
     return _hauteur;
 }
 
-void fenetre::afficher() const
-{
-    for (int column = 0; column < _largeur; ++column)
-    {
-        cout << _cr;
-    }
-    
-    cout << "\n";
+void fenetre::print(ostream &output) const
+{ // fonction pour imprimer le cadre de la fenetre
 
-    for (int row = 0; row < _hauteur; ++row)
+    initscr();
+    cbreak();
+    noecho();
+
+    move(0, 0);
+    for (int i = 0; i < _largeur; i++)
     {
-        // print the left "wall"
-        cout << _cr;
-        // now print 78 spaces
-        for (int column = 0; column < _largeur-2; ++column)
-        {
-            cout << " ";
-        }
-        // finally print the right "wall" and a carraige return
-        cout << "\u25A0\n";
-        // continue the for loop to print the next row
+        printw("%s", _cr);
     }
 
-    // Once the loop is done, we can print the bottom wall the same way we printed the top one.
-    for (int column = 0; column < _largeur; ++column)
-    {
-        cout << _cr;
+    // milieu
+    for (int i = 0; i < _hauteur-2; i++){
+        mvprintw(i + 1, 0, "%s", _cr);
+
+        mvprintw(i + 1, _largeur, "%s", _cr);
     }
-    // now print a carraige return, so we can start printing on the next line
-    cout << "\n";
+
+    move(_hauteur - 1, 0);
+    // ligne du bas
+    for (int i = 0; i < _largeur; i++)
+    {
+        printw("%s", _cr);
+    }
+
+    // Refresh the screen
+    refresh();
+
+    // Wait for user input to exit
+    getch();
+
+    endwin();
+
+    // End ncurses
 }

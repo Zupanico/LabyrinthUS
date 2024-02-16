@@ -2,7 +2,7 @@
 // Description : Fichier d'en-tête de la classe Fenetre
 // Date : 2024-02-10
 // Auteur : Nicolas Garant
-#include <Windows.h>
+#include <windows.h>
 class fenetre
 {
 private:

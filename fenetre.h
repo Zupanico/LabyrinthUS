@@ -2,30 +2,7 @@
 // Description : Fichier d'en-tête de la classe Fenetre
 // Date : 2024-02-10
 // Auteur : Nicolas Garant
-
-
-// Pour Windows
-// ========================
-#ifdef _WIN32
-#include <io.h>
-#include <fcntl.h>
-#endif
-
-
-#ifdef _WIN32
-_setmode(_fileno(stdout), _O_U16TEXT);
-#endif
-// ========================
-
-// Inclusion des librairies
-// ========================
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <ncurses.h>
-
-using namespace std;
-
+#include <windows.h>
 class fenetre
 {
 private:

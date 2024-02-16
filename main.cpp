@@ -11,26 +11,18 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <ncurses.h>
+#include "game.h"
 
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    // Initialize ncurses
-    fenetre f(80,24);
+    SetConsoleOutputCP(CP_UTF8);
+    while (1)
+    {
+        game g;
+        g.setclavier();
+    }
     
-    initscr();
-
-    // Clear the screen
-    clear();
-    f.print(cout);
-
-    personnage p;
-    p.setY(10);
-    p.setX(10);
-    p.print(cout);
-
-    endwin();
     return 0;
 }

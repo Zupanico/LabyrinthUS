@@ -8,7 +8,6 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <ncurses.h>
 
 using namespace std;
 

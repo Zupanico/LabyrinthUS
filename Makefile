@@ -13,8 +13,5 @@ personnage.o: personnage.cpp personnage.h
 game.o: game.cpp game.h
 	g++ -c game.cpp
 
-game.o: game.cpp game.h
-	g++ -c game.cpp
-
 clean:
-	rm -f *.o labyrinth
+	del *.o

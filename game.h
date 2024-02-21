@@ -6,7 +6,8 @@
 #ifndef GAME_H
 #define GAME_H
 #include <iostream>
-#include <fenetre.h>
+#include "fenetre.h"
+#include "personnage.h"
 #include <conio.h>
 
 using namespace std;
@@ -17,6 +18,7 @@ class game
 private:
     int _clavier;
     fenetre f;
+    personnage p;
     
 public:
     // Constructeur et destructeur
@@ -29,7 +31,9 @@ public:
 
     // Méthodes
     void afficher() const;
-    void deplacer() const;
+    void deplacer(int dir);
     void collision() const;
+
+    void loop();
 };
 #endif

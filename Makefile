@@ -1,5 +1,5 @@
-main: main.o fenetre.o game.o
-	g++ main.o fenetre.o game.o -o labyrinthus
+main: main.o fenetre.o game.o personnage.o
+	g++ main.o fenetre.o game.o -o labyrinthus personnage.o
 
 main.o: main.cpp fenetre.h game.h personnage.h
 	g++ -c main.cpp

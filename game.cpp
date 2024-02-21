@@ -5,7 +5,7 @@ Auteur : Bakayoko Kanvali*/
 
 #include "game.h"
 
-game::game() 
+game::game() : f(80, 40)
 {
     _clavier = 0;
 }
@@ -40,15 +40,19 @@ void game::setclavier()
             switch (touche)
             {
             case 72:    // fleche haut
+                deplacer(72);
                 cout << "Haut" << endl;
                 break;
             case 80:    //fleche bas
+                deplacer(80);
                 cout << "Bas" << endl;
                 break;
             case 77:    // fleche droite
+                deplacer(77);
                 cout << "Droite" << endl;
                 break;
             case 75:    // fleche gauche
+                deplacer(75);
                 cout << "Gauche" << endl;
                 break;
             default:
@@ -63,14 +67,30 @@ void game::setclavier()
 void game::afficher() const
 {
     // Afficher le jeu
+    f.print(cout);
 }
 
-void game::deplacer() const
+void game::deplacer(int dir)
 {
+    f.setEcran(' ', p.getX(), p.getY());
+    switch(dir)
+    {
+    case 72: p.setY(p.getY()-2);
+    case 80: p.setY(p.getY()+1);
+    case 77: p.setX(p.getX()+2);
+    case 75: p.setX(p.getX()-1);
+    }
+    f.setEcran('*', p.getX(), p.getY());
     // Déplacer le joueur
+    afficher();
 }
 
 void game::collision() const
 {
     // Gérer les collisions
+}
+
+void game::loop()
+{
+    setclavier();
 }

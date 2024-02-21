@@ -43,6 +43,7 @@ void fenetre::setEcran(char c, int row, int column)
 
 void fenetre::print(ostream &output) const
 {
+    system("cls");
     for (int column = 0; column < _largeur; ++column)
     {
         cout << _cr;

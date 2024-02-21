@@ -6,6 +6,8 @@
 
 personnage::personnage()
 {
+    _x = 0;
+    _y = 0;
 }
 
 personnage::~personnage()
@@ -35,10 +37,5 @@ void personnage::setY(int y)
 void personnage::print(ostream &output) const
 {
     // Initialize ncurses
-    initscr();
 
-    move(_x, _y);
-    output << VERT << _cr;
-    refresh();
-    endwin();
 }

@@ -3,11 +3,14 @@
 // Date : 2024-02-10
 // Auteur : Nicolas Garant
 #include <windows.h>
+#include <iostream>
+using namespace std;
 class fenetre
 {
 private:
     int _largeur;
     int _hauteur;
+    char ecran[100][100];
     const char * _cr = "\u25A0";
 
 public:
@@ -19,6 +22,7 @@ public:
     int getLargeur() const;
     int getHauteur() const;
 
+    void setEcran(char c, int row, int column);
     // Méthodes
-    // void print(ostream &output) const;
+    void print(ostream &output) const;
 };

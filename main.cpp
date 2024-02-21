@@ -18,9 +18,12 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
+    fenetre f(80,40);
+    f.setEcran('*', 20 ,20);
+    f.print(cout);
+    game g;
     while (1)
     {
-        game g;
         g.setclavier();
     }
     

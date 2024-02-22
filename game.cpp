@@ -75,10 +75,18 @@ void game::deplacer(int dir)
     f.setEcran(' ', p.getX(), p.getY());
     switch(dir)
     {
-    case 72: p.setY(p.getY()-2);
-    case 80: p.setY(p.getY()+1);
-    case 77: p.setX(p.getX()+2);
-    case 75: p.setX(p.getX()-1);
+    case 72: 
+        p.setY(p.getY()-1);
+        break;
+    case 80: 
+        p.setY(p.getY()+1);
+        break;
+    case 77: 
+        p.setX(p.getX()+1);
+        break;
+    case 75: 
+        p.setX(p.getX()-1);
+        break;
     }
     f.setEcran('*', p.getX(), p.getY());
     // Déplacer le joueur

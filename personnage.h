@@ -1,10 +1,8 @@
-// Fichier: personnage.h
-// Description: Fichier d'en-tête de la classe Personnage
-// Date: 2024-02-12
-// Auteur: Nicolas Garant
+/*Fichier: personnage.h
+Description : Fichier d'en-tête de la classe personnage
+Date : 2024-02-22
+Auteur : Bakayoko Kanvali*/
 
-// Inclusion des librairies
-// =========================
 #include <string>
 #include <fstream>
 #include <iostream>

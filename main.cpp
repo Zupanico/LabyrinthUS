@@ -1,11 +1,8 @@
-// Fichier : main.cpp
-// Description : Fichier principal du jeu LabyrinthUS
-// Date : 2024-02-10
-// Auteur : Nicolas Garant
+/* Fichier : main.cpp
+Description : Fichier d'en-tête du main
+Date : 2024-02-22
+Auteur : Bakayoko Kanvali*/
 
-
-// Inclusion des librairies
-// =========================
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -21,9 +18,6 @@ int main(int argc, char const *argv[])
     while (1)
     {
         g.loop();
-    }
-    
-
-    
+    } 
     return 0;
 }

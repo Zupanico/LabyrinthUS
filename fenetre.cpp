@@ -35,11 +35,22 @@ int fenetre::getHauteur() const
     return _hauteur;
 }
 
-void fenetre::setEcran(wchar_t c, int row, int column) 
+void fenetre::setEcran(wchar_t c, int row, int column, string couleur )
 {
-   
     if (row >= 0 && row < _hauteur && column >= 0 && column < _largeur) 
     {
+        if (c == 'X') // Vérifie si le caractère est celui du joueur
+        {
+            if (!couleur.empty()) 
+            {
+                cout << couleur; // Applique la couleur spécifiée pour le joueur
+            }
+        }
+        else
+        {
+            // Réinitialise la couleur pour tous les autres caractères
+            cout << RESET; // Utilise la couleur par défaut du terminal
+        }
         ecran[row][column] = c;
     } 
     else 
@@ -47,6 +58,7 @@ void fenetre::setEcran(wchar_t c, int row, int column)
         cerr << "Erreur : Coordonnées hors limites !" << endl;
     }
 }
+
 
 wchar_t fenetre::getEcran(int row, int column) const 
 {

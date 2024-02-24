@@ -8,7 +8,10 @@ Auteur : Bakayoko Kanvali*/
 game::game() : f(32, 30)
 {
     prevPlayerX = 0;
-    prevPlayerY = 0;    
+    prevPlayerY = 0;   
+
+    prevMonsterX = 29;
+    prevMonsterY = 29; 
     _clavier = 0;
 
     murs.push_back(new mur(1,4,4,1)); //1
@@ -65,7 +68,8 @@ void game::setclavier()
     if (_kbhit())
     {
         touche = _getch();
-        if (touche=='q'){
+        if (touche=='q')
+        {
             cout << "Quitter" << endl;
             exit(0);
         }
@@ -102,10 +106,9 @@ void game::setclavier()
     }
 }
 
-
+// Afficher le jeu
 void game::afficher() const
 {
-    // Afficher le jeu
     f.print(cout);
 }
 
@@ -114,9 +117,7 @@ void game::deplacer(int dir)
     // Sauvegarde de la position précédente du joueur
     prevPlayerX = p.getX();
     prevPlayerY = p.getY();
-
-    wchar_t c_mur = '*';
-
+    
     // Afficher le mur
 
     for (int k=0; k<murs.size(); k++)
@@ -130,45 +131,74 @@ void game::deplacer(int dir)
         }
     }
 
-    f.setEcran(' ', p.getX(), p.getY());
+    f.setEcran(' ', prevPlayerX, prevPlayerY, RESET);
+    f.setEcran(' ', prevMonsterX, prevMonsterY, RESET);
 
     switch(dir)
     {
     case 72: 
          // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
-         if (p.getY() > 0 && f.getEcran(p.getX(), p.getY()-1) != _cr && f.getEcran(p.getX(), p.getY()-1) != c_mur)
-            p.setY(p.getY()-1);
+         if (prevPlayerY > 0 && f.getEcran(prevPlayerX,prevPlayerY-1) != _cr && f.getEcran(prevPlayerX, prevPlayerY-1) != c_mur)
+            {
+                p.setY(prevPlayerY-1);
+            }
         break;
     case 80: 
         // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
-        if (p.getY() < f.getHauteur()-1 && f.getEcran(p.getX(), p.getY()+1) != _cr && f.getEcran(p.getX(), p.getY()+1) != c_mur)
-            p.setY(p.getY()+1);
+        if (prevPlayerY < f.getHauteur()-1 && f.getEcran(prevPlayerX, prevPlayerY+1) != _cr && f.getEcran(prevPlayerX, prevPlayerY+1) != c_mur)
+        {
+            p.setY(prevPlayerY+1);
+        }
         break;
     case 77: 
         // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
-        if (p.getX() < f.getHauteur()-1 && f.getEcran(p.getX()+1, p.getY()) != _cr && f.getEcran(p.getX()+1, p.getY()) != c_mur)
+        if (prevPlayerX < f.getHauteur()-1 && f.getEcran(prevPlayerX+1, prevPlayerY) != _cr && f.getEcran(prevPlayerX+1, prevPlayerY) != c_mur)
         {
-            if (p.getX() < f.getLargeur()-2 && f.getEcran(p.getX()+1, p.getY()) != _cr)
+            if ((prevPlayerX < f.getLargeur()-2 && f.getEcran(prevPlayerX+1, prevPlayerY)) != _cr)
             {
-                 p.setX(p.getX()+1);
+                p.setX(prevPlayerX+1);
             }
         }
         break;
     case 75: 
         // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
-        if (p.getX() > 0 && f.getEcran(p.getX()-1, p.getY()) != _cr &&f.getEcran(p.getX()-1, p.getY()) != c_mur)
-            p.setX(p.getX()-1);
+        if (prevPlayerX > 0 && f.getEcran(prevPlayerX-1, prevPlayerY) != _cr &&f.getEcran(prevPlayerX-1, prevPlayerY) != c_mur) 
+            p.setX(prevPlayerX-1);
         break;
     }
     
-   f.setEcran('X', p.getX(), p.getY());
+    prevPlayerX = p.getX();
+    prevPlayerY = p.getY();
+    // Afficher le personnage sur la fenêtre
+    f.setEcran('X',  prevPlayerX, prevPlayerY, RESET);
 
+
+    if (prevMonsterX < f.getLargeur() - 1 && prevMonsterX < prevPlayerX && f.getEcran(prevMonsterX + 1, prevMonsterY) != c_mur)
+        m.setX(prevMonsterX + 1);
+    else if (prevMonsterX > 0 && prevMonsterX > prevPlayerX && f.getEcran(prevMonsterX - 1, prevMonsterY) != c_mur)
+        m.setX(prevMonsterX - 1);
+    if (prevMonsterY < f.getHauteur() - 1  && prevMonsterY < prevPlayerY && f.getEcran(prevMonsterX, prevMonsterY + 1) != c_mur)
+        m.setY(prevMonsterY + 1);
+    else if (prevMonsterY > 0 && prevMonsterY > prevPlayerY && f.getEcran(prevMonsterX, prevMonsterY - 1) != c_mur)
+        m.setY(prevMonsterY - 1);
+
+    // Sauvegarde de la position précédente du monstre
+    prevMonsterX = m.getX();
+    prevMonsterY = m.getY();
+
+    // Afficher le monstre sur la fenêtre
+    f.setEcran('M', prevMonsterX, prevMonsterY, RESET);
+
+    // Mettre à jour le déplacement du monstre
+    m.Demarrage_Deplacement_continu(p);
+
+    // Vérifier les collisions
     collision();
 
-    // Déplacer le joueur
-    afficher();
-    
-    cout << "Coordonnées du personnage : (" << p.getX() << ", " << p.getY() << ")" << endl;
+    // Afficher le jeu complet
+    afficher();   
+
+    cout << "Coordonnées du personnage : (" << prevPlayerX << ", " << prevPlayerY << ")" << endl;
     cout << "Dimensions de la fenêtre : " << f.getLargeur() << "x" << f.getHauteur() << endl;
 }
 
@@ -199,5 +229,9 @@ void game::collision()
 
 void game::loop()
 {
+    // Capturer les entrées clavier
     setclavier();
+
+    // Pause pour limiter la vitesse d'affichage
+    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 100 millisecondes
 }

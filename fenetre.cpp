@@ -37,8 +37,7 @@ int fenetre::getHauteur() const
 
 void fenetre::setEcran(wchar_t c, int row, int column) 
 {
-   
-    if (row >= 0 && row < _hauteur && column >= 0 && column < _largeur) 
+    if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur) 
     {
         ecran[row][column] = c;
     } 
@@ -67,7 +66,7 @@ void fenetre::print(ostream &output) const
     system("cls"); // Efface l'écran avant d'afficher la fenêtre
 
     // Affiche la ligne supérieure de la fenêtre
-    for (int column = 0; column < _largeur; ++column)
+    for (int column = 0; column < _largeur + 2; ++column)
     {
         cout << _cr << " ";
     }
@@ -81,7 +80,7 @@ void fenetre::print(ostream &output) const
         cout << _cr << " ";
 
         // Affiche le contenu de chaque case de la ligne de la fenêtre
-        for (int column = 0; column < _largeur-2; ++column)
+        for (int column = 0; column < _largeur; ++column)
         {
             cout << ecran[column][row] << " "; // Affiche le contenu de la case
         }
@@ -91,7 +90,7 @@ void fenetre::print(ostream &output) const
     }
 
     // Affiche la ligne inférieure de la fenêtre
-    for (int column = 0; column < _largeur; ++column)
+    for (int column = 0; column < _largeur + 2; ++column)
     {
         cout << _cr << " ";
     }

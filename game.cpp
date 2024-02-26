@@ -7,8 +7,6 @@ Auteur : Bakayoko Kanvali*/
 
 game::game() : f(32, 30)
 {
-    prevPlayerX = 0;
-    prevPlayerY = 0;    
     _clavier = 0;
 
     murs.push_back(new mur(1,4,4,1)); //1
@@ -111,14 +109,53 @@ void game::afficher() const
 
 void game::deplacer(int dir)
 {
-    // Sauvegarde de la position précédente du joueur
-    prevPlayerX = p.getX();
-    prevPlayerY = p.getY();
+    f.setEcran(' ', p.getX(), p.getY());
 
-    wchar_t c_mur = '*';
+    switch(dir)
+    {
+    case 72: 
+         // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
+         if (!collision(p.getX(), (p.getY()-1)))
+            {
+                p.setY(p.getY()-1);
+            }
+        break;
+    case 80: 
+        // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
+        if (!collision(p.getX(), (p.getY()+1)))
+        {
+            p.setY(p.getY()+1);
+        }
+        break;
+    case 77: 
+        // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
+        if (!collision(p.getX()+1, p.getY()))
+        {
+            p.setX(p.getX()+1);
+        }
+        break;
+    case 75: 
+        // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
+        if (!collision(p.getX()-1, p.getY()))
+        {
+            p.setX(p.getX()-1);
+        }
+        break;
+    }
+    
 
-    // Afficher le mur
+    // Afficher le personnage sur la fenêtre
+    f.setEcran('X',  p.getX(), p.getY());
 
+    // Afficher le jeu complet
+    afficher();   
+
+    cout << "Coordonnées du personnage : (" << p.getX() << ", " << p.getY() << ")" << endl;
+    cout << "Dimensions de la fenêtre : " << f.getLargeur() << "x" << f.getHauteur() << endl;
+}
+
+void game::actualiserMur()
+{
     for (int k=0; k<murs.size(); k++)
     {
         for (int i = 0; i < murs.at(k)->get_largeur(); i++)
@@ -129,71 +166,25 @@ void game::deplacer(int dir)
             }
         }
     }
-
-    f.setEcran(' ', p.getX(), p.getY());
-
-    switch(dir)
-    {
-    case 72: 
-         // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
-         if (p.getY() > 0 && f.getEcran(p.getX(), p.getY()-1) != _cr && f.getEcran(p.getX(), p.getY()-1) != c_mur)
-            p.setY(p.getY()-1);
-        break;
-    case 80: 
-        // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
-        if (p.getY() < f.getHauteur()-1 && f.getEcran(p.getX(), p.getY()+1) != _cr && f.getEcran(p.getX(), p.getY()+1) != c_mur)
-            p.setY(p.getY()+1);
-        break;
-    case 77: 
-        // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
-        if (p.getX() < f.getHauteur()-1 && f.getEcran(p.getX()+1, p.getY()) != _cr && f.getEcran(p.getX()+1, p.getY()) != c_mur)
-        {
-            if (p.getX() < f.getLargeur()-2 && f.getEcran(p.getX()+1, p.getY()) != _cr)
-            {
-                 p.setX(p.getX()+1);
-            }
-        }
-        break;
-    case 75: 
-        // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
-        if (p.getX() > 0 && f.getEcran(p.getX()-1, p.getY()) != _cr &&f.getEcran(p.getX()-1, p.getY()) != c_mur)
-            p.setX(p.getX()-1);
-        break;
-    }
-    
-   f.setEcran('X', p.getX(), p.getY());
-
-    collision();
-
-    // Déplacer le joueur
-    afficher();
-    
-    cout << "Coordonnées du personnage : (" << p.getX() << ", " << p.getY() << ")" << endl;
-    cout << "Dimensions de la fenêtre : " << f.getLargeur() << "x" << f.getHauteur() << endl;
 }
 
-void game::collision()
+bool game::collision(int x, int y)
 {
-    // Collision avec les bords de la fenêtre
-    int x = p.getX();
-    int y = p.getY();
 
     // Collision avec les bords de la fenêtre
     if (x < 0 || x >= f.getLargeur() || y < 0 || y >= f.getHauteur()) 
     {
         cout << "Collision avec les bords de la fenêtre !" << endl;
         // Ramener le joueur à sa position précédente
-        p.setX(prevPlayerX);
-        p.setY(prevPlayerY);
-    }
-
-    // Collision avec un mur
-    if (f.getEcran(x, y) == _cr)
+        return true;
+    } else if (f.getEcran(x, y) == c_mur)
     {
         cout << "Collision avec un mur !" << endl;
         // Ramener le joueur à sa position précédente
-        p.setX(prevPlayerX);
-        p.setY(prevPlayerY);
+        return true;
+    } else 
+    {
+        return false;
     }
 }
 

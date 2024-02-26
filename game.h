@@ -19,11 +19,9 @@ class game
 {
 private:
     int _clavier;
-    
-    int prevPlayerX;
-    int prevPlayerY;
 
     const wchar_t _cr = L'\u25A0';
+    const wchar_t c_mur = L'o';
 
     fenetre f;
     vector<mur*> murs;
@@ -41,9 +39,10 @@ public:
     // Méthodes
     void afficher() const;
     void deplacer(int dir);
-    void collision();
 
+    void actualiserMur();
 
+    bool collision(int x, int y);
     void loop();
 };
 #endif

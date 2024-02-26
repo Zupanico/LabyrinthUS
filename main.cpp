@@ -15,7 +15,8 @@ int main(int argc, char const *argv[])
     SetConsoleOutputCP(CP_UTF8);
 
     game g;
-    while (1)
+    g.actualiserMur();
+    while (true)
     {
         g.loop();
     } 

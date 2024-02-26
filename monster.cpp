@@ -7,6 +7,7 @@ Auteur : Bakayoko Kanvali*/
 
 monster::monster()
 {
+    
 }
 
 monster::~monster()

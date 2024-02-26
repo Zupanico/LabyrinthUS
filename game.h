@@ -17,8 +17,8 @@ class game
 {
 private:
     int _clavier;
-    fenetre f;
-    personnage p;
+    fenetre _f;
+    personnage _p;
     
 public:
     // Constructeur et destructeur

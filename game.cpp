@@ -5,7 +5,7 @@ Auteur : Bakayoko Kanvali*/
 
 #include "game.h"
 
-game::game() : f(80, 40)
+game::game() : _f(80, 40)
 {
     _clavier = 0;
 }
@@ -67,28 +67,20 @@ void game::setclavier()
 void game::afficher() const
 {
     // Afficher le jeu
-    f.print(cout);
+    _f.print(cout);
 }
 
 void game::deplacer(int dir)
 {
-    f.setEcran(' ', p.getX(), p.getY());
+    _f.setEcran(' ', _p.getX(), _p.getY());
     switch(dir)
     {
-    case 72: 
-        p.setY(p.getY()-1);
-        break;
-    case 80: 
-        p.setY(p.getY()+1);
-        break;
-    case 77: 
-        p.setX(p.getX()+1);
-        break;
-    case 75: 
-        p.setX(p.getX()-1);
-        break;
+    case 72: _p.setY(_p.getY()-2);
+    case 80: _p.setY(_p.getY()+1);
+    case 77: _p.setX(_p.getX()+2);
+    case 75: _p.setX(_p.getX()-1);
     }
-    f.setEcran('*', p.getX(), p.getY());
+    _f.setEcran('*', _p.getX(), _p.getY());
     // Déplacer le joueur
     afficher();
 }

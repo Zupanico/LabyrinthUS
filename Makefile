@@ -3,8 +3,8 @@
 # Date : 2024-02-22
 # Auteur : Bakayoko Kanvali
 
-main: main.o fenetre.o game.o personnage.o mur.o clee.o monster.o portail.o
-	g++ main.o fenetre.o game.o personnage.o mur.o clee.o monster.o portail.o -o labyrinthus
+main: main.o fenetre.o game.o personnage.o mur.o cle.o monster.o portail.o
+	g++ main.o fenetre.o game.o personnage.o mur.o cle.o monster.o portail.o -o labyrinthus
 
 main.o: main.cpp fenetre.h game.h 
 	g++ -c main.cpp
@@ -21,8 +21,8 @@ game.o: game.cpp game.h mur.h monster.h fenetre.h
 mur.o: mur.cpp mur.h
 	g++ -c mur.cpp
 
-clee.o: clee.cpp clee.h
-	g++ -c clee.cpp
+cle.o: cle.cpp cle.h
+	g++ -c cle.cpp
 	
 monster.o: monster.cpp monster.h personnage.h
 	g++ -c monster.cpp

@@ -27,7 +27,7 @@ private:
     int _largeur;
     int _hauteur;
 
-    char ecran[MAX_HAUTEUR][MAX_LARGEUR]; 
+    char _ecran[MAX_HAUTEUR][MAX_LARGEUR]; 
     const char * _cr = "\u25A0";
 
 public:

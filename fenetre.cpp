@@ -16,7 +16,7 @@ fenetre::fenetre(int largeur, int hauteur)
     {
         for (int j = 0; j<_hauteur; j++)
         {
-            ecran[i][j] = ' ';
+            _ecran[i][j] = ' ';
         }
     }
 }
@@ -51,7 +51,7 @@ void fenetre::setEcran(wchar_t c, int row, int column, string couleur )
             // Réinitialise la couleur pour tous les autres caractères
             cout << RESET; // Utilise la couleur par défaut du terminal
         }
-        ecran[row][column] = c;
+        _ecran[row][column] = c;
     } 
     else 
     {
@@ -65,7 +65,7 @@ wchar_t fenetre::getEcran(int row, int column) const
 
     if (row >= 0 && row < _hauteur && column >= 0 && column < _largeur) 
     {
-        return ecran[row][column];
+        return _ecran[row][column];
     } 
     else 
     {
@@ -95,7 +95,7 @@ void fenetre::print(ostream &output) const
         // Affiche le contenu de chaque case de la ligne de la fenêtre
         for (int column = 0; column < _largeur-2; ++column)
         {
-            cout << ecran[column][row] << " "; // Affiche le contenu de la case
+            cout << _ecran[column][row] << " "; // Affiche le contenu de la case
         }
 
         // Affiche le bord droit de la fenêtre et passe à la ligne suivante

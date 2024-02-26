@@ -27,20 +27,20 @@ class game
 private:
     int _clavier;
     
-    int prevPlayerX;
-    int prevPlayerY;
+    int _prevPlayerX;
+    int _prevPlayerY;
 
-    int prevMonsterX;
-    int prevMonsterY;
+    int _prevMonsterX;
+    int _prevMonsterY;
 
     const wchar_t _cr = L'\u25A0';
     const wchar_t c_mur = L'o';
 
-    vector<mur*> murs;
+    vector<mur*> _murs;
     
     fenetre f;
-    personnage p;
-    monster m;
+    personnage _p;
+    monster _m;
 
 public:
     // Constructeur et destructeur

@@ -1,3 +1,8 @@
+/*Fichier: personnage.cpp
+Description : Fichier d'en-tête de la classe personnage
+Date : 2024-02-22
+Auteur : Bakayoko Kanvali*/
+
 #include "personnage.h"
 
 // Couleur du personnage
@@ -36,6 +41,5 @@ void personnage::setY(int y)
 
 void personnage::print(ostream &output) const
 {
-    // Initialize ncurses
-
+    cout << VERT << _cr << RESET;
 }

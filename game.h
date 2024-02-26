@@ -1,12 +1,14 @@
-// Fichier : game.h
-// Description : Fichier d'en-tête de la classe game
-// Date : 2024-02-10
-// Auteur : Bakayoko Kanvali
+ /*Fichier : game.h
+ Description : Fichier d'en-tête de la classe game
+ Date : 2024-02-22
+ Auteur : Bakayoko Kanvali*/
 
 #ifndef GAME_H
 #define GAME_H
 #include <iostream>
 #include "fenetre.h"
+#include "mur.h"
+#include <vector>
 #include "personnage.h"
 #include <conio.h>
 
@@ -20,6 +22,11 @@ private:
     fenetre _f;
     personnage _p;
     
+    const wchar_t _cr = L'\u25A0';
+    const wchar_t c_mur = L'o';
+
+    vector<mur*> murs;
+
 public:
     // Constructeur et destructeur
     game();
@@ -32,8 +39,10 @@ public:
     // Méthodes
     void afficher() const;
     void deplacer(int dir);
-    void collision() const;
 
+    void actualiserMur();
+
+    bool collision(int x, int y);
     void loop();
 };
 #endif

@@ -1,13 +1,49 @@
 /*Fichier : game.cpp
 Description : Fichier d'en-tête de la classe game
-Date : 2024-02-10
+Date : 2024-02-22
 Auteur : Bakayoko Kanvali*/
 
 #include "game.h"
 
-game::game() : _f(80, 40)
+game::game() : _f(30, 30)
 {
     _clavier = 0;
+
+    murs.push_back(new mur(1,4,4,1)); //1
+    murs.push_back(new mur(4,1,5,3)); //1'
+    murs.push_back(new mur(5,1,0,5)); //2
+
+    murs.push_back(new mur(7,1,0,7)); //3
+    murs.push_back(new mur(1,1,3,8)); //3'
+    murs.push_back(new mur(1,2,3,10)); //3''
+    murs.push_back(new mur(2,1,4,11)); //3'''
+    murs.push_back(new mur(3,1,0,11)); //3'''''
+    murs.push_back(new mur(1,11,7,7)); //4
+    murs.push_back(new mur(5,1,3,18)); //5
+    murs.push_back(new mur(1,5,3,18)); //6
+    murs.push_back(new mur(2,1,4,22)); //6'
+    murs.push_back(new mur(1,5,6,22)); //6''
+    
+    murs.push_back(new mur(4,1,12,3)); //7
+    murs.push_back(new mur(1,4,16,3)); //8
+    murs.push_back(new mur(1,20,12,3)); //9
+    murs.push_back(new mur(3,1,16,11)); //9'
+    murs.push_back(new mur(4,1,12,23)); //10
+    murs.push_back(new mur(1,13,15,11)); //11
+
+    murs.push_back(new mur(5,1,20,4)); //12
+    murs.push_back(new mur(3,1,20,15)); //12'
+    murs.push_back(new mur(1,21,25,4)); //13
+    murs.push_back(new mur(1,5,20,0)); //13'
+    murs.push_back(new mur(1,10,20,15)); //14
+    murs.push_back(new mur(6,1,20,25)); //15
+
+    murs.push_back(new mur(6,1,10,26)); //16
+    murs.push_back(new mur(1,2,10,26)); //17
+    murs.push_back(new mur(1,3,15,26)); //18
+    murs.push_back(new mur(10,1,16,28)); //19
+    murs.push_back(new mur(1,2,25,27)); //20
+
 }
 
 game::~game() 
@@ -73,21 +109,82 @@ void game::afficher() const
 void game::deplacer(int dir)
 {
     _f.setEcran(' ', _p.getX(), _p.getY());
+
     switch(dir)
     {
-    case 72: _p.setY(_p.getY()-2);
-    case 80: _p.setY(_p.getY()+1);
-    case 77: _p.setX(_p.getX()+2);
-    case 75: _p.setX(_p.getX()-1);
+    case 72: 
+         // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
+         if (!collision(_p.getX(), (_p.getY()-1)))
+            {
+                _p.setY(_p.getY()-1);
+            }
+        break;
+    case 80: 
+        // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
+        if (!collision(_p.getX(), (_p.getY()+1)))
+        {
+            _p.setY(_p.getY()+1);
+        }
+        break;
+    case 77: 
+        // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
+        if (!collision(_p.getX()+1, _p.getY()))
+        {
+            _p.setX(_p.getX()+1);
+        }
+        break;
+    case 75: 
+        // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
+        if (!collision(_p.getX()-1, _p.getY()))
+        {
+            _p.setX(_p.getX()-1);
+        }
+        break;
     }
-    _f.setEcran('*', _p.getX(), _p.getY());
-    // Déplacer le joueur
-    afficher();
+    
+
+    // Afficher le personnage sur la fenêtre
+    _f.setEcran('X',  _p.getX(), _p.getY());
+
+    // Afficher le jeu complet
+    afficher();   
+
+    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
+    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "x" << _f.getHauteur() << endl;
 }
 
-void game::collision() const
+void game::actualiserMur()
 {
-    // Gérer les collisions
+    for (int k=0; k<murs.size(); k++)
+    {
+        for (int i = 0; i < murs.at(k)->get_largeur(); i++)
+        {
+            for (int j = 0; j < murs.at(k)->get_hauteur(); j++)
+            {
+                _f.setEcran(c_mur, murs.at(k)->get_positionX() + i, murs.at(k)->get_positionY() + j);
+            }
+        }
+    }
+}
+
+bool game::collision(int x, int y)
+{
+
+    // Collision avec les bords de la fenêtre
+    if (x < 0 || x >= _f.getLargeur() || y < 0 || y >= _f.getHauteur()) 
+    {
+        cout << "Collision avec les bords de la fenêtre !" << endl;
+        // Ramener le joueur à sa position précédente
+        return true;
+    } else if (_f.getEcran(x, y) == c_mur)
+    {
+        cout << "Collision avec un mur !" << endl;
+        // Ramener le joueur à sa position précédente
+        return true;
+    } else 
+    {
+        return false;
+    }
 }
 
 void game::loop()

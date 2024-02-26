@@ -3,9 +3,6 @@ Description : Fichier d'en-tête du main
 Date : 2024-02-22
 Auteur : Bakayoko Kanvali*/
 
-#include <string>
-#include <fstream>
-#include <iostream>
 #include "game.h"
 
 using namespace std;

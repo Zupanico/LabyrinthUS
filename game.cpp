@@ -44,6 +44,9 @@ game::game() : _f(30, 30)
     _murs.push_back(new mur(10,1,16,28)); //19
     _murs.push_back(new mur(1,2,25,27)); //20
 
+    _m.setX(28);
+    _m.setY(28);
+
 }
 
 game::~game() 
@@ -108,6 +111,7 @@ void game::afficher() const
 void game::deplacer(int dir)
 {
     _f.setEcran(" ", _p.getX(), _p.getY());
+    _f.setEcran(" ", _m.getX(), _m.getY());
 
     switch(dir)
     {
@@ -141,14 +145,25 @@ void game::deplacer(int dir)
         break;
     }
     
+    if (_m.getX() < _p.getX() && !collision(_m.getX() + 1, _m.getY()))
+        _m.setX(_m.getX() + 1);
+    else if (_m.getX() > _p.getX() && !collision(_m.getX() - 1, _m.getY()))
+        _m.setX(_m.getX() - 1);
+    if (_m.getY() < _p.getY() && !collision(_m.getX(), _m.getY() + 1))
+        _m.setY(_m.getY() + 1);
+    else if (_m.getY() > _p.getY() && !collision(_m.getX(), _m.getY() - 1))
+        _m.setY(_m.getY() - 1);
 
     // Afficher le personnage sur la fenêtre
     _f.setEcran("X",  _p.getX(), _p.getY());
+    _f.setEcran("M",  _m.getX(), _m.getY());
 
     // Afficher le jeu complet
     afficher();   
 
     cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
+    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
+    
     cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "x" << _f.getHauteur() << endl;
 }
 

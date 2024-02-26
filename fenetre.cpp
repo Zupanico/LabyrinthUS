@@ -16,7 +16,7 @@ fenetre::fenetre(int largeur, int hauteur)
     {
         for (int j = 0; j<_hauteur; j++)
         {
-            ecran[i][j] = ' ';
+            _ecran[i][j] = " ";
         }
     }
 }
@@ -35,11 +35,11 @@ int fenetre::getHauteur() const
     return _hauteur;
 }
 
-void fenetre::setEcran(wchar_t c, int row, int column) 
+void fenetre::setEcran(const char* c, int row, int column) 
 {
     if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur) 
     {
-        ecran[row][column] = c;
+        _ecran[row][column] = c;
     } 
     else 
     {
@@ -47,17 +47,18 @@ void fenetre::setEcran(wchar_t c, int row, int column)
     }
 }
 
-wchar_t fenetre::getEcran(int row, int column) const 
+
+const char* fenetre::getEcran(int row, int column) const 
 {
 
     if (row >= 0 && row < _hauteur && column >= 0 && column < _largeur) 
     {
-        return ecran[row][column];
+        return _ecran[row][column];
     } 
     else 
     {
         cerr << "Erreur : Coordonnées hors limites !" << endl;
-        return L' ';
+        return " ";
     }
 }
 
@@ -82,7 +83,7 @@ void fenetre::print(ostream &output) const
         // Affiche le contenu de chaque case de la ligne de la fenêtre
         for (int column = 0; column < _largeur; ++column)
         {
-            cout << ecran[column][row] << " "; // Affiche le contenu de la case
+            cout << _ecran[column][row] << " "; // Affiche le contenu de la case
         }
 
         // Affiche le bord droit de la fenêtre et passe à la ligne suivante

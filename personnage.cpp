@@ -19,12 +19,12 @@ personnage::~personnage()
 {
 }
 
-int personnage::getX()
+int personnage::getX() const
 {
     return this->_x;
 }
 
-int personnage::getY()
+int personnage::getY() const
 {
     return this->_y;
 }
@@ -41,5 +41,5 @@ void personnage::setY(int y)
 
 void personnage::print(ostream &output) const
 {
-    cout << VERT << _cr << RESET;
+    cout << "\033[31m" << _cr << "\033[0m";
 }

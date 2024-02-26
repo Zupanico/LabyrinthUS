@@ -9,40 +9,40 @@ game::game() : _f(30, 30)
 {
     _clavier = 0;
 
-    murs.push_back(new mur(1,4,4,1)); //1
-    murs.push_back(new mur(4,1,5,3)); //1'
-    murs.push_back(new mur(5,1,0,5)); //2
+    _murs.push_back(new mur(1,4,4,1)); //1
+    _murs.push_back(new mur(4,1,5,3)); //1'
+    _murs.push_back(new mur(5,1,0,5)); //2
 
-    murs.push_back(new mur(7,1,0,7)); //3
-    murs.push_back(new mur(1,1,3,8)); //3'
-    murs.push_back(new mur(1,2,3,10)); //3''
-    murs.push_back(new mur(2,1,4,11)); //3'''
-    murs.push_back(new mur(3,1,0,11)); //3'''''
-    murs.push_back(new mur(1,11,7,7)); //4
-    murs.push_back(new mur(5,1,3,18)); //5
-    murs.push_back(new mur(1,5,3,18)); //6
-    murs.push_back(new mur(2,1,4,22)); //6'
-    murs.push_back(new mur(1,5,6,22)); //6''
+    _murs.push_back(new mur(7,1,0,7)); //3
+    _murs.push_back(new mur(1,1,3,8)); //3'
+    _murs.push_back(new mur(1,2,3,10)); //3''
+    _murs.push_back(new mur(2,1,4,11)); //3'''
+    _murs.push_back(new mur(3,1,0,11)); //3'''''
+    _murs.push_back(new mur(1,11,7,7)); //4
+    _murs.push_back(new mur(5,1,3,18)); //5
+    _murs.push_back(new mur(1,5,3,18)); //6
+    _murs.push_back(new mur(2,1,4,22)); //6'
+    _murs.push_back(new mur(1,5,6,22)); //6''
     
-    murs.push_back(new mur(4,1,12,3)); //7
-    murs.push_back(new mur(1,4,16,3)); //8
-    murs.push_back(new mur(1,20,12,3)); //9
-    murs.push_back(new mur(3,1,16,11)); //9'
-    murs.push_back(new mur(4,1,12,23)); //10
-    murs.push_back(new mur(1,13,15,11)); //11
+    _murs.push_back(new mur(4,1,12,3)); //7
+    _murs.push_back(new mur(1,4,16,3)); //8
+    _murs.push_back(new mur(1,20,12,3)); //9
+    _murs.push_back(new mur(3,1,16,11)); //9'
+    _murs.push_back(new mur(4,1,12,23)); //10
+    _murs.push_back(new mur(1,13,15,11)); //11
 
-    murs.push_back(new mur(5,1,20,4)); //12
-    murs.push_back(new mur(3,1,20,15)); //12'
-    murs.push_back(new mur(1,21,25,4)); //13
-    murs.push_back(new mur(1,5,20,0)); //13'
-    murs.push_back(new mur(1,10,20,15)); //14
-    murs.push_back(new mur(6,1,20,25)); //15
+    _murs.push_back(new mur(5,1,20,4)); //12
+    _murs.push_back(new mur(3,1,20,15)); //12'
+    _murs.push_back(new mur(1,21,25,4)); //13
+    _murs.push_back(new mur(1,5,20,0)); //13'
+    _murs.push_back(new mur(1,10,20,15)); //14
+    _murs.push_back(new mur(6,1,20,25)); //15
 
-    murs.push_back(new mur(6,1,10,26)); //16
-    murs.push_back(new mur(1,2,10,26)); //17
-    murs.push_back(new mur(1,3,15,26)); //18
-    murs.push_back(new mur(10,1,16,28)); //19
-    murs.push_back(new mur(1,2,25,27)); //20
+    _murs.push_back(new mur(6,1,10,26)); //16
+    _murs.push_back(new mur(1,2,10,26)); //17
+    _murs.push_back(new mur(1,3,15,26)); //18
+    _murs.push_back(new mur(10,1,16,28)); //19
+    _murs.push_back(new mur(1,2,25,27)); //20
 
 }
 
@@ -59,9 +59,8 @@ int game::getclavier() const
 void game::setclavier()
 {
     static int k = 0; // Déclarer k en tant que variable statique pour qu'elle conserve sa valeur entre les appels
-    int touche;
     if (_kbhit()){
-        touche = _getch();
+        int touche = _getch();
         if (touche=='q'){
             cout << "Quitter" << endl;
             exit(0);
@@ -99,7 +98,7 @@ void game::setclavier()
     }
 }
 
-
+// Afficher le jeu
 void game::afficher() const
 {
     // Afficher le jeu
@@ -108,7 +107,7 @@ void game::afficher() const
 
 void game::deplacer(int dir)
 {
-    _f.setEcran(' ', _p.getX(), _p.getY());
+    _f.setEcran(" ", _p.getX(), _p.getY());
 
     switch(dir)
     {
@@ -144,7 +143,7 @@ void game::deplacer(int dir)
     
 
     // Afficher le personnage sur la fenêtre
-    _f.setEcran('X',  _p.getX(), _p.getY());
+    _f.setEcran("X",  _p.getX(), _p.getY());
 
     // Afficher le jeu complet
     afficher();   
@@ -155,13 +154,13 @@ void game::deplacer(int dir)
 
 void game::actualiserMur()
 {
-    for (int k=0; k<murs.size(); k++)
+    for (int k=0; k<_murs.size(); k++)
     {
-        for (int i = 0; i < murs.at(k)->get_largeur(); i++)
+        for (int i = 0; i < _murs.at(k)->get_largeur(); i++)
         {
-            for (int j = 0; j < murs.at(k)->get_hauteur(); j++)
+            for (int j = 0; j < _murs.at(k)->get_hauteur(); j++)
             {
-                _f.setEcran(c_mur, murs.at(k)->get_positionX() + i, murs.at(k)->get_positionY() + j);
+                _f.setEcran(_cr, _murs.at(k)->get_positionX() + i, _murs.at(k)->get_positionY() + j);
             }
         }
     }
@@ -176,7 +175,7 @@ bool game::collision(int x, int y)
         cout << "Collision avec les bords de la fenêtre !" << endl;
         // Ramener le joueur à sa position précédente
         return true;
-    } else if (_f.getEcran(x, y) == c_mur)
+    } else if (_f.getEcran(x, y) == _cr)
     {
         cout << "Collision avec un mur !" << endl;
         // Ramener le joueur à sa position précédente
@@ -189,5 +188,9 @@ bool game::collision(int x, int y)
 
 void game::loop()
 {
+    // Capturer les entrées clavier
     setclavier();
+
+    // Pause pour limiter la vitesse d'affichage
+    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 100 millisecondes
 }

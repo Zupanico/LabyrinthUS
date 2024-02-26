@@ -5,11 +5,18 @@
 
 #ifndef GAME_H
 #define GAME_H
+
+// Déclaration avancée des classes
+class personnage;
+class monster;
+
 #include <iostream>
+#include <windows.h>
 #include "fenetre.h"
 #include "mur.h"
 #include <vector>
-#include "personnage.h"
+#include <cstdlib>
+#include "monster.h"
 #include <conio.h>
 
 using namespace std;
@@ -21,11 +28,11 @@ private:
     int _clavier;
     fenetre _f;
     personnage _p;
+    monster _m;
     
-    const wchar_t _cr = L'\u25A0';
-    const wchar_t c_mur = L'o';
+    const char* _cr = "\u25A0";
 
-    vector<mur*> murs;
+    vector<mur*> _murs;
 
 public:
     // Constructeur et destructeur

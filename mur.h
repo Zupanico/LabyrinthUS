@@ -35,6 +35,5 @@ public:
     int get_largeur() const;
     int get_hauteur() const;
 
-
 };
 #endif 

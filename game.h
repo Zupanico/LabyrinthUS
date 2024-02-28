@@ -18,6 +18,8 @@ class monster;
 #include <cstdlib>
 #include "monster.h"
 #include <conio.h>
+#include "Inventaire.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -29,10 +31,14 @@ private:
     fenetre _f;
     personnage _p;
     monster _m;
-    
+    inventaire _inv;
+
+    // const char* _porte = "\U0001F6AA";
+    const char* _cle = "\U0001F5DD";
     const char* _cr = "\u25A0";
 
     vector<mur*> _murs;
+    bool _keyCollect;
 
 public:
     // Constructeur et destructeur
@@ -51,5 +57,7 @@ public:
 
     bool collision(int x, int y);
     void loop();
+
+    void ajoutCle();
 };
 #endif

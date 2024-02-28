@@ -1,10 +1,10 @@
 # Fichier : Makefile
-# Description : Fichier d'en-tête du projet Labyrinthus
+# Description : Fichier makefile du projet Labyrinthus
 # Date : 2024-02-22
-# Auteur : Bakayoko Kanvali
+# Auteur : Olympus
 
-main: main.o fenetre.o game.o personnage.o mur.o cle.o monster.o portail.o
-	g++ main.o fenetre.o game.o personnage.o mur.o cle.o monster.o portail.o -o labyrinthus
+main: main.o fenetre.o game.o personnage.o mur.o monster.o portail.o Inventaire.o Item.o
+	g++ main.o fenetre.o game.o personnage.o mur.o monster.o portail.o Inventaire.o Item.o -o labyrinthus
 
 main.o: main.cpp fenetre.h game.h 
 	g++ -c main.cpp
@@ -21,14 +21,17 @@ game.o: game.cpp game.h mur.h monster.h fenetre.h
 mur.o: mur.cpp mur.h
 	g++ -c mur.cpp
 
-cle.o: cle.cpp cle.h
-	g++ -c cle.cpp
-	
 monster.o: monster.cpp monster.h personnage.h
 	g++ -c monster.cpp
 
 portail.o: portail.cpp portail.h
 	g++ -c portail.cpp
+
+Inventaire.o: Inventaire.cpp Inventaire.h Item.h
+	g++ -c Inventaire.cpp
+
+Item.o: Item.cpp Item.h
+	g++ -c Item.cpp
 	
 clean:
 	rm -f *.o labyrinthus

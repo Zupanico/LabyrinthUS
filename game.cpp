@@ -44,6 +44,15 @@ game::game() : _f(30, 30)
     _murs.push_back(new mur(10,1,16,28)); //19
     _murs.push_back(new mur(1,2,25,27)); //20
 
+    // Murs ajoutes par Evan
+    _murs.push_back(new mur(1, 1, 26, 4));
+    _murs.push_back(new mur(1, 1, 29, 4));
+
+    _f.setEcran("_", 27, 4);
+    _f.setEcran("_", 28, 4);
+    _f.setEcran(_cle, 5, 9);
+
+    _keyCollect = false;
 }
 
 game::~game() 
@@ -103,11 +112,15 @@ void game::afficher() const
 {
     // Afficher le jeu
     _f.print(cout);
+    _inv.afficherInventaire();
 }
 
 void game::deplacer(int dir)
 {
+    
     _f.setEcran(" ", _p.getX(), _p.getY());
+    _f.setEcran("_", 27, 4);
+    _f.setEcran("_", 28, 4);
 
     switch(dir)
     {
@@ -141,6 +154,8 @@ void game::deplacer(int dir)
         break;
     }
     
+    //Actualiser l'inventaire
+    ajoutCle();
 
     // Afficher le personnage sur la fenêtre
     _f.setEcran("X",  _p.getX(), _p.getY());
@@ -150,6 +165,8 @@ void game::deplacer(int dir)
 
     cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
     cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "x" << _f.getHauteur() << endl;
+
+
 }
 
 void game::actualiserMur()
@@ -180,7 +197,20 @@ bool game::collision(int x, int y)
         cout << "Collision avec un mur !" << endl;
         // Ramener le joueur à sa position précédente
         return true;
-    } else 
+    } else if (_f.getEcran(x, y) == "_")
+    {
+        if (_keyCollect == false)
+        {
+            cout << "Collision avec la porte !" << endl;
+            // Ramener le joueur à sa position précédente
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else 
     {
         return false;
     }
@@ -193,4 +223,13 @@ void game::loop()
 
     // Pause pour limiter la vitesse d'affichage
     Sleep(10); // Utilisation de Sleep() pour introduire un délai de 100 millisecondes
+}
+
+void game::ajoutCle()
+{
+    if (_p.getX() == 5 && _p.getY() == 9 && _keyCollect == false)
+    {
+        _inv.addItem(new item(_cle));
+        _keyCollect = true;
+    }
 }

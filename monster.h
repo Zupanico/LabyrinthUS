@@ -24,10 +24,14 @@ class monster : public personnage
 private:
     thread Deplacement_Continu; // Thread pour le déplacement continu du monstre
     bool Se_Deplace; // Indicateur pour savoir si le monstre est en mouvement
+    void Deplacement_vers_pers(const personnage& joueur); // Méthode pour déplacer le monstre vers le joueur
     
 
 public:
     monster();
     ~monster();
+    void Demarrage_Deplacement_continu(const personnage& joueur); // Méthode pour démarrer le déplacement continu du monstre
+    void Arreter_Deplacement_continu(); // Méthode pour arrêter le déplacement continu du monstre
+    void Poursuivre_Joueur(int joueurX, int joueurY); // Méthode pour poursuivre le joueur
 };
 #endif

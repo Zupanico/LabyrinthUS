@@ -14,9 +14,20 @@ using namespace std;
 class portail
 {
 private:
+
+    int posX;
+    int posY;
+
+    const char *_P = "P";
     
 public:
-    portail();
+    portail(int x, int y);
     ~portail();
+
+    void setPosX(int x);
+    void setPosY(int y);
+
+    int getPosX() const;
+    int getPosY() const;
 };
 #endif

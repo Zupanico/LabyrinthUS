@@ -16,21 +16,31 @@ class personnage;
 #include "personnage.h"
 #include <thread>
 #include <chrono>
+#include <vector>
 
 using namespace std;
+
+struct coordonnees
+{
+    int x;
+    int y;
+};
 
 class monster : public personnage
 {
 private:
-    thread Deplacement_Continu; // Thread pour le déplacement continu du monstre
-    bool Se_Deplace; // Indicateur pour savoir si le monstre est en mouvement
-    void Deplacement_vers_pers(const personnage& joueur); // Méthode pour déplacer le monstre vers le joueur
+    bool _actif;
+    coordonnees _triggerPoints;
     
 
 public:
     monster();
     ~monster();
-    void Demarrage_Deplacement_continu(const personnage& joueur); // Méthode pour démarrer le déplacement continu du monstre
-    void Arreter_Deplacement_continu(); // Méthode pour arrêter le déplacement continu du monstre
+
+    bool getActif() const;
+    void setActif(bool actif);
+
+    void addTriggerPoint(int x, int y);
+    coordonnees getTriggerPoint() const;
 };
 #endif

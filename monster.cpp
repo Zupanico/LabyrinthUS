@@ -5,69 +5,34 @@ Auteur : Bakayoko Kanvali*/
 
 #include "monster.h"
 
-monster::monster() : Se_Deplace(false)
+monster::monster()
 {
-    
+    _actif = false;
 }
 
 monster::~monster()
 {
-    Arreter_Deplacement_continu();
+    
 }
 
-void monster::Deplacement_vers_pers(const personnage& joueur)
+bool monster::getActif() const
 {
-    int joueurX = joueur.getX();
-    int joueurY = joueur.getY();
-
-    // Récupérer les coordonnées actuelles du monstre
-    int monsterX = getX();
-    int monsterY = getY();
-
-    // Calculer le déplacement du monstre vers le joueur
-    // déplacer le monstre d'une case vers le joueur
-    if (monsterX < joueurX) 
-    {
-        setX(monsterX + 1); // Déplacer le monstre vers la droite
-    } 
-    else if (monsterX > joueurX) 
-    {
-        setX(monsterX - 1); // Déplacer le monstre vers la gauche
-    }
-
-    if (monsterY < joueurY) 
-    {
-        setY(monsterY + 1); // Déplacer le monstre vers le bas
-    } 
-    else if (monsterY > joueurY) 
-    {
-        setY(monsterY - 1); // Déplacer le monstre vers le haut
-    }
+    return _actif;
 }
 
-void monster::Demarrage_Deplacement_continu(const personnage& joueur)
+void monster::setActif(bool actif)
 {
-    // Vérifier si le monstre est déjà en mouvement
-    if (!Se_Deplace) 
-    {
-        Se_Deplace = true;
-        Deplacement_Continu = thread([this, &joueur]() 
-        {
-            while (Se_Deplace) 
-            {
-                Deplacement_vers_pers(joueur); // Déplacer le monstre vers le joueur
-                this_thread::sleep_for(chrono::milliseconds(500)); // Attendre un certain délai entre les déplacements
-            }
-        });
-        Deplacement_Continu.detach(); // Détacher le thread pour qu'il s'exécute en arrière-plan
-    }
+    _actif = actif;
 }
 
-void monster::Arreter_Deplacement_continu()
+void monster::addTriggerPoint(int x, int y)
 {
-      Se_Deplace = false;
-    if (Deplacement_Continu.joinable()) 
-    {
-        Deplacement_Continu.join(); // Attendre que le thread de déplacement se termine
-    }
+    _triggerPoints.x = x;
+    _triggerPoints.y = y;
 }
+
+coordonnees monster::getTriggerPoint() const
+{
+    return _triggerPoints;
+}
+// Path: personnage.cpp

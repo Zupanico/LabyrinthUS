@@ -16,7 +16,7 @@ fenetre::fenetre(int largeur, int hauteur)
     {
         for (int j = 0; j<_hauteur; j++)
         {
-            _ecran[i][j] = " ";
+            _ecran[i][j] = "  ";
         }
     }
 }
@@ -83,7 +83,7 @@ void fenetre::print(ostream &output) const
         // Affiche le contenu de chaque case de la ligne de la fenêtre
         for (int column = 0; column < _largeur; ++column)
         {
-            cout << _ecran[column][row] << " "; // Affiche le contenu de la case
+            cout << _ecran[column][row]; // Affiche le contenu de la case
         }
 
         // Affiche le bord droit de la fenêtre et passe à la ligne suivante

@@ -27,15 +27,20 @@ using namespace std;
 class game
 {
 private:
-    int _clavier;
-    fenetre _f;
-    personnage _p;
-    monster _m;
-    inventaire _inv;
+    int             _clavier;
+    fenetre         _f;
+    personnage      _p;
+    monster         _m;
+    inventaire      _inv;
 
     // const char* _porte = "\U0001F6AA";
-    const char* _cle = "\U0001F5DD";
-    const char* _cr = "\u25A0";
+    const char* _cle = "\U0001F511";
+    const char* _cr = "\u25A0 ";
+    const char* _player = "\U0001F468";
+    const char* _monster = "\U0001F47E";
+    const char* _door = "\U0001F6AA";
+
+    
 
     vector<mur*> _murs;
     bool _keyCollect;
@@ -51,7 +56,10 @@ public:
 
     // Méthodes
     void afficher() const;
-    void deplacer(int dir);
+    void deplacerJoueur(int dir);
+
+    void deplacerMonster();
+    bool checkTriggerPoints();
 
     void actualiserMur();
 

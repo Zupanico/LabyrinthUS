@@ -53,10 +53,8 @@ game::game() : _f(30, 30)
     _f.setEcran(_cle, 5, 9);
 
     _keyCollect = false;
-    _m.setX(28);
-    _m.setY(28);
 
-    _m.addTriggerPoint(3, 14);
+    _m.addTriggerPoint(1, 10);
 
 }
 
@@ -177,10 +175,7 @@ void game::deplacerJoueur(int dir)
     }
     else
     {
-        if (checkTriggerPoints())
-        {
-            deplacerMonster();
-        }
+        checkTriggerPoints();
     }
 
 
@@ -208,7 +203,7 @@ void game::deplacerMonster()
 
 bool game::checkTriggerPoints()
 {
-    if (abs(_p.getX() - _m.getTriggerPoint().x) < 5 && abs(_p.getY() - _m.getTriggerPoint().y) < 5)  
+    if (abs(_p.getX() - _m.getTriggerPoint().x) < 4 && abs(_p.getY() - _m.getTriggerPoint().y) < 3 || _keyCollect)  
         {
             _m.setActif(true);
             _m.setX(_m.getTriggerPoint().x);

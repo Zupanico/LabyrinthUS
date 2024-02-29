@@ -30,7 +30,11 @@ private:
     personnage _p;
     monster _m;
     
-    const char* _cr = "\u25A0";
+    const char* _cr = "\u25A0 ";
+    const char* _player = "\U0001F468";
+    const char* _monster = "\U0001F47E";
+
+    
 
     vector<mur*> _murs;
 
@@ -45,7 +49,10 @@ public:
 
     // Méthodes
     void afficher() const;
-    void deplacer(int dir);
+    void deplacerJoueur(int dir);
+
+    void deplacerMonster();
+    bool checkTriggerPoints();
 
     void actualiserMur();
 

@@ -246,7 +246,7 @@ bool game::collision(int x, int y)
         cout << "Collision avec un mur !" << endl;
         // Ramener le joueur à sa position précédente
         return true;
-    } else if (_f.getEcran(x, y) == "_")
+    } else if (_f.getEcran(x, y) == _door)
     {
         if (_keyCollect == false)
         {

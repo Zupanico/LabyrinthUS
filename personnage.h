@@ -1,10 +1,12 @@
-// Fichier: personnage.h
-// Description: Fichier d'en-tête de la classe Personnage
-// Date: 2024-02-12
-// Auteur: Nicolas Garant
+/*Fichier: personnage.h
+Description : Fichier d'en-tête de la classe personnage
+Date : 2024-02-22
+Auteur : Bakayoko Kanvali*/
 
-// Inclusion des librairies
-// =========================
+// Déclaration avancée des classes
+class game;
+class monster;
+
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -23,8 +25,8 @@ public:
     personnage();
     ~personnage();
 
-    int getX();
-    int getY();
+    int getX() const;
+    int getY() const;
 
     void setX(int x);
     void setY(int y);

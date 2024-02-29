@@ -1,3 +1,8 @@
+/*Fichier: personnage.cpp
+Description : Fichier d'en-tête de la classe personnage
+Date : 2024-02-22
+Auteur : Bakayoko Kanvali*/
+
 #include "personnage.h"
 
 // Couleur du personnage
@@ -6,18 +11,20 @@
 
 personnage::personnage()
 {
+    _x = 0;
+    _y = 0;
 }
 
 personnage::~personnage()
 {
 }
 
-int personnage::getX()
+int personnage::getX() const
 {
     return this->_x;
 }
 
-int personnage::getY()
+int personnage::getY() const
 {
     return this->_y;
 }
@@ -34,11 +41,5 @@ void personnage::setY(int y)
 
 void personnage::print(ostream &output) const
 {
-    // Initialize ncurses
-    initscr();
-
-    move(_x, _y);
-    output << VERT << _cr;
-    refresh();
-    endwin();
+    cout << "\033[31m" << _cr << "\033[0m";
 }

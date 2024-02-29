@@ -14,9 +14,11 @@ int main(int argc, char const *argv[])
 
     game g;
     g.actualiserMur();
-    while (true)
+    while (true && !g.getGameOver())
     {
         g.loop();
-    } 
+    }
+
+    cout << "=================== Game Over!===================" << endl;
     return 0;
 }

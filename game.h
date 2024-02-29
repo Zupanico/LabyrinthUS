@@ -40,7 +40,7 @@ private:
     const char* _monster = "\U0001F47E";
     const char* _door = "\U0001F6AA";
 
-    
+    bool _gameOver;    
 
     vector<mur*> _murs;
     bool _keyCollect;
@@ -65,6 +65,8 @@ public:
 
     bool collision(int x, int y);
     void loop();
+
+    bool getGameOver();
 
     void ajoutCle();
 };

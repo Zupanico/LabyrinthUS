@@ -199,6 +199,10 @@ void game::deplacerMonster()
 
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_monster,  _m.getX(), _m.getY());
+
+    if ( _p.getX() == _m.getX() && _p.getY() == _m.getY()){
+        _gameOver = true;
+    }
 }
 
 bool game::checkTriggerPoints()
@@ -274,6 +278,7 @@ void game::loop()
     Sleep(10); // Utilisation de Sleep() pour introduire un délai de 100 millisecondes
 }
 
+
 void game::ajoutCle()
 {
     if (_p.getX() == 5 && _p.getY() == 9 && _keyCollect == false)
@@ -281,4 +286,9 @@ void game::ajoutCle()
         _inv.addItem(new item(_cle));
         _keyCollect = true;
     }
+}
+
+bool game::getGameOver()
+{
+    return _gameOver;
 }

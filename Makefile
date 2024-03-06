@@ -34,4 +34,4 @@ Item.o: Item.cpp Item.h
 	g++ -c Item.cpp
 	
 clean:
-	del *.o
+	rm -f *.o labyrinthus

@@ -9,10 +9,11 @@ game::game() : _f(30, 30)
 {
     _clavier = 0;
 
+   
+    // Inserez ici le code pour initialiser les murs
     _murs.push_back(new mur(1,4,4,1)); //1
     _murs.push_back(new mur(4,1,5,3)); //1'
     _murs.push_back(new mur(5,1,0,5)); //2
-
     _murs.push_back(new mur(7,1,0,7)); //3
     _murs.push_back(new mur(1,1,3,8)); //3'
     _murs.push_back(new mur(1,2,3,10)); //3''
@@ -23,33 +24,47 @@ game::game() : _f(30, 30)
     _murs.push_back(new mur(1,5,3,18)); //6
     _murs.push_back(new mur(2,1,4,22)); //6'
     _murs.push_back(new mur(1,5,6,22)); //6''
-    
     _murs.push_back(new mur(4,1,12,3)); //7
     _murs.push_back(new mur(1,4,16,3)); //8
     _murs.push_back(new mur(1,20,12,3)); //9
     _murs.push_back(new mur(3,1,16,11)); //9'
     _murs.push_back(new mur(4,1,12,23)); //10
     _murs.push_back(new mur(1,13,15,11)); //11
-
     _murs.push_back(new mur(5,1,20,4)); //12
     _murs.push_back(new mur(3,1,20,15)); //12'
     _murs.push_back(new mur(1,21,25,4)); //13
     _murs.push_back(new mur(1,5,20,0)); //13'
     _murs.push_back(new mur(1,10,20,15)); //14
     _murs.push_back(new mur(6,1,20,25)); //15
-
     _murs.push_back(new mur(6,1,10,26)); //16
     _murs.push_back(new mur(1,2,10,26)); //17
     _murs.push_back(new mur(1,3,15,26)); //18
     _murs.push_back(new mur(10,1,16,28)); //19
     _murs.push_back(new mur(1,2,25,27)); //20
+    _murs.push_back(new mur(1,3,20,26)); //21
+    _murs.push_back(new mur(4,1,3,14)); //22
+    _murs.push_back(new mur(1,2,3,15)); //23
+    _murs.push_back(new mur(1,1,14,11)); //24
+    _murs.push_back(new mur(6,1,17,6)); //25
+    _murs.push_back(new mur(1,7,22,7)); //26
+    _murs.push_back(new mur(3,1,9,3)); //27
+    _murs.push_back(new mur(2,2,27,6)); //28
+    _murs.push_back(new mur(2,2,27,11)); //29
+    _murs.push_back(new mur(2,2,27,16)); //30
+    _murs.push_back(new mur(2,2,27,21)); //31
+    _murs.push_back(new mur(2,2,9,16)); //32
+    _murs.push_back(new mur(2,2,9,9)); //33
+    _murs.push_back(new mur(4,4,1,25)); //34
+    _murs.push_back(new mur(1,2,6,27)); //35
+    _murs.push_back(new mur(1,1,5,28)); //36
+    _murs.push_back(new mur(2,3,17,8)); //37
+    _murs.push_back(new mur(2,5,17,17)); //38
+    _murs.push_back(new mur(2,1,20,13)); //39
+    _murs.push_back(new mur(2,2,9,0)); //40
+    _murs.push_back(new mur(2,2,14,0)); //41
+    _murs.push_back(new mur(1,1,10,28)); //42
+    _murs.push_back(new mur(1,3,25,0)); //43
 
-    // Murs ajoutes par Evan
-    _murs.push_back(new mur(1, 1, 26, 4));
-    _murs.push_back(new mur(1, 1, 29, 4));
-
-    _f.setEcran(_door, 27, 4);
-    _f.setEcran(_door, 28, 4);
     _f.setEcran(_cle, 5, 9);
 
     _keyCollect = false;
@@ -88,19 +103,15 @@ void game::setclavier()
             {
             case 72:    // fleche haut
                 deplacerJoueur(72);
-                cout << "Haut" << endl;
                 break;
             case 80:    //fleche bas
                 deplacerJoueur(80);
-                cout << "Bas" << endl;
                 break;
             case 77:    // fleche droite
                 deplacerJoueur(77);
-                cout << "Droite" << endl;
                 break;
             case 75:    // fleche gauche
                 deplacerJoueur(75);
-                cout << "Gauche" << endl;
                 break;
             default:
                 break;
@@ -114,21 +125,20 @@ void game::setclavier()
 void game::afficher() const
 {
     // Afficher le jeu
-    _f.print(cout);
-    _inv.afficherInventaire();
+    _f.print(cout);;
 
     cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
     cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
-
-    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << endl;
+    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << "          " << endl;
+    _inv.afficherInventaire();
 }
 
 void game::deplacerJoueur(int dir)
 {
     
     _f.setEcran("  ", _p.getX(), _p.getY());
-    _f.setEcran(_door, 27, 4);
-    _f.setEcran(_door, 28, 4);
+    _f.setEcran(_door, 25, 3);
+    _f.setEcran(_door, 24, 3);
 
     switch(dir)
     {
@@ -242,19 +252,16 @@ bool game::collision(int x, int y)
     // Collision avec les bords de la fenêtre
     if (x < 0 || x >= _f.getLargeur() || y < 0 || y >= _f.getHauteur()) 
     {
-        cout << "Collision avec les bords de la fenêtre !" << endl;
         // Ramener le joueur à sa position précédente
         return true;
     } else if (_f.getEcran(x, y) == _cr)
     {
-        cout << "Collision avec un mur !" << endl;
         // Ramener le joueur à sa position précédente
         return true;
     } else if (_f.getEcran(x, y) == _door)
     {
         if (_keyCollect == false)
         {
-            cout << "Collision avec la porte !" << endl;
             // Ramener le joueur à sa position précédente
             return true;
         }

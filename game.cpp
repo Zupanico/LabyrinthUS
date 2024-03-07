@@ -8,7 +8,6 @@ Auteur : Bakayoko Kanvali*/
 game::game() : _f(30, 30)
 {
     _clavier = 0;
-
    
     // Inserez ici le code pour initialiser les murs
     _murs.push_back(new mur(1,4,4,1)); //1
@@ -88,7 +87,8 @@ void game::setclavier()
     static int k = 0; // Déclarer k en tant que variable statique pour qu'elle conserve sa valeur entre les appels
     if (_kbhit()){
         int touche = _getch();
-        if (touche=='q'){
+        if (touche=='q' || touche=='Q')
+        {
             cout << "Quitter" << endl;
             exit(0);
         }
@@ -126,16 +126,10 @@ void game::afficher() const
 {
     // Afficher le jeu
     _f.print(cout);;
-
-    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
-    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
-    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << "          " << endl;
-    _inv.afficherInventaire();
 }
 
 void game::deplacerJoueur(int dir)
 {
-    
     _f.setEcran("  ", _p.getX(), _p.getY());
     _f.setEcran(_door, 25, 3);
     _f.setEcran(_door, 24, 3);
@@ -149,6 +143,7 @@ void game::deplacerJoueur(int dir)
                 _p.setY(_p.getY()-1);
             }
         break;
+
     case 80: 
         // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
         if (!collision(_p.getX(), (_p.getY()+1)))
@@ -156,6 +151,7 @@ void game::deplacerJoueur(int dir)
             _p.setY(_p.getY()+1);
         }
         break;
+
     case 77: 
         // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
         if (!collision(_p.getX()+1, _p.getY()))
@@ -163,6 +159,7 @@ void game::deplacerJoueur(int dir)
             _p.setX(_p.getX()+1);
         }
         break;
+
     case 75: 
         // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
         if (!collision(_p.getX()-1, _p.getY()))
@@ -181,22 +178,24 @@ void game::deplacerJoueur(int dir)
     if (_m.getActif())
     {
         deplacerMonster();
-
     }
     else
     {
         checkTriggerPoints();
     }
 
-
     // Afficher le jeu complet
     afficher();   
+    
+    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
+    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
+    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << endl;
+    _inv.afficherInventaire();
 }
 
 void game::deplacerMonster()
 {
     _f.setEcran("  ", _m.getX(), _m.getY());
-
 
     if (_m.getX() < _p.getX() && !collision(_m.getX() + 1, _m.getY()))
         _m.setX(_m.getX() + 1);
@@ -226,11 +225,7 @@ bool game::checkTriggerPoints()
             return true;
         }
     return false;
-
-
 }
-
-
 
 void game::actualiserMur()
 {
@@ -254,11 +249,15 @@ bool game::collision(int x, int y)
     {
         // Ramener le joueur à sa position précédente
         return true;
-    } else if (_f.getEcran(x, y) == _cr)
+    } 
+    
+    else if (_f.getEcran(x, y) == _cr)
     {
         // Ramener le joueur à sa position précédente
         return true;
-    } else if (_f.getEcran(x, y) == _door)
+    }
+
+    else if (_f.getEcran(x, y) == _door)
     {
         if (_keyCollect == false)
         {
@@ -270,6 +269,7 @@ bool game::collision(int x, int y)
             return false;
         }
     }
+
     else 
     {
         return false;
@@ -282,7 +282,7 @@ void game::loop()
     setclavier();
 
     // Pause pour limiter la vitesse d'affichage
-    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 100 millisecondes
+    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 10 millisecondes
 }
 
 

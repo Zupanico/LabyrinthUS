@@ -6,6 +6,7 @@ Auteur : Bakayoko Kanvali*/
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <windows.h>
 #include "game.h"
 
 using namespace std;
@@ -21,7 +22,7 @@ void HideConsoleCursor()
 int main(int argc, char const *argv[])
 {
     system("cls"); 
-    HideConsoleCursor();
+    HideConsoleCursor(); // Appel de la fonction pour masquer le curseur
     SetConsoleOutputCP(CP_UTF8);
     
     game g;

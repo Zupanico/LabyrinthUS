@@ -10,6 +10,7 @@ class monster;
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
@@ -17,8 +18,14 @@ using namespace std;
 class personnage
 {
 private:
-    int _x = 0;
-    int _y = 0;
+    int _x;
+    int _y;
+    int _vitesse_x;
+    int _vitesse_y;
+    double _time_x;
+    double _time_y;
+    const double _k = 0.2;
+
     const char *_cr = "\u25A0";
 public:
     
@@ -30,6 +37,16 @@ public:
 
     void setX(int x);
     void setY(int y);
+
+    void setVitesseX(int vitesse);
+    void setVitesseY(int vitesse);
+    int getVitesseX() const;
+    int getVitesseY() const;
+
+
+
+    void deplacementX();
+    void deplacementY();
 
     void print(ostream &output) const;
 };

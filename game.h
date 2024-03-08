@@ -56,7 +56,7 @@ public:
 
     // Méthodes
     void afficher() const;
-    void deplacerJoueur(int dir);
+    void deplacerJoueur();
 
     void deplacerMonster();
     bool checkTriggerPoints();

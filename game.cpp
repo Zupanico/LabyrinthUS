@@ -102,16 +102,20 @@ void game::setclavier()
             switch (touche)
             {
             case 72:    // fleche haut
-                deplacerJoueur(72);
+                _p.setVitesseY(-1);
+                _p.setVitesseX(0);
                 break;
             case 80:    //fleche bas
-                deplacerJoueur(80);
+                _p.setVitesseY(1);
+                _p.setVitesseX(0);
                 break;
             case 77:    // fleche droite
-                deplacerJoueur(77);
+                _p.setVitesseX(1);
+                _p.setVitesseY(0);
                 break;
             case 75:    // fleche gauche
-                deplacerJoueur(75);
+                _p.setVitesseX(-1);
+                _p.setVitesseY(0);
                 break;
             default:
                 break;
@@ -124,51 +128,56 @@ void game::setclavier()
 // Afficher le jeu
 void game::afficher() const
 {
+    // Effacer l'écran
+    COORD _pos = {0, 0};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
     // Afficher le jeu
-    _f.print(cout);;
+
+    cout << "LABYRINTHUS" << endl;
+
+    _f.print(cout);
+    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
+    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
+    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << endl;
+    _inv.afficherInventaire();
 }
 
-void game::deplacerJoueur(int dir)
+void game::deplacerJoueur()
 {
     _f.setEcran("  ", _p.getX(), _p.getY());
     _f.setEcran(_door, 25, 3);
     _f.setEcran(_door, 24, 3);
 
-    switch(dir)
-    {
-    case 72: 
-         // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
-         if (!collision(_p.getX(), (_p.getY()-1)))
-            {
-                _p.setY(_p.getY()-1);
-            }
-        break;
 
-    case 80: 
-        // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
-        if (!collision(_p.getX(), (_p.getY()+1)))
+     // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
+    if (!collision(_p.getX(), (_p.getY()-1)) && _p.getVitesseY() < 0)
         {
-            _p.setY(_p.getY()+1);
+            _p.deplacementY();
         }
-        break;
 
-    case 77: 
-        // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
-        if (!collision(_p.getX()+1, _p.getY()))
-        {
-            _p.setX(_p.getX()+1);
-        }
-        break;
 
-    case 75: 
-        // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
-        if (!collision(_p.getX()-1, _p.getY()))
+    // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
+    if (!collision(_p.getX(), (_p.getY()+1)) && _p.getVitesseY() > 0)
         {
-            _p.setX(_p.getX()-1);
+            _p.deplacementY();
         }
-        break;
-    }
-    
+
+
+
+    // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
+    if (!collision(_p.getX()+1, _p.getY()) && _p.getVitesseX() > 0)
+        {
+            _p.deplacementX();
+        }
+
+
+    // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
+    if (!collision(_p.getX()-1, _p.getY()) && _p.getVitesseX() < 0)
+        {
+            _p.deplacementX();
+        }
+
+        
     //Actualiser l'inventaire
     ajoutCle();
 
@@ -186,11 +195,6 @@ void game::deplacerJoueur(int dir)
 
     // Afficher le jeu complet
     afficher();   
-    
-    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
-    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
-    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << endl;
-    _inv.afficherInventaire();
 }
 
 void game::deplacerMonster()
@@ -280,6 +284,7 @@ void game::loop()
 {
     // Capturer les entrées clavier
     setclavier();
+    deplacerJoueur();
 
     // Pause pour limiter la vitesse d'affichage
     Sleep(10); // Utilisation de Sleep() pour introduire un délai de 10 millisecondes

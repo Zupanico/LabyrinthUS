@@ -64,9 +64,6 @@ const char* fenetre::getEcran(int row, int column) const
 
 void fenetre::print(ostream &output) const
 {
-    // Effacer l'écran
-    COORD _pos = {0, 0};
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
 
     // Affiche la ligne supérieure de la fenêtre
     for (int column = 0; column < _largeur + 2; ++column)

@@ -24,7 +24,7 @@ private:
     int _vitesse_y;
     double _time_x;
     double _time_y;
-    const double _k = 0.2;
+    const double _k = 20;
 
     const char *_cr = "\u25A0";
 public:

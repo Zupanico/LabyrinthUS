@@ -102,19 +102,19 @@ void game::setclavier()
             switch (touche)
             {
             case 72:    // fleche haut
-                _p.setVitesseY(-1);
+                _p.setVitesseY(-100);
                 _p.setVitesseX(0);
                 break;
             case 80:    //fleche bas
-                _p.setVitesseY(1);
+                _p.setVitesseY(100);
                 _p.setVitesseX(0);
                 break;
             case 77:    // fleche droite
-                _p.setVitesseX(1);
+                _p.setVitesseX(100);
                 _p.setVitesseY(0);
                 break;
             case 75:    // fleche gauche
-                _p.setVitesseX(-1);
+                _p.setVitesseX(-100);
                 _p.setVitesseY(0);
                 break;
             default:

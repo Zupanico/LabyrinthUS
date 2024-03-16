@@ -8,7 +8,10 @@ Auteur : Bakayoko Kanvali*/
 game::game() : _f(30, 30)
 {
     _clavier = 0;
-   
+    _vies = 3;  
+
+    _gameOver = false;
+
     // Inserez ici le code pour initialiser les murs
     _murs.push_back(new mur(1,4,4,1)); //1
     _murs.push_back(new mur(4,1,5,3)); //1'
@@ -74,13 +77,33 @@ game::game() : _f(30, 30)
 
 game::~game() 
 {
-    // Destructeur
+    // Libérer la mémoire allouée pour les objets mur
+    for (auto mur : _murs)
+    {
+        delete mur;
+    }
+
+    // Libérer la mémoire allouée pour l'objet game
+    delete this;
 }
 
 int game::getclavier() const
 {
     return _clavier;
 }
+
+// Méthode pour mettre à jour le nombre de vies du joueur
+void game::mettreAJourVies(int changement)
+{
+    _vies += changement;
+        
+    if (_vies <= 0) 
+    {
+        // Game over
+        _gameOver = true;
+    }
+}
+
 
 void game::setclavier()
 {
@@ -123,23 +146,6 @@ void game::setclavier()
             k = 0; // Réinitialiser k après avoir traité la touche fléchée
         }
     }
-}
-
-// Afficher le jeu
-void game::afficher() const
-{
-    // Effacer l'écran
-    COORD _pos = {0, 0};
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
-    // Afficher le jeu
-
-    cout << "LABYRINTHUS" << endl;
-
-    _f.print(cout);
-    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
-    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
-    cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << endl;
-    _inv.afficherInventaire();
 }
 
 void game::deplacerJoueur()
@@ -197,6 +203,24 @@ void game::deplacerJoueur()
     afficher();   
 }
 
+// Réinitialiser la position du joueur
+void game::reinitialiserPositionJoueur()
+{
+    // Générer une nouvelle position aléatoire pour le joueur
+    int newX, newY;
+    int maxTentatives = 1000; // Limite le nombre de tentatives pour éviter une boucle infinie
+    do {
+        newX = rand() % _f.getLargeur();
+        newY = rand() % _f.getHauteur();
+        maxTentatives--;
+    } while (collision(newX, newY) && maxTentatives > 0); // Vérifier que la position générée n'est pas en collision avec un mur
+
+    // Mettre à jour la position du joueur
+    _p.setX(newX);
+    _p.setY(newY);
+}
+
+
 void game::deplacerMonster()
 {
     _f.setEcran("  ", _m.getX(), _m.getY());
@@ -213,8 +237,17 @@ void game::deplacerMonster()
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_monster,  _m.getX(), _m.getY());
 
-    if ( _p.getX() == _m.getX() && _p.getY() == _m.getY()){
-        _gameOver = true;
+    if ( _p.getX() == _m.getX() && _p.getY() == _m.getY())
+    {
+        // Diminuer la vie du joueur
+        mettreAJourVies(-1);
+
+        // Réinitialiser la position du joueur à une position aléatoire
+        reinitialiserPositionJoueur();
+    }
+    else
+    {
+        _gameOver = false;
     }
 }
 
@@ -280,17 +313,6 @@ bool game::collision(int x, int y)
     }
 }
 
-void game::loop()
-{
-    // Capturer les entrées clavier
-    setclavier();
-    deplacerJoueur();
-
-    // Pause pour limiter la vitesse d'affichage
-    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 10 millisecondes
-}
-
-
 void game::ajoutCle()
 {
     if (_p.getX() == 5 && _p.getY() == 9 && _keyCollect == false)
@@ -303,4 +325,39 @@ void game::ajoutCle()
 bool game::getGameOver()
 {
     return _gameOver;
+}
+
+// Afficher le jeu
+void game::afficher() const
+{
+    // Effacer l'écran
+    COORD _pos = {0, 0};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
+    // Afficher le jeu
+
+    cout << "LABYRINTHUS" << endl;
+
+    _f.print(cout);
+
+    // Afficher les coordonnées du personnage
+    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
+
+    // Afficher les coordonnées du monstre
+    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
+
+    // Afficher la vie du joueur
+    cout << "Vies du joueur : " << _vies << endl;
+
+    // Afficher l'inventaire du joueur
+    _inv.afficherInventaire();
+}
+
+void game::loop()
+{
+    // Capturer les entrées clavier
+    setclavier();
+    deplacerJoueur();
+
+    // Pause pour limiter la vitesse d'affichage
+    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 10 millisecondes
 }

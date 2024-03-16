@@ -28,6 +28,7 @@ class game
 {
 private:
     int             _clavier;
+    int             _vies;
     fenetre         _f;
     personnage      _p;
     monster         _m;
@@ -53,6 +54,10 @@ public:
     // Accesseurs
     int getclavier() const;
     void setclavier();
+
+    // Nouvelle méthode
+    void reinitialiserPositionJoueur();
+    void mettreAJourVies(int changement);
 
     // Méthodes
     void afficher() const;

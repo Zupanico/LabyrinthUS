@@ -43,7 +43,7 @@ private:
 
     bool _gameOver;    
 
-    vector<mur*> _murs;
+    mur _murs;
     bool _keyCollect;
 
 public:
@@ -66,7 +66,7 @@ public:
     void deplacerMonster();
     bool checkTriggerPoints();
 
-    void actualiserMur();
+    void actualiserMur(string fichier);
 
     bool collision(int x, int y);
     void loop();

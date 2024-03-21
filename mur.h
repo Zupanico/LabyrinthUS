@@ -5,35 +5,36 @@ Auteur : Bakayoko Kanvali*/
 
 #include <windows.h>
 #include <iostream>
+#include <fstream>
+#include <vector>
 
 #ifndef MUR_H
 #define MUR_H
 
 using namespace std;
 
+struct coord
+{
+    int x;
+    int y;
+};
+
 class mur
 {
 private:
-    int _largeur;
-    int _hauteur;
-    int _positionX;
-    int _positionY;
+    vector<coord> _murs;
 
 public:
-    mur(int lar = 1, int ho = 1, int x = 0, int y = 0);
+
+    mur();
     ~mur();
 
-    void set_positionX(int lar);
-    void set_positionY(int ho);
+    void ajouterMur(int x, int y);
+    bool chercherMur(int x, int y);
+    void actualiserMur(string fichier);
 
-    int get_positionX() const;
-    int get_positionY() const;
-
-    void set_largeur(int lar);
-    void set_hauteur(int ho);
-
-    int get_largeur() const;
-    int get_hauteur() const;
+    int getSize() const;
+    coord getMur(int i) const;
 
 };
 #endif 

@@ -68,7 +68,7 @@ game::game() : _f(30, 30)
 
     _keyCollect = false;
 
-    _m.addTriggerPoint(1, 10);
+    //_m.addTriggerPoint(1, 10);
 
 }
 
@@ -137,7 +137,7 @@ void game::afficher() const
 
     _f.print(cout);
     cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
-    cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
+    cout << "Coordonnées du monstre : (" << _m1.getX() << ", " << _m1.getY() << ")" << endl;
     cout << "Dimensions de la fenêtre : " << _f.getLargeur() << "X" << _f.getHauteur() << endl;
     _inv.afficherInventaire();
 }
@@ -184,41 +184,61 @@ void game::deplacerJoueur()
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player,  _p.getX(), _p.getY());
     
-    if (_m.getActif())
+    if (_m1.getActif())
     {
-        deplacerMonster();
+        deplacerMonstre1();
     }
-    else
+    /*else
     {
         checkTriggerPoints();
-    }
+    }*/
 
     // Afficher le jeu complet
     afficher();   
 }
 
-void game::deplacerMonster()
+void game::deplacerMonstre1()
 {
-    _f.setEcran("  ", _m.getX(), _m.getY());
+    _f.setEcran("  ", _m1.getX(), _m1.getY());
 
-    if (_m.getX() < _p.getX() && !collision(_m.getX() + 1, _m.getY()))
-        _m.setX(_m.getX() + 1);
-    else if (_m.getX() > _p.getX() && !collision(_m.getX() - 1, _m.getY()))
-        _m.setX(_m.getX() - 1);
-    if (_m.getY() < _p.getY() && !collision(_m.getX(), _m.getY() + 1))
-        _m.setY(_m.getY() + 1);
-    else if (_m.getY() > _p.getY() && !collision(_m.getX(), _m.getY() - 1))
-        _m.setY(_m.getY() - 1);
+    // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
+    if (!collision(_m1.getX(), (_m1.getY() - 1)) && _m1.getVitesseY() < 0)
+    {
+        _m1.deplacementY();
+    }
 
-    // Afficher le personnage sur la fenêtre
-    _f.setEcran(_monster,  _m.getX(), _m.getY());
 
-    if ( _p.getX() == _m.getX() && _p.getY() == _m.getY()){
+    // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
+    if (!collision(_m1.getX(), (_m1.getY() + 1)) && _m1.getVitesseY() > 0)
+    {
+        _m1.deplacementY();
+    }
+
+
+
+    // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
+    if (!collision(_m1.getX() + 1, _m1.getY()) && _m1.getVitesseX() > 0)
+    {
+        _m1.deplacementX();
+    }
+
+
+    // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
+    if (!collision(_m1.getX() - 1, _m1.getY()) && _m1.getVitesseX() < 0)
+    {
+        _m1.deplacementX();
+    }
+
+
+    // Afficher le monstre sur la fenêtre
+    _f.setEcran(_monster,  _m1.getX(), _m1.getY());
+
+    if ( _p.getX() == _m1.getX() && _p.getY() == _m1.getY()){
         _gameOver = true;
     }
 }
 
-bool game::checkTriggerPoints()
+/* bool game::checkTriggerPoints()
 {
     if (abs(_p.getX() - _m.getTriggerPoint().x) < 4 && abs(_p.getY() - _m.getTriggerPoint().y) < 3 || _keyCollect)  
         {
@@ -229,7 +249,7 @@ bool game::checkTriggerPoints()
             return true;
         }
     return false;
-}
+} */
 
 void game::actualiserMur()
 {

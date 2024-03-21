@@ -28,10 +28,14 @@ struct coordonnees
 
 class monster : public personnage
 {
-private:
+protected:
     bool _actif;
     coordonnees _triggerPoints;
     
+    //Pathfinding
+    coordonnees _debutCase;
+    coordonnees _currentCase;
+    coordonnees _finCase;
 
 public:
     monster();
@@ -42,5 +46,9 @@ public:
 
     void addTriggerPoint(int x, int y);
     coordonnees getTriggerPoint() const;
+
+    // Pathfinding
+    void setCase(int debut_x, int debut_y, int fin_x, int fin_y);
+
 };
 #endif

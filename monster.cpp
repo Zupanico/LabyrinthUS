@@ -7,7 +7,6 @@ Auteur : Bakayoko Kanvali*/
 
 monster::monster()
 {
-    _actif = false;
 }
 
 monster::~monster()
@@ -35,4 +34,14 @@ coordonnees monster::getTriggerPoint() const
 {
     return _triggerPoints;
 }
-// Path: personnage.cpp
+
+
+//Pathfinding
+
+void monster::setCase(int debut_x, int debut_y, int fin_x, int fin_y)
+{
+    _debutCase = {debut_x, debut_y};
+    _currentCase = _debutCase;
+    _finCase = {fin_x, fin_y};
+}
+

@@ -16,7 +16,7 @@ class monster;
 #include "mur.h"
 #include <vector>
 #include <cstdlib>
-#include "monster.h"
+#include "monstre1.h"
 #include <conio.h>
 #include "Inventaire.h"
 #include "Item.h"
@@ -30,7 +30,7 @@ private:
     int             _clavier;
     fenetre         _f;
     personnage      _p;
-    monster         _m;
+    monstre1         _m1;
     inventaire      _inv;
 
     // const char* _porte = "\U0001F6AA";
@@ -58,7 +58,9 @@ public:
     void afficher() const;
     void deplacerJoueur();
 
-    void deplacerMonster();
+    void deplacerMonstre1();
+
+
     bool checkTriggerPoints();
 
     void actualiserMur();

@@ -3,8 +3,8 @@
 # Date : 2024-02-22
 # Auteur : Olympus
 
-main: main.o fenetre.o game.o personnage.o mur.o monster.o portail.o Inventaire.o Item.o
-	g++ main.o fenetre.o game.o personnage.o mur.o monster.o portail.o Inventaire.o Item.o -o labyrinthus
+main: main.o fenetre.o game.o personnage.o mur.o monster.o monstre1.o portail.o Inventaire.o Item.o
+	g++ main.o fenetre.o game.o personnage.o mur.o monster.o monstre1.o portail.o Inventaire.o Item.o -o labyrinthus
 
 main.o: main.cpp fenetre.h game.h 
 	g++ -c main.cpp
@@ -23,6 +23,9 @@ mur.o: mur.cpp mur.h
 
 monster.o: monster.cpp monster.h personnage.h
 	g++ -c monster.cpp
+
+monstre1.o: monstre1.cpp monstre1.h monster.h
+	g++ -c monstre1.cpp
 
 portail.o: portail.cpp portail.h
 	g++ -c portail.cpp

@@ -39,9 +39,14 @@ void personnage::setY(int y)
     this->_y = y;
 }
 
-void personnage::print(ostream &output) const
+void personnage::setLargeur(int largeur)
 {
-    cout << "\033[31m" << _cr << "\033[0m";
+    _largeur = largeur;
+}
+
+void personnage::setHauteur(int hauteur)
+{
+    _hauteur = hauteur;
 }
 
 void personnage::deplacementX()
@@ -102,3 +107,5 @@ int personnage::getVitesseY() const
 {
     return _vitesse_y;
 }
+
+

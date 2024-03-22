@@ -19,4 +19,5 @@ public:
     portail();
     ~portail();
 };
-#endif
+
+#endif 

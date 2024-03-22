@@ -12,6 +12,7 @@ class monster;
 
 #include <iostream>
 #include <windows.h>
+#include "ComArduino.h"
 #include "fenetre.h"
 #include "mur.h"
 #include <vector>
@@ -21,6 +22,11 @@ class monster;
 #include "Inventaire.h"
 #include "Item.h"
 
+// Nouvelle bibliothèque
+#include <chrono> // Pour le timing
+#include <thread> // Pour la pause
+#include <cmath> // Pour la fonction abs()
+
 using namespace std;
 
 // Définition de la classe game
@@ -28,12 +34,14 @@ class game
 {
 private:
     int             _clavier;
+    int             _vies;
+
     fenetre         _f;
     personnage      _p;
     monster         _m;
     inventaire      _inv;
+    ComArduino         _a;
 
-    // const char* _porte = "\U0001F6AA";
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
     const char* _player = "\U0001F468";
@@ -53,6 +61,13 @@ public:
     // Accesseurs
     int getclavier() const;
     void setclavier();
+    void setJoystick();
+
+    // Nouvelle méthode
+    void reinitialiserPositionJoueur();
+    void mettreAJourVies(int changement);
+
+    void libererDuMonstre();
 
     // Méthodes
     void afficher() const;

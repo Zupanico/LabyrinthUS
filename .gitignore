@@ -2,7 +2,8 @@
 *.d
 
 # vscode
-.vscode/*
+/.vscode/
+/.vs/
 
 # Compiled Object files
 *.slo

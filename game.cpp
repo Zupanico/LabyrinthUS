@@ -14,12 +14,12 @@ game::game() : _f(30, 30)
 
 
     _keyCollect = false;
-
-    //_m.addTriggerPoint(1, 10);
+    
+    _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
 }
 
-game::~game() 
+game::~game()
 {
 }
 
@@ -131,14 +131,14 @@ void game::deplacerJoueur()
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player,  _p.getX(), _p.getY());
     
-    /*if (_m.getActif())
+    if (_m.getActif())
     {
         deplacerMonster();
     }
     else
     {
         checkTriggerPoints();
-    }*/
+    }
 
     // Afficher le jeu complet
     afficher();   
@@ -194,11 +194,11 @@ void game::deplacerMonster()
 
 bool game::checkTriggerPoints()
 {
-    if (abs(_p.getX() - _m.getTriggerPoint().x) < 4 && abs(_p.getY() - _m.getTriggerPoint().y) < 3 || _keyCollect)  
+    if (_keyCollect == true)  
         {
             _m.setActif(true);
-            _m.setX(_m.getTriggerPoint().x);
-            _m.setY(_m.getTriggerPoint().y);
+            _m.setX(_map.getM1().x);
+            _m.setY(_map.getM1().y);
 
             return true;
         }

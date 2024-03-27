@@ -7,6 +7,7 @@ Auteur : Bakayoko Kanvali*/
 
 ComArduino::ComArduino() : arduino(), com("COM5"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1)
 {
+    _time = ((double) clock()) / CLOCKS_PER_SEC;
     connexion();
 }
 
@@ -70,25 +71,30 @@ bool ComArduino::RcvFromSerial(SerialPort *arduino, string &msg)
 
 void ComArduino::setMessages()
 {
-    j_msg_send["led"] = led_state;
-
-    if(!SendToSerial(arduino, j_msg_send))
+    if ((((double) clock()) / CLOCKS_PER_SEC) - _time >= 0.225)
     {
-        cerr << "Erreur lors de l'envoie du message. " << endl;
-    }
+        j_msg_send["led"] = led_state;
 
-    // Reception message Arduino
-    j_msg_rcv.clear(); // effacer le message precedent
+        if(!SendToSerial(arduino, j_msg_send))
+        {
+            cerr << "Erreur lors de l'envoie du message. " << endl;
+        }
 
-    if(!RcvFromSerial(arduino, raw_msg))
-    {
-        cerr << "Erreur lors de la reception du message. " << endl;
+        // Reception message Arduino
+        j_msg_rcv.clear(); // effacer le message precedent
+
+        if(!RcvFromSerial(arduino, raw_msg))
+        {
+            cerr << "Erreur lors de la reception du message. " << endl;
+        }
+
+        _time = ((double) clock()) / CLOCKS_PER_SEC;
     }
 }   
 
 bool ComArduino::lireboutonDroite() 
 {
-    setMessages(); // Lire les données du port série
+    setMessages(); // Assurez-vous que cette méthode lit les données du port série
 
     bool boutonRight = false;
     if (raw_msg.size() > 0) 
@@ -108,7 +114,7 @@ bool ComArduino::lireboutonDroite()
 
 bool ComArduino::lireboutonGauche() 
 {
-    setMessages(); // Lire les données du port série
+    setMessages(); // Assurez-vous que cette méthode lit les données du port série
 
     bool boutonLeft = false;
     if (raw_msg.size() > 0) 
@@ -128,7 +134,7 @@ bool ComArduino::lireboutonGauche()
 
 bool ComArduino::lireboutonHaut() 
 {
-    setMessages(); // Lire les données du port série
+    setMessages(); // Assurez-vous que cette méthode lit les données du port série
 
     bool boutonUp = false;
     if (raw_msg.size() > 0) 
@@ -148,7 +154,7 @@ bool ComArduino::lireboutonHaut()
 
 bool ComArduino::lireboutonBas() 
 {
-    setMessages(); // Lire les données du port série
+    setMessages(); // Assurez-vous que cette méthode lit les données du port série
 
     bool boutonDown = false;
     if (raw_msg.size() > 0) 
@@ -168,7 +174,7 @@ bool ComArduino::lireboutonBas()
 
 bool ComArduino::lireboutonjoystick() 
 {
-    setMessages(); // Lire les données du port série
+    setMessages(); // Assurez-vous que cette méthode lit les données du port série
 
     bool boutonJoystick = false;
     if (raw_msg.size() > 0) 

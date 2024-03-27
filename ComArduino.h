@@ -31,6 +31,8 @@ private:
     string raw_msg;
     json j_msg_send, j_msg_rcv;
 
+    float _time;
+
 public:
     ComArduino();
     ~ComArduino();

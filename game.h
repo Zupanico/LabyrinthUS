@@ -54,6 +54,9 @@ private:
     maps _map;
     bool _keyCollect;
 
+    int _lastpx;
+    int _lastpy;
+
 public:
     // Constructeur et destructeur
     game();
@@ -63,12 +66,15 @@ public:
     int getclavier() const;
     void setclavier();
     void setJoystick();
+    void getBouton();
 
     // Nouvelle méthode
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
 
     void libererDuMonstre();
+    void checkLocker();
+
 
     // Méthodes
     void afficher() const;

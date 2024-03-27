@@ -98,6 +98,43 @@ void game::setJoystick()
     _p.setVitesseY(joystickY);
 }
 
+void game::getBouton()
+{
+    
+    if (_a.lireboutonDroite())
+    {}
+    if (_a.lireboutonGauche())
+    {}
+    if (_a.lireboutonHaut())
+    {
+        checkLocker();
+    }
+    if (_a.lireboutonBas())
+    {}
+    if (_a.lireboutonjoystick())
+    {}
+}
+
+void game::checkLocker()
+{
+    if (_p.getX() == -2 && _p.getY() == -2)
+    {
+        _p.setX(_lastpx);
+        _p.setY(_lastpy);
+    }
+    else{
+        if (_map.chercherLocker(_p.getX()+1, _p.getY()) || _map.chercherLocker(_p.getX()-1, _p.getY())
+            || _map.chercherLocker(_p.getX(), _p.getY()+1) || _map.chercherLocker(_p.getX(), _p.getY()-1))
+        {
+            _f.setEcran("  ", _p.getX(), _p.getY());
+            _lastpx = _p.getX();
+            _lastpy = _p.getY();
+            _p.setX(-2);
+            _p.setY(-2);
+        }
+    }
+}
+
 
 void game::libererDuMonstre() 
 {
@@ -437,10 +474,10 @@ void game::loop()
     if (_a.isConnected())
     {
         setJoystick();
-        
+        getBouton();
     }
     deplacerJoueur();
 
     // Pause pour limiter la vitesse d'affichage
-    Sleep(200); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
+    Sleep(10); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
 }

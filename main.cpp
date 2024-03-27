@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
     SetConsoleOutputCP(CP_UTF8);
     
     game g;
-    g.actualiserMap("map2.txt");
+    g.actualiserMap("map3.txt");
     while (true && !g.getGameOver())
     {
         g.loop();

@@ -34,7 +34,6 @@ private:
     monster         _m;
     inventaire      _inv;
 
-    // const char* _porte = "\U0001F6AA";
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
     const char* _player = "\U0001F468";

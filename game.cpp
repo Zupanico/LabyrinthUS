@@ -216,6 +216,10 @@ void game::actualiserMap(string fichier)
     {
         _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
     }
+    for (int i = 0; i < _map.getSizeLocker(); i++)
+    {
+        _f.setEcran(_locker, _map.getLocker(i).x, _map.getLocker(i).y);
+    }
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
 }
 
@@ -242,7 +246,7 @@ bool game::collision(int x, int y)
         return true;
     }
 
-    else if (_f.getEcran(x, y) == _door)
+    else if (_map.chercherDoor(x, y))
     {
         if (_keyCollect == false)
         {
@@ -253,6 +257,11 @@ bool game::collision(int x, int y)
         {
             return false;
         }
+    }
+
+    else if (_map.chercherLocker(x, y))
+    {
+        return true;
     }
 
     else 

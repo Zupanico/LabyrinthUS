@@ -1,7 +1,3 @@
-
-
-
-
 #include "map.h"
 
 map::map()
@@ -23,6 +19,31 @@ bool map::chercherMur(int x, int y)
     }
     return false;
 }
+
+bool map::chercherDoor(int x, int y)
+{
+    for (int i = 0; i < _door.size(); i++)
+    {
+        if (_door[i].x == x && _door[i].y == y)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool map::chercherLocker(int x, int y)
+{
+    for (int i = 0; i < _locker.size(); i++)
+    {
+        if (_locker[i].x == x && _locker[i].y == y)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void map::actualiserMap(string fichier)
 {
@@ -67,6 +88,10 @@ void map::actualiserMap(string fichier)
                 {
                     afficherM1(x, y);
                 }
+                else if (c == 'L')
+                {
+                    ajouterLocker(x, y);
+                }
                 x++;
             }
             
@@ -95,6 +120,15 @@ void map::ajouterPorte(int x, int y)
     c.y = y;
     _door.push_back(c);
 }
+
+void map::ajouterLocker(int x, int y)
+{
+    coord c;
+    c.x = x;
+    c.y = y;
+    _locker.push_back(c);
+}
+
 
 void map::afficherCle(int x, int y)
 {
@@ -126,6 +160,16 @@ int map::getSizeDoor() const
 coord map::getDoor(int i) const
 {
     return _door[i];
+}
+
+int map::getSizeLocker() const
+{
+    return _locker.size();
+}
+
+coord map::getLocker(int i) const
+{
+    return _locker[i];
 }
 
 coord map::getCle() const

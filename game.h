@@ -37,8 +37,9 @@ private:
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
     const char* _player = "\U0001F468";
-    const char* _monster = "\U0001F47E";
+    const char* _monster = "\U0001FA7B";
     const char* _door = "\U0001F6AA";
+    const char* _locker = "\U0001F5C4 ";
 
     bool _gameOver;    
 

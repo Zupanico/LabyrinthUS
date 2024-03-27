@@ -22,13 +22,18 @@ void ComArduino::connexion()
     if(!arduino->isConnected())
     {
         cerr << "Impossible de se connecter au port "<< string(com) <<". Fermeture du programme!" <<endl;
-        exit(1);
     }
     else
     {
         cout << "Connexion au port " << string(com) << " reussie." << endl;
     }
 }
+
+bool ComArduino::isConnected()
+{
+    return arduino->isConnected();
+}
+
 
 bool ComArduino::SendToSerial(SerialPort *arduino, json j_msg)
 {

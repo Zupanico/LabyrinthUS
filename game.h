@@ -14,13 +14,13 @@ class monster;
 #include <windows.h>
 #include "ComArduino.h"
 #include "fenetre.h"
-#include "mur.h"
 #include <vector>
 #include <cstdlib>
 #include "monster.h"
 #include <conio.h>
 #include "Inventaire.h"
 #include "Item.h"
+#include "map.h"
 
 // Nouvelle bibliothèque
 #include <chrono> // Pour le timing
@@ -45,12 +45,13 @@ private:
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
     const char* _player = "\U0001F468";
-    const char* _monster = "\U0001F47E";
+    const char* _monster = "\U0001FA7B";
     const char* _door = "\U0001F6AA";
+    const char* _locker = "\U0001F5C4 ";
 
     bool _gameOver;    
 
-    vector<mur*> _murs;
+    map _map;
     bool _keyCollect;
 
 public:
@@ -69,6 +70,10 @@ public:
 
     void libererDuMonstre();
 
+    // Nouvelle méthode
+    void reinitialiserPositionJoueur();
+    void mettreAJourVies(int changement);
+
     // Méthodes
     void afficher() const;
     void deplacerJoueur();
@@ -76,13 +81,12 @@ public:
     void deplacerMonster();
     bool checkTriggerPoints();
 
-    void actualiserMur();
+    void actualiserMap(string fichier);
 
     bool collision(int x, int y);
     void loop();
 
     bool getGameOver();
 
-    void ajoutCle();
 };
 #endif

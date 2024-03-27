@@ -3,8 +3,8 @@
 # Date : 2024-02-22
 # Auteur : Olympus
  
-main: main.o fenetre.o game.o personnage.o mur.o monster.o portail.o Inventaire.o Item.o SerialPort.o ComArduino.o
-	g++ main.o fenetre.o game.o personnage.o mur.o monster.o portail.o Inventaire.o Item.o -o labyrinthus SerialPort.o ComArduino.o
+main: main.o fenetre.o game.o personnage.o map.o monster.o portail.o Inventaire.o Item.o SerialPort.o ComArduino.o
+	g++ main.o fenetre.o game.o personnage.o map.o monster.o portail.o Inventaire.o Item.o -o labyrinthus SerialPort.o ComArduino.o
  
 SerialPort.o: ./include/serial/SerialPort.cpp ./include/serial/SerialPort.hpp
 	g++ -c ./include/serial/SerialPort.cpp
@@ -20,13 +20,13 @@ fenetre.o: fenetre.cpp fenetre.h
  
 personnage.o: personnage.cpp personnage.h
 	g++ -c personnage.cpp
- 
-game.o: game.cpp game.h mur.h monster.h fenetre.h ComArduino.h
+
+game.o: game.cpp game.h map.h monster.h fenetre.h
 	g++ -c game.cpp
- 
-mur.o: mur.cpp mur.h
-	g++ -c mur.cpp
- 
+
+map.o: map.cpp map.h
+	g++ -c map.cpp
+
 monster.o: monster.cpp monster.h personnage.h
 	g++ -c monster.cpp
  

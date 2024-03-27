@@ -36,6 +36,8 @@ public:
     ~ComArduino();
 
     void connexion();
+    bool isConnected();
+
     void setMessages();
 
     bool SendToSerial(SerialPort *arduino, json j_msg);

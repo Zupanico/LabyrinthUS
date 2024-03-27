@@ -35,4 +35,9 @@ coordonnees monster::getTriggerPoint() const
 {
     return _triggerPoints;
 }
+
+void monster::patrol()
+{
+    
+}
 // Path: personnage.cpp

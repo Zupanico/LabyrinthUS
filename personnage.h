@@ -18,6 +18,7 @@ using namespace std;
 class personnage
 {
 private:
+// Déplacement
     int _x;
     int _y;
     int _vitesse_x;
@@ -26,7 +27,10 @@ private:
     double _time_y;
     const double _k = 20;
 
-    const char *_cr = "\u25A0";
+// Hitbox
+    int _largeur = 0;
+    int _hauteur = 0;
+
 public:
     
     personnage();
@@ -34,9 +38,13 @@ public:
 
     int getX() const;
     int getY() const;
+    int getLargeur() const;
+    int getHauteur() const;
 
     void setX(int x);
     void setY(int y);
+    void setLargeur(int largeur);
+    void setHauteur(int hauteur);
 
     void setVitesseX(int vitesse);
     void setVitesseY(int vitesse);
@@ -47,7 +55,5 @@ public:
 
     void deplacementX();
     void deplacementY();
-
-    void print(ostream &output) const;
 };
 

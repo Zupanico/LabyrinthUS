@@ -5,54 +5,81 @@ Auteur : Bakayoko Kanvali*/
 
 #include "mur.h"
 
-mur::mur(int lar, int ho, int x, int y)
+
+mur::mur()
 {
-    _largeur = lar;
-    _hauteur = ho;
-    _positionX = x;
-    _positionY = y;
+
 }
 
 mur::~mur()
 {
 }
 
-void mur::set_positionX(int lar)
+void mur::ajouterMur(int x, int y)
 {
-    _positionX = lar;
+    coord c;
+    c.x = x;
+    c.y = y;
+    _murs.push_back(c);
 }
 
-void mur::set_positionY(int ho)
+bool mur::chercherMur(int x, int y)
 {
-    _positionY = ho;
+    for (int i = 0; i < _murs.size(); i++)
+    {
+        if (_murs[i].x == x && _murs[i].y == y)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
-int mur::get_positionX() const
+void mur::actualiserMur(string fichier)
 {
-    return _positionX;
+    for (int i = 0; i < _murs.size(); i++)
+    {
+        _murs.pop_back();
+    }
+
+    ifstream fichierMur;
+    int x = 0;
+    int y = 0;
+    fichierMur.open(fichier);
+    if (fichierMur.is_open())
+    {
+        while (!fichierMur.eof())
+        {
+            char c;
+            fichierMur.get(c);
+            if (c == '\n')
+            {
+                y++;
+                x = 0;
+            }
+            else
+            {
+                if (c == '#')
+                {
+                    ajouterMur(x, y);
+                }
+                x++;
+            }
+        }
+        fichierMur.close();
+    }
+    else
+    {
+        cout << "Impossible d'ouvrir le fichier" << endl;
+    }
 }
 
-int mur::get_positionY() const
+int mur::getSize() const
 {
-    return _positionY;
+    return _murs.size();
 }
 
-void mur::set_largeur(int lar)
+coord mur::getMur(int i) const
 {
-    _largeur = lar;
-}
-
-void mur::set_hauteur(int ho)
-{
-    _hauteur = ho;
-}
-
-int mur::get_largeur() const
-{
-    return _largeur;
-}
-
-int mur::get_hauteur() const
-{
-    return _hauteur;
+    return _murs[i];
 }

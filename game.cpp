@@ -221,9 +221,16 @@ void game::actualiserMap(string fichier)
 
 bool game::collision(int x, int y)
 {
+    const int largeurFen = _f.getLargeur();   // Largeur de la fenetre
+    const int hauteurFen = _f.getHauteur();   // Hauteur de la fenetre
+
+    const int largeurPer = _p.getLargeur();   // Largeur du personnage
+    const int hauteurPer = _p.getHauteur();   // Hauteur du personnage
+
 
     // Collision avec les bords de la fenêtre
-    if (x < 0 || x >= _f.getLargeur() || y < 0 || y >= _f.getHauteur()) 
+    // Regarde si la position en y et en x du personnage est en dehors des limites de la fenetre
+    if (x < 0 || x >= largeurFen - largeurPer || y < 0 || y >= hauteurFen - hauteurPer)
     {
         // Ramener le joueur à sa position précédente
         return true;

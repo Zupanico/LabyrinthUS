@@ -29,6 +29,16 @@ int personnage::getY() const
     return this->_y;
 }
 
+int personnage::getLargeur() const
+{
+    return this->_largeur;
+}
+
+int personnage::getHauteur() const
+{
+    return this->_hauteur;
+}
+
 void personnage::setX(int x)
 {
     this->_x = x;

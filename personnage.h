@@ -38,6 +38,8 @@ public:
 
     int getX() const;
     int getY() const;
+    int getLargeur() const;
+    int getHauteur() const;
 
     void setX(int x);
     void setY(int y);

@@ -5,7 +5,7 @@ Auteur : Bakayoko Kanvali*/
 
 #include "game.h"
 
-game::game() : _f(85, 30)
+game::game() : _f(30, 30)
 {
     _clavier = 0;
     _vies = 3;  
@@ -437,9 +437,10 @@ void game::loop()
     if (_a.isConnected())
     {
         setJoystick();
+        
     }
     deplacerJoueur();
 
     // Pause pour limiter la vitesse d'affichage
-    Sleep(100); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
+    Sleep(200); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
 }

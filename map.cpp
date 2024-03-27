@@ -1,14 +1,14 @@
 #include "map.h"
 
-map::map()
+maps::maps()
 {
 }
 
-map::~map()
+maps::~maps()
 {
 }
 
-bool map::chercherMur(int x, int y)
+bool maps::chercherMur(int x, int y)
 {
     for (int i = 0; i < _murs.size(); i++)
     {
@@ -20,7 +20,7 @@ bool map::chercherMur(int x, int y)
     return false;
 }
 
-bool map::chercherDoor(int x, int y)
+bool maps::chercherDoor(int x, int y)
 {
     for (int i = 0; i < _door.size(); i++)
     {
@@ -32,7 +32,7 @@ bool map::chercherDoor(int x, int y)
     return false;
 }
 
-bool map::chercherLocker(int x, int y)
+bool maps::chercherLocker(int x, int y)
 {
     for (int i = 0; i < _locker.size(); i++)
     {
@@ -45,7 +45,7 @@ bool map::chercherLocker(int x, int y)
 }
 
 
-void map::actualiserMap(string fichier)
+void maps::actualiserMap(string fichier)
 {
     for (int i = 0; i < _murs.size(); i++)
     {
@@ -105,7 +105,7 @@ void map::actualiserMap(string fichier)
     }
 }
 
-void map::ajouterMur(int x, int y)
+void maps::ajouterMur(int x, int y)
 {
     coord c;
     c.x = x;
@@ -113,7 +113,7 @@ void map::ajouterMur(int x, int y)
     _murs.push_back(c);
 }
 
-void map::ajouterPorte(int x, int y)
+void maps::ajouterPorte(int x, int y)
 {
     coord c;
     c.x = x;
@@ -121,7 +121,7 @@ void map::ajouterPorte(int x, int y)
     _door.push_back(c);
 }
 
-void map::ajouterLocker(int x, int y)
+void maps::ajouterLocker(int x, int y)
 {
     coord c;
     c.x = x;
@@ -130,54 +130,54 @@ void map::ajouterLocker(int x, int y)
 }
 
 
-void map::afficherCle(int x, int y)
+void maps::afficherCle(int x, int y)
 {
     _cle.x = x;
     _cle.y = y;
 }
 
-void map::afficherM1(int x, int y)
+void maps::afficherM1(int x, int y)
 {
     _m1.x = x;
     _m1.y = y;
 }
 
-int map::getSizeMurs() const
+int maps::getSizeMurs() const
 {
     return _murs.size();
 }
 
-coord map::getMur(int i) const
+coord maps::getMur(int i) const
 {
     return _murs[i];
 }
 
-int map::getSizeDoor() const
+int maps::getSizeDoor() const
 {
     return _door.size();
 }
 
-coord map::getDoor(int i) const
+coord maps::getDoor(int i) const
 {
     return _door[i];
 }
 
-int map::getSizeLocker() const
+int maps::getSizeLocker() const
 {
     return _locker.size();
 }
 
-coord map::getLocker(int i) const
+coord maps::getLocker(int i) const
 {
     return _locker[i];
 }
 
-coord map::getCle() const
+coord maps::getCle() const
 {
     return _cle;
 }
 
-coord map::getM1() const
+coord maps::getM1() const
 {
     return _m1;
 }

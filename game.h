@@ -51,7 +51,7 @@ private:
 
     bool _gameOver;    
 
-    map _map;
+    maps _map;
     bool _keyCollect;
 
 public:
@@ -70,10 +70,6 @@ public:
 
     void libererDuMonstre();
 
-    // Nouvelle méthode
-    void reinitialiserPositionJoueur();
-    void mettreAJourVies(int changement);
-
     // Méthodes
     void afficher() const;
     void deplacerJoueur();
@@ -82,6 +78,7 @@ public:
     bool checkTriggerPoints();
 
     void actualiserMap(string fichier);
+    void ajoutCle();
 
     bool collision(int x, int y);
     void loop();

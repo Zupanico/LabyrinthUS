@@ -20,7 +20,7 @@ struct coord
     int y = 0;
 };
 
-class map {
+class maps {
     protected:
         
         vector<coord> _murs;    // vecteur des coordonnées du mur
@@ -33,8 +33,8 @@ class map {
 
     public:
     
-        map();
-        ~map();
+        maps();
+        ~maps();
 
         void ajouterMur(int x, int y);
         void ajouterPorte(int x, int y);

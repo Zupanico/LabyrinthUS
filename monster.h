@@ -17,6 +17,13 @@ class personnage;
 #include <thread>
 #include <chrono>
 #include <vector>
+#include <cstdlib> // for rand() and srand()
+#include <ctime>   // for time()
+
+#define GAUCHE 1
+#define DROITE 2
+#define HAUT 3
+#define BAS 4
 
 using namespace std;
 
@@ -32,6 +39,9 @@ private:
     bool _actif;
     coordonnees _triggerPoints;
     
+    int _direction;
+    int _poursuite;
+    bool _firstInput; // condition pour que le monstre va dans une direction random au debut de son patrouillage
 
 public:
     monster();
@@ -39,6 +49,7 @@ public:
 
     bool getActif() const;
     void setActif(bool actif);
+    bool getPoursuite() const;
 
     void addTriggerPoint(int x, int y);
     coordonnees getTriggerPoint() const;

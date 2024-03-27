@@ -54,6 +54,15 @@ private:
     maps _map;
     bool _keyCollect;
 
+    bool _longerMur;
+
+    bool _murDroite;
+    bool _murGauche;
+    bool _murHaut;
+    bool _murBas;
+
+    int _positionPrecedante;
+
 public:
     // Constructeur et destructeur
     game();
@@ -75,6 +84,7 @@ public:
     void deplacerJoueur();
 
     void deplacerMonster();
+    void patrouillageMonster();
     bool checkTriggerPoints();
 
     void actualiserMap(string fichier);

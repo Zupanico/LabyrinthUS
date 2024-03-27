@@ -12,10 +12,18 @@ game::game() : _f(30, 30)
 
     _gameOver = false;
 
-
     _keyCollect = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
+
+    _longerMur = false;
+
+    _murDroite = false;
+    _murGauche = false;
+    _murHaut = false;
+    _murBas = false;
+
+    _positionPrecedante = 0;
 
 }
 
@@ -233,11 +241,16 @@ void game::deplacerJoueur()
         _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
     }
     // Afficher le personnage sur la fenêtre
-    _f.setEcran(_player,  _p.getX(), _p.getY());
+    _f.setEcran(_player, _p.getX(), _p.getY());
     
-    if (_m.getActif())
-    {
-        deplacerMonster();
+    // Deplacer monstre
+    if (_m.getActif()){
+        if (_m.getPoursuite()){
+            //...
+        }
+        else {
+            patrouillageMonster();
+        }
     }
     else
     {
@@ -284,21 +297,33 @@ void game::reinitialiserPositionJoueur()
 
 void game::deplacerMonster()
 {
-    _f.setEcran("  ", _m.getX(), _m.getY());
+     _f.setEcran("  ", _m.getX(), _m.getY());
 
-    if (_m.getX() < _p.getX() && !collision(_m.getX() + 1, _m.getY()))
-        _m.setX(_m.getX() + 1);
+    // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
+    if (!collision(_m.getX(), (_m.getY() - 1)) && _m.getVitesseY() < 0)
+    {
+        _m.deplacementY();
+    }
 
-    else if (_m.getX() > _p.getX() && !collision(_m.getX() - 1, _m.getY()))
-        _m.setX(_m.getX() - 1);
+    // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
+    if (!collision(_m.getX(), (_m.getY() + 1)) && _m.getVitesseY() > 0)
+    {
+        _m.deplacementY();
+    }
 
-    if (_m.getY() < _p.getY() && !collision(_m.getX(), _m.getY() + 1))
-        _m.setY(_m.getY() + 1);
-        
-    else if (_m.getY() > _p.getY() && !collision(_m.getX(), _m.getY() - 1))
-        _m.setY(_m.getY() - 1);
+    // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
+    if (!collision(_m.getX() + 1, _m.getY()) && _m.getVitesseX() > 0)
+    {
+        _m.deplacementX();
+    }
 
-    // Afficher le personnage sur la fenêtre
+    // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
+    if (!collision(_m.getX() - 1, _m.getY()) && _m.getVitesseX() < 0)
+    {
+        _m.deplacementX();
+    }
+
+    // Afficher le monstre sur la fenêtre
     _f.setEcran(_monster,  _m.getX(), _m.getY());
 
     if ( _p.getX() == _m.getX() && _p.getY() == _m.getY())
@@ -310,6 +335,76 @@ void game::deplacerMonster()
     {
         _gameOver = false;
     }
+}
+
+void game::patrouillageMonster()
+{
+    if (_map.chercherMur(_m.getX()+1, _m.getY()))
+    {
+        _murDroite = true;
+        _positionPrecedante = 1; //droite
+    }
+    else if (_map.chercherMur(_m.getX()-1, _m.getY()))
+    {
+        _murGauche = true;
+        _positionPrecedante = 2; //gauche
+    }
+    else if (_map.chercherMur(_m.getX(), _m.getY()+1))
+    {
+        _murBas = true;
+        _positionPrecedante = 3; //bas
+    }
+    else if (_map.chercherMur(_m.getX(), _m.getY()-1))
+    {
+        _murHaut = true;
+        _positionPrecedante = 4; //haut
+    }
+
+    if (_longerMur == false)
+    {
+        while (_murDroite==false && _murGauche==false && _murBas==false && _murHaut==false)
+        {
+            _m.patrol();
+        }
+        _longerMur = true;
+    }
+    else if (_longerMur == true)
+    {
+        if (_murGauche == true)
+        {
+            _m.setY(_m.getY()+1);
+        }
+        else if (_murDroite == true)
+        {
+            _m.setY(_m.getY()-1);
+        }
+        else if (_murHaut == true)
+        {
+            _m.setX(_m.getX()-1);
+        }
+        else if (_murBas == true)
+        {
+            _m.setX(_m.getX()+1);
+        }
+        else
+        {
+            switch (_positionPrecedante)
+            {
+                case 1: //droite
+                    _m.setX(_m.getX()+1);
+
+                case 2: //gauche
+                    _m.setX(_m.getX()-1);
+
+                case 3: //bas
+                    _m.setY(_m.getY()+1);
+
+                case 4: //haut
+                    _m.setY(_m.getY()-1);
+            }
+        }
+    }
+
 }
 
 bool game::checkTriggerPoints()

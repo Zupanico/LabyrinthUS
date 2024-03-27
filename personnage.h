@@ -17,7 +17,7 @@ using namespace std;
 
 class personnage
 {
-private:
+protected:
 // Déplacement
     int _x;
     int _y;

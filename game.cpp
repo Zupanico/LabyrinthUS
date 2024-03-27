@@ -12,11 +12,10 @@ game::game() : _f(30, 30)
 
     _gameOver = false;
 
-    _f.setEcran(_cle, 5, 9);
 
     _keyCollect = false;
 
-    _m.addTriggerPoint(1, 10);
+    //_m.addTriggerPoint(1, 10);
 
 }
 
@@ -88,8 +87,7 @@ void game::setclavier()
 void game::deplacerJoueur()
 {
     _f.setEcran("  ", _p.getX(), _p.getY());
-    _f.setEcran(_door, 25, 3);
-    _f.setEcran(_door, 24, 3);
+    
 
 
      // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
@@ -120,21 +118,27 @@ void game::deplacerJoueur()
             _p.deplacementX();
         }
 
-        
-    //Actualiser l'inventaire
-    ajoutCle();
-
+    if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
+        {
+            _inv.addItem(new item(_cle));
+            _keyCollect = true;
+        }
+    //Actualiser les portes
+    for (int i = 0; i < _map.getSizeDoor(); i++)
+    {
+        _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
+    }
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player,  _p.getX(), _p.getY());
     
-    if (_m.getActif())
+    /*if (_m.getActif())
     {
         deplacerMonster();
     }
     else
     {
         checkTriggerPoints();
-    }
+    }*/
 
     // Afficher le jeu complet
     afficher();   
@@ -201,13 +205,18 @@ bool game::checkTriggerPoints()
     return false;
 }
 
-void game::actualiserMur(string fichier)
+void game::actualiserMap(string fichier)
 {
-    _murs.actualiserMur(fichier);
-    for (int i = 0; i < _murs.getSize(); i++)
+    _map.actualiserMap(fichier);
+    for (int i = 0; i < _map.getSizeMurs(); i++)
     {
-        _f.setEcran(_cr, _murs.getMur(i).x, _murs.getMur(i).y);
+        _f.setEcran(_cr, _map.getMur(i).x, _map.getMur(i).y);
     }
+    for (int i = 0; i < _map.getSizeDoor(); i++)
+    {
+        _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
+    }
+    _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
 }
 
 bool game::collision(int x, int y)
@@ -220,7 +229,7 @@ bool game::collision(int x, int y)
         return true;
     } 
     
-    else if (_murs.chercherMur(x, y))
+    else if (_map.chercherMur(x, y))
     {
         // Ramener le joueur à sa position précédente
         return true;
@@ -242,15 +251,6 @@ bool game::collision(int x, int y)
     else 
     {
         return false;
-    }
-}
-
-void game::ajoutCle()
-{
-    if (_p.getX() == 5 && _p.getY() == 9 && _keyCollect == false)
-    {
-        _inv.addItem(new item(_cle));
-        _keyCollect = true;
     }
 }
 

@@ -1,5 +1,5 @@
 // Fichier : Inventaire.h
-// Description : Fichier d'en-tête de la classe inventaire
+// Description : Fichier d'en-tï¿½te de la classe inventaire
 // Date : 2024-02-24
 // Auteur : Evan Frappier
 
@@ -29,11 +29,9 @@ public:
     //Accesseurs
     int getCapacite();
 
-    // Méthodes
+    // Methodes
     void addItem(item* item);
     void selectSlot(int index);
-    void removeItem();
-    void dropItem();
     int inventairePlein();
 
     void afficherInventaire() const;

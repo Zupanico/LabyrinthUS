@@ -13,13 +13,13 @@ class monster;
 #include <iostream>
 #include <windows.h>
 #include "fenetre.h"
-#include "mur.h"
 #include <vector>
 #include <cstdlib>
 #include "monster.h"
 #include <conio.h>
 #include "Inventaire.h"
 #include "Item.h"
+#include "map.h"
 
 using namespace std;
 
@@ -42,7 +42,7 @@ private:
 
     bool _gameOver;    
 
-    mur _murs;
+    map _map;
     bool _keyCollect;
 
 public:
@@ -65,13 +65,12 @@ public:
     void deplacerMonster();
     bool checkTriggerPoints();
 
-    void actualiserMur(string fichier);
+    void actualiserMap(string fichier);
 
     bool collision(int x, int y);
     void loop();
 
     bool getGameOver();
 
-    void ajoutCle();
 };
 #endif

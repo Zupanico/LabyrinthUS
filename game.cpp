@@ -324,7 +324,81 @@ void game::deplacerMonster()
 
 void game::patrouillageMonster()
 {
-    
+    int mX = _m.getX();     // X du monstre
+    int mY = _m.getY();     // Y du monstre
+
+    int pX = _p.getX();     // X du joueur
+    int pY = _p.getY();     // Y du joueur
+
+    int range = _m.getRange();  // Portée du monstre
+
+
+    int distanceX = abs(mX - pX);
+    int distanceY = abs(mY - pY);
+
+    // Si le monstre est à portée du joueur en X
+    if( distanceX < range && mY == pY){
+        for (int i = 0; i < distanceX; i++)
+        {
+            if (mX < pX && !collision(mX + i, mY))
+            {
+                _m.setPoursuite(true);
+            }
+
+            if (mX > pX && !collision(mX - i, mY))
+            {
+                _m.setPoursuite(true);
+            }
+            
+        }
+    }
+
+    // Si le monstre est à portée du joueur en Y
+    if( distanceY < range && mX == pX){
+        for (int i = 0; i < distanceY; i++)
+        {
+            if (mY < pY && !collision(mX, mY + i))
+            {
+                _m.setPoursuite(true);
+            }
+
+            if (mY > pY && !collision(mX, mY - i)){
+                _m.setPoursuite(true);
+            }
+        }
+    }
+}
+
+void game::poursuiteJoueur()
+{
+    int mX = _m.getX(); // X du monstre
+    int mY = _m.getY(); // Y du monstre
+
+    int pX = _p.getX(); // X du joueur
+    int pY = _p.getY(); // Y du joueur
+
+    int range = _m.getRange(); // Portée du monstre
+
+    int distanceX = abs(mX - pX);
+    int distanceY = abs(mY - pY);
+
+    // Joueur en bas
+    if (mY < pY && mX == pX){
+        _m.poursuivreJoueur(2);
+    }
+    // Joueur en haut
+    if (mY > pY && mX == pX){
+        _m.poursuivreJoueur(3);
+    }
+    // Joueur à gauche
+    if (mX > pX && mY == pY){
+        _m.poursuivreJoueur(1);
+    }
+    // Joueur à droite
+    if (mX < pX && mY == pY){
+        _m.poursuivreJoueur(4);
+    }
+
 }
 
 bool game::checkTriggerPoints()
@@ -457,8 +531,16 @@ void game::loop()
     deplacerJoueur();
     if (_m.getActif())
     {
-        _m.patrol();
-        deplacerMonster();
+        // si le joueur est en poursuite
+        patrouillageMonster();
+
+        if (_m.getPoursuite())
+        {
+            poursuiteJoueur();
+        } else {
+            _m.patrol();
+        }
+        deplacerMonster();   
     }
     
     

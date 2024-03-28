@@ -39,16 +39,21 @@ private:
     bool _actif;
     coordonnees _triggerPoints;
     
-    int _direction;
-    int _poursuite;
-    bool _firstInput; // condition pour que le monstre va dans une direction random au debut de son patrouillage
+    int _direction; // Direction de déplacement
+    int _range;     // Range de vision
+    bool _poursuite; // Si en poursuite du joueur
 
 public:
     monster();
     ~monster();
 
+    int getRange() const;
+
     bool getActif() const;
     void setActif(bool actif);
+
+    void poursuivreJoueur(int direction);
+    void setPoursuite(bool poursuite);
     bool getPoursuite() const;
 
     void addTriggerPoint(int x, int y);

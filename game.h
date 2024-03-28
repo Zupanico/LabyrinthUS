@@ -86,6 +86,7 @@ public:
     void deplacerMonster();
     void patrouillageMonster();
     bool checkTriggerPoints();
+    void poursuiteJoueur();
 
     void actualiserMap(string fichier);
     void ajoutCle();

@@ -22,11 +22,6 @@ int monster::getRange() const
     return _range;
 }
 
-int monster::getRange() const
-{
-    return _range;
-}
-
 bool monster::getActif() const
 {
     return _actif;

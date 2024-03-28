@@ -14,18 +14,19 @@ class monster;
 #include <windows.h>
 #include "ComArduino.h"
 #include "fenetre.h"
-#include "map.h"
 #include <vector>
 #include <cstdlib>
 #include "monster.h"
 #include <conio.h>
 #include "Inventaire.h"
 #include "Item.h"
+#include "map.h"
 
 // Nouvelle bibliothèque
 #include <chrono> // Pour le timing
 #include <thread> // Pour la pause
 #include <cmath> // Pour la fonction abs()
+
 
 using namespace std;
 
@@ -60,7 +61,7 @@ private:
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
     const char* _player = "\U0001F468";
-    const char* _monster = "\U0001FA7B";
+    const char *_monster = "\U0001F47E";
     const char* _door = "\U0001F6AA";
     const char* _locker = "\U0001F5C4";
 
@@ -75,7 +76,6 @@ public:
     int getclavier() const;
     void setclavier();
     void setJoystick();
-    void getBouton();
 
     // Nouvelle méthode
     void reinitialiserPositionJoueur();
@@ -83,11 +83,13 @@ public:
 
     void vibreur();
     void libererDuMonstre();
-    bool collision(int x, int y);
+    void getBouton();
     void checkLocker();
+
 
     // Méthodes
     void afficher() const;
+    bool collision(int x, int y);
     void deplacerJoueur();
     void patrouillageMonster();
     void deplacerMonster();
@@ -95,11 +97,11 @@ public:
     void poursuiteJoueur();
 
     void actualiserMap(string fichier);
+    void ajoutCle();
 
     void loop();
 
     bool getGameOver();
 
-    void ajoutCle();
 };
 #endif

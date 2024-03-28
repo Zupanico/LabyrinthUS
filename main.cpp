@@ -26,8 +26,8 @@ int main(int argc, char const *argv[])
     SetConsoleOutputCP(CP_UTF8); // Permet d'afficher les caractères spéciaux
     
     game g;
-    g.actualiserMap("Map_4.txt");
-    while (true && !g.getGameOver())
+    g.actualiserMap("map1.txt");
+    while (!g.getGameOver())
     {
         g.loop();
     }

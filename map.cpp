@@ -2,12 +2,6 @@
 
 maps::maps()
 {
-    _cle.x = 0;
-    _cle.y = 0;
-    _m1.x = -1;
-    _m1.y = -1;
-    _coin.x = 0;
-    _coin.y = 0;
 }
 
 maps::~maps()
@@ -100,6 +94,8 @@ void maps::actualiserMap(string fichier)
                 }
                 x++;
             }
+            
+            
         }
         fichierMur.close();
     }

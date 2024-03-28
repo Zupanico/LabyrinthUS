@@ -42,8 +42,6 @@ private:
     int _direction; // Direction de déplacement
     int _range;     // Range de vision
     bool _poursuite; // Si en poursuite du joueur
-    double _vitesse_x;
-    double _vitesse_y;
 
 public:
     monster();

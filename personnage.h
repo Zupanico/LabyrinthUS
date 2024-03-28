@@ -17,7 +17,8 @@ using namespace std;
 
 class personnage
 {
-private:
+protected:
+// Déplacement
     int _x;
     int _y;
     int _largeur;
@@ -28,7 +29,6 @@ private:
     double _time_y;
     const double _k = 20;
 
-    const char *_cr = "\u25A0";
 public:
     
     personnage();
@@ -43,11 +43,13 @@ public:
     void setX(int x);
     void setY(int y);
 
+
     void setLargeur(int largeur);
     void setHauteur(int hauteur);
 
     void setVitesseX(int vitesse);
     void setVitesseY(int vitesse);
+    
     int getVitesseX() const;
     int getVitesseY() const;
 

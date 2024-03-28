@@ -41,6 +41,7 @@ int personnage::getY() const
     return this->_y;
 }
 
+
 void personnage::setX(int x)
 {
     this->_x = x;
@@ -53,12 +54,12 @@ void personnage::setY(int y)
 
 void personnage::setLargeur(int largeur)
 {
-    this->_largeur = largeur;
+    _largeur = largeur;
 }
 
 void personnage::setHauteur(int hauteur)
 {
-    this->_hauteur = hauteur;
+    _hauteur = hauteur;
 }
 
 void personnage::deplacementX()
@@ -119,3 +120,5 @@ int personnage::getVitesseY() const
 {
     return _vitesse_y;
 }
+
+

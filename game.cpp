@@ -135,65 +135,19 @@ void game::checkLocker()
         _p.setX(_lastpx);
         _p.setY(_lastpy);
     }
-    else if (_map.chercherLocker(_p.getX()+1, _p.getY()) ||
-             _map.chercherLocker(_p.getX()-1, _p.getY()) || 
-             _map.chercherLocker(_p.getX(), _p.getY()+1) || 
-             _map.chercherLocker(_p.getX(), _p.getY()-1))
-    {
-        _f.setEcran("  ", _p.getX(), _p.getY());
-        _lastpx = _p.getX();
-        _lastpy = _p.getY();
-        _p.setX(-2);
-        _p.setY(-2);
+    else{
+        if (_map.chercherLocker(_p.getX()+1, _p.getY()) || _map.chercherLocker(_p.getX()-1, _p.getY())
+            || _map.chercherLocker(_p.getX(), _p.getY()+1) || _map.chercherLocker(_p.getX(), _p.getY()-1))
+        {
+            _f.setEcran("  ", _p.getX(), _p.getY());
+            _lastpx = _p.getX();
+            _lastpy = _p.getY();
+            _p.setX(-2);
+            _p.setY(-2);
+        }
     }
 }
 
-bool game::collision(int x, int y)
-{
-    const int largeurFen = _f.getLargeur();   // Largeur de la fenetre
-    const int hauteurFen = _f.getHauteur();   // Hauteur de la fenetre
-
-    const int largeurPer = _p.getLargeur();   // Largeur du personnage
-    const int hauteurPer = _p.getHauteur();   // Hauteur du personnage
-
-
-    // Collision avec les bords de la fenêtre
-    // Regarde si la position en y et en x du personnage est en dehors des limites de la fenetre
-    if (x < 0 || x >= largeurFen - largeurPer || y < 0 || y >= hauteurFen - hauteurPer)
-    {
-        // Ramener le joueur à sa position précédente
-        return true;
-    } 
-    
-    else if (_map.chercherMur(x, y))
-    {
-        // Ramener le joueur à sa position précédente
-        return true;
-    }
-
-    else if (_map.chercherDoor(x, y))
-    {  
-        if (_keyCollect == false)
-        {
-            // Ramener le joueur à sa position précédente
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    else if (_map.chercherLocker(x, y))
-    {
-        return true;
-    }
-
-    else 
-    {
-        return false;
-    }
-}
 
 void game::vibreur()
 {
@@ -201,8 +155,6 @@ void game::vibreur()
     {            
         
         float distance = sqrt(pow(_p.getX() - _m.getX(), 2) + pow(_p.getY() - _m.getY(), 2));
-        cout << "Distance entre le joueur et le monstre : " << distance << endl;
-        
         // Activer ou désactiver la vibration basée sur la distance
         _a.setMessagesDistance(distance <= _seuilDistance ? distance : 0.0);
     }
@@ -233,9 +185,7 @@ void game::libererDuMonstre()
         vibreur();
         
         auto valeursAccelerometre = _a.lireAccelerometre();
-        //cout << "Valeurs de l'accéléromètre : (" << std::get<0>(valeursAccelerometre) << ", " << std::get<1>(valeursAccelerometre) << ", " << std::get<2>(valeursAccelerometre) << ")" << endl;
         double normeAccel = sqrt(pow(std::get<0>(valeursAccelerometre), 2) + pow(std::get<1>(valeursAccelerometre), 2) + pow(std::get<2>(valeursAccelerometre), 2));
-        //cout << "Norme de l'accélération : " << normeAccel << endl;
 
         
 
@@ -289,17 +239,17 @@ void game::deplacerJoueur()
 
     // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
     if (!collision(_p.getX()-1, _p.getY()) && _p.getVitesseX() < 0)
-    {
-        _p.deplacementX();
-    }
+        {
+            _p.deplacementX();
+        }
 
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
-    {
-        _inv.addItem(new item(_cle));
-        _keyCollect = true;
-        _m.setPoursuite(true);
-        checkTriggerPoints();
-    }
+        {
+            _inv.addItem(new item(_cle));
+            _keyCollect = true;
+            _m.setPoursuite(true);
+            checkTriggerPoints();
+        }
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
@@ -441,54 +391,19 @@ void game::patrouillageMonster()
     
 }
 
-void game::poursuiteJoueur()
-{
-    int mX = _m.getX(); // X du monstre
-    int mY = _m.getY(); // Y du monstre
-
-    int pX = _p.getX(); // X du joueur
-    int pY = _p.getY(); // Y du joueur
-
-    int range = _m.getRange(); // Portée du monstre
-
-    int distanceX = abs(mX - pX);
-    int distanceY = abs(mY - pY);
-
-    // Joueur en bas
-    if (mY < pY && mX == pX)
-    {
-        _m.poursuivreJoueur(2);
-    }
-    // Joueur en haut
-    if (mY > pY && mX == pX)
-    {
-        _m.poursuivreJoueur(3);
-    }
-    // Joueur à gauche
-    if (mX > pX && mY == pY)
-    {
-        _m.poursuivreJoueur(1);
-    }
-    // Joueur à droite
-    if (mX < pX && mY == pY)
-    {
-        _m.poursuivreJoueur(4);
-    }
-
-}
-
 bool game::checkTriggerPoints()
 {
-    if (abs(_p.getX() - _m.getTriggerPoint().x) < 4 && abs(_p.getY() - _m.getTriggerPoint().y) < 3 || _keyCollect == true)  
+    if (_keyCollect == true)  
         {
             _m.setActif(true);
             _m.setX(_map.getM1().x);
             _m.setY(_map.getM1().y);
 
             return true;
-        }
-    return false;
-}
+         }
+
+        return false;
+    }
 
 void game::actualiserMap(string fichier)
 {
@@ -508,6 +423,85 @@ void game::actualiserMap(string fichier)
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
 }
 
+void game::poursuiteJoueur()
+{
+    int mX = _m.getX(); // X du monstre
+    int mY = _m.getY(); // Y du monstre
+
+    int pX = _p.getX(); // X du joueur
+    int pY = _p.getY(); // Y du joueur
+
+    int range = _m.getRange(); // Portée du monstre
+
+    int distanceX = abs(mX - pX);
+    int distanceY = abs(mY - pY);
+
+    // Joueur en bas
+    if (mY < pY && mX == pX){
+        _m.poursuivreJoueur(2);
+    }
+    // Joueur en haut
+    if (mY > pY && mX == pX){
+        _m.poursuivreJoueur(3);
+    }
+    // Joueur à gauche
+    if (mX > pX && mY == pY){
+        _m.poursuivreJoueur(1);
+    }
+    // Joueur à droite
+    if (mX < pX && mY == pY){
+        _m.poursuivreJoueur(4);
+    }
+
+}
+
+
+bool game::collision(int x, int y)
+{
+    const int largeurFen = _f.getLargeur();   // Largeur de la fenetre
+    const int hauteurFen = _f.getHauteur();   // Hauteur de la fenetre
+
+    const int largeurPer = _p.getLargeur();   // Largeur du personnage
+    const int hauteurPer = _p.getHauteur();   // Hauteur du personnage
+
+
+    // Collision avec les bords de la fenêtre
+    // Regarde si la position en y et en x du personnage est en dehors des limites de la fenetre
+    if (x < 0 || x >= largeurFen - largeurPer || y < 0 || y >= hauteurFen - hauteurPer)
+    {
+        // Ramener le joueur à sa position précédente
+        return true;
+    } 
+    
+    else if (_map.chercherMur(x, y))
+    {
+        // Ramener le joueur à sa position précédente
+        return true;
+    }
+
+    else if (_map.chercherDoor(x, y))
+    {
+        if (_keyCollect == false)
+        {
+            // Ramener le joueur à sa position précédente
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    else if (_map.chercherLocker(x, y))
+    {
+        return true;
+    }
+
+    else 
+    {
+        return false;
+    }
+}
 
 
 void game::ajoutCle()
@@ -558,7 +552,6 @@ void game::loop()
     }
 
     deplacerJoueur();
-
     if (_m.getActif())
     {
         // si le joueur est en poursuite
@@ -567,14 +560,11 @@ void game::loop()
         if (_m.getPoursuite())
         {
             poursuiteJoueur();
-        } 
-        else 
-        {
+        } else {
             _m.patrol();
         }
         deplacerMonster();   
     }
-
-    // Pause pour limiter la vitesse d'affichage
-    Sleep(50); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
+    
+    Sleep(10);
 }

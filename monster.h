@@ -17,6 +17,13 @@ class personnage;
 #include <thread>
 #include <chrono>
 #include <vector>
+#include <cstdlib> // for rand() and srand()
+#include <ctime>   // for time()
+
+#define GAUCHE 1
+#define DROITE 2
+#define HAUT 3
+#define BAS 4
 
 using namespace std;
 
@@ -32,15 +39,28 @@ private:
     bool _actif;
     coordonnees _triggerPoints;
     
+    int _direction; // Direction de déplacement
+    int _range;     // Range de vision
+    bool _poursuite; // Si en poursuite du joueur
+    double _vitesse_x;
+    double _vitesse_y;
 
 public:
     monster();
     ~monster();
 
+    int getRange() const;
+
     bool getActif() const;
     void setActif(bool actif);
 
+    void poursuivreJoueur(int direction);
+    void setPoursuite(bool poursuite);
+    bool getPoursuite() const;
+
     void addTriggerPoint(int x, int y);
     coordonnees getTriggerPoint() const;
+
+    void patrol();
 };
 #endif

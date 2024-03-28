@@ -42,12 +42,7 @@ void fenetre::setEcran(const char* c, int row, int column)
     {
         _ecran[row][column] = c;
     } 
-    else 
-    {
-        cerr << "Erreur : Coordonnées hors limites !" << endl;
-    }
 }
-
 
 const char* fenetre::getEcran(int row, int column) const 
 {
@@ -58,7 +53,6 @@ const char* fenetre::getEcran(int row, int column) const
     } 
     else 
     {
-        cerr << "Erreur : Coordonnées hors limites !" << endl;
         return " ";
     }
 }

@@ -1,7 +1,7 @@
 /* Fichier : main.cpp
 Description : Fichier d'en-tête du main
 Date : 2024-02-22
-Auteur : Bakayoko Kanvali*/
+Auteur : Bakayoko Kanvali*/  
 
 #include <string>
 #include <fstream>
@@ -13,20 +13,20 @@ using namespace std;
 
 void HideConsoleCursor()
 {
-    CONSOLE_CURSOR_INFO _info; 
-    _info.dwSize = 100; 
+    CONSOLE_CURSOR_INFO _info; // Structure pour masquer le curseur
+    _info.dwSize = 100; // Taille du curseur
     _info.bVisible = FALSE; 
-    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &_info);
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &_info); // Masquer le curseur
 }
 
 int main(int argc, char const *argv[])
 {
-    system("cls"); 
+    system("cls"); // Effacer la console
     HideConsoleCursor(); // Appel de la fonction pour masquer le curseur
-    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8); // Permet d'afficher les caractères spéciaux
     
     game g;
-    g.actualiserMur();
+    g.actualiserMap("Map_4.txt");
     while (true && !g.getGameOver())
     {
         g.loop();

@@ -14,6 +14,9 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "tuple": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "cstdlib": "cpp",
+        "cmath": "cpp",
+        "thread": "cpp"
     }
 }

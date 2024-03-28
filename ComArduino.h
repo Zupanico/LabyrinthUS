@@ -56,6 +56,8 @@ public:
     bool lireboutonBas();
     bool lireboutonjoystick();
 
+    void vibrationMoteur(double distance_Monstre_Joueur);
+
     tuple<double, double, double> lireAccelerometre();
     tuple<double, double> lireJoystick();
 };

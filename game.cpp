@@ -52,7 +52,6 @@ void game::mettreAJourVies(int changement)
 
 void game::setclavier()
 {
-
     static int k = 0; // Déclarer k en tant que variable statique pour qu'elle conserve sa valeur entre les appels
     if (_kbhit())
     {

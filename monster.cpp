@@ -10,7 +10,7 @@ monster::monster()
     _actif = false;
     _direction = 0;
     _poursuite = false;
-    _range = 8;
+    _range = 6;
 }
 
 monster::~monster()

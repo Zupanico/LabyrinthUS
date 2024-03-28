@@ -232,6 +232,7 @@ void game::deplacerJoueur()
         {
             _inv.addItem(new item(_cle));
             _keyCollect = true;
+            _m.setPoursuite(true);
             checkTriggerPoints();
         }
     //Actualiser les portes
@@ -282,8 +283,9 @@ void game::reinitialiserPositionJoueur()
 
 void game::deplacerMonster()
 {
-     _f.setEcran("  ", _m.getX(), _m.getY());
 
+    _f.setEcran("  ", _m.getX(), _m.getY());
+    
     // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
     if (!collision(_m.getX(), (_m.getY() - 1)) && _m.getVitesseY() < 0)
     {
@@ -367,6 +369,11 @@ void game::patrouillageMonster()
             }
         }
     }
+    else if (distanceY > range || distanceX > range)
+    {
+        _m.setPoursuite(false);
+    }
+    
 }
 
 void game::poursuiteJoueur()

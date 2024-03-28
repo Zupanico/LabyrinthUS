@@ -52,6 +52,10 @@ void game::setclavier()
             cout << "Quitter" << endl;
             exit(0);
         }
+        if (touche == ' ')
+        {
+            checkLocker();
+        }
 
         if (touche == 224) // Vérifier si la touche est une fleche
         {

@@ -18,7 +18,7 @@ Auteur : Bakayoko Kanvali*/
 using namespace std;
 using json = nlohmann::json;
 
-#define BAUD 9600
+#define BAUD 115200
 #define MSG_MAX_SIZE 1024
 
 class ComArduino

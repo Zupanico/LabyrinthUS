@@ -102,7 +102,7 @@ bool ComArduino::lireboutonDroite()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            boutonRight = j_msg_rcv["boutonRight"];
+            boutonRight = j_msg_rcv["right"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {
@@ -122,7 +122,7 @@ bool ComArduino::lireboutonGauche()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            boutonLeft = j_msg_rcv["boutonLeft"];
+            boutonLeft = j_msg_rcv["left"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {
@@ -142,7 +142,7 @@ bool ComArduino::lireboutonHaut()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            boutonUp = j_msg_rcv["boutonUp"];
+            boutonUp = j_msg_rcv["up"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {
@@ -162,7 +162,7 @@ bool ComArduino::lireboutonBas()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            boutonDown = j_msg_rcv["boutonDown"];
+            boutonDown = j_msg_rcv["down"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {
@@ -182,7 +182,7 @@ bool ComArduino::lireboutonjoystick()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            boutonJoystick = j_msg_rcv["boutonJoystick"];
+            boutonJoystick = j_msg_rcv["joystick"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {
@@ -202,9 +202,9 @@ tuple<double, double, double> ComArduino::lireAccelerometre()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            accelerationX = j_msg_rcv["accelerationX"];
-            accelerationY = j_msg_rcv["accelerationY"];
-            accelerationZ = j_msg_rcv["accelerationZ"];
+            accelerationX = j_msg_rcv["aX"];
+            accelerationY = j_msg_rcv["aY"];
+            accelerationZ = j_msg_rcv["aZ"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {
@@ -224,8 +224,8 @@ tuple<double, double> ComArduino::lireJoystick()
         try 
         {
             json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
-            joystickX = j_msg_rcv["joystickX"];
-            joystickY = j_msg_rcv["joystickY"];
+            joystickX = j_msg_rcv["jX"];
+            joystickY = j_msg_rcv["jY"];
         } 
         catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
         {

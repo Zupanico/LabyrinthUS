@@ -80,6 +80,7 @@ public:
     void mettreAJourVies(int changement);
 
     void libererDuMonstre();
+    void getBouton();
     void checkLocker();
 
 

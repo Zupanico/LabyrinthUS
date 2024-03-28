@@ -44,8 +44,8 @@ public:
     void connexion();
     bool isConnected();
     void setMessages();
-    void setMessagesVies(json message);
     void setMessagesDistance(float distance);
+    void setMessagesVies(int vies);
 
     bool SendToSerial(SerialPort *arduino, json j_msg);
     bool RcvFromSerial(SerialPort *arduino, string &msg);
@@ -55,8 +55,6 @@ public:
     bool lireboutonHaut();
     bool lireboutonBas();
     bool lireboutonjoystick();
-
-    void vibrationMoteur(double distance_Monstre_Joueur);
 
     tuple<double, double, double> lireAccelerometre();
     tuple<double, double> lireJoystick();

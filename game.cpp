@@ -41,11 +41,16 @@ int game::getclavier() const
 void game::mettreAJourVies(int changement)
 {
     _vies += changement;
-        
+    
     if (_vies <= 0) 
     {
         // Game over
+        _a.setMessagesVies(0);
         _gameOver = true;
+    }
+    else
+    {
+        _a.setMessagesVies(_vies);
     }
 }
 
@@ -152,8 +157,7 @@ void game::checkLocker()
 void game::vibreur()
 {
     if (_a.isConnected())
-    {            
-        
+    {                    
         float distance = sqrt(pow(_p.getX() - _m.getX(), 2) + pow(_p.getY() - _m.getY(), 2));
         // Activer ou désactiver la vibration basée sur la distance
         _a.setMessagesDistance(distance <= _seuilDistance ? distance : 0.0);
@@ -185,9 +189,7 @@ void game::libererDuMonstre()
         vibreur();
         
         auto valeursAccelerometre = _a.lireAccelerometre();
-        double normeAccel = sqrt(pow(std::get<0>(valeursAccelerometre), 2) + pow(std::get<1>(valeursAccelerometre), 2) + pow(std::get<2>(valeursAccelerometre), 2));
-
-        
+        double normeAccel = sqrt(pow(std::get<0>(valeursAccelerometre), 2) + pow(std::get<1>(valeursAccelerometre), 2) + pow(std::get<2>(valeursAccelerometre), 2)); 
 
         if (normeAccel > _seuilAccel) 
         {
@@ -524,7 +526,6 @@ void game::afficher() const
     // Effacer l'écran
     COORD _pos = {0, 0};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
-    // Afficher le jeu
 
     // Afficher le titre du jeu
     cout << "                     LABYRINTHUS" << endl;
@@ -544,25 +545,31 @@ void game::afficher() const
 void game::loop()
 {
     setclavier();
+
     if (_a.isConnected())
     {
+        _a.setMessagesVies(_vies);
+        _a.setMessages();
         setJoystick();
         getBouton();
         vibreur();
     }
 
     deplacerJoueur();
+
     if (_m.getActif())
     {
-        // si le joueur est en poursuite
         patrouillageMonster();
 
         if (_m.getPoursuite())
         {
             poursuiteJoueur();
-        } else {
+        }
+        else
+        {
             _m.patrol();
         }
+
         deplacerMonster();   
     }
     

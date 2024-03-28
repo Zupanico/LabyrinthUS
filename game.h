@@ -41,7 +41,7 @@ private:
     int             _lastpy;
 
     const float     _seuilDistance = 8;
-    const double    _seuilAccel = 4.2;
+    const double    _seuilAccel = 4;
 
     bool            _longerMur;
     bool            _gameOver;    
@@ -85,7 +85,6 @@ public:
     void libererDuMonstre();
     void getBouton();
     void checkLocker();
-
 
     // Méthodes
     void afficher() const;

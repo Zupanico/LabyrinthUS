@@ -6,7 +6,7 @@ Auteur : Bakayoko Kanvali*/
 #include "ComArduino.h"
 
 // Constructeur de la classe ComArduino
-ComArduino::ComArduino() : arduino(), com("COM7"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0), nbVies(3)
+ComArduino::ComArduino() : arduino(), com("COM7"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0)
 {
     _time = ((double) clock()) / CLOCKS_PER_SEC;
     connexion();
@@ -77,6 +77,7 @@ void ComArduino::setMessages()
 {
     if ((((double) clock()) / CLOCKS_PER_SEC) - _time >= 0.05)
     {
+        j_msg_send["led"] = led_state;
         j_msg_send["distance"] = distance_Monstre_Joueur;
         j_msg_send["nbVies"] = nbVies;
 
@@ -102,12 +103,14 @@ void ComArduino::setMessagesDistance(float distance)
     distance_Monstre_Joueur = distance;
 }
 
+void ComArduino::setMessagesVies(int _vies)
+{
+    nbVies = _vies;
+}
 
 // Méthode pour lire l'état du bouton droit
 bool ComArduino::lireboutonDroite() 
 {
-    setMessages(); // Assurez-vous que cette méthode lit les données du port série
-
     bool boutonRight = false;
     if (raw_msg.size() > 0) 
     {
@@ -128,8 +131,6 @@ bool ComArduino::lireboutonDroite()
 // Méthode pour lire l'état du bouton gauche
 bool ComArduino::lireboutonGauche() 
 {
-    setMessages(); // Assurez-vous que cette méthode lit les données du port série
-
     bool boutonLeft = false;
     if (raw_msg.size() > 0) 
     {
@@ -150,8 +151,6 @@ bool ComArduino::lireboutonGauche()
 // Méthode pour lire l'état du bouton haut
 bool ComArduino::lireboutonHaut() 
 {
-    setMessages(); // Assurez-vous que cette méthode lit les données du port série
-
     bool boutonUp = false;
     if (raw_msg.size() > 0) 
     {
@@ -172,8 +171,6 @@ bool ComArduino::lireboutonHaut()
 // Méthode pour lire l'état du bouton bas
 bool ComArduino::lireboutonBas() 
 {
-    setMessages(); // Assurez-vous que cette méthode lit les données du port série
-
     bool boutonDown = false;
     if (raw_msg.size() > 0) 
     {
@@ -193,8 +190,6 @@ bool ComArduino::lireboutonBas()
 // Méthode pour lire l'état du bouton joystick
 bool ComArduino::lireboutonjoystick() 
 {
-    setMessages(); // Assurez-vous que cette méthode lit les données du port série
-
     bool boutonJoystick = false;
     if (raw_msg.size() > 0) 
     {
@@ -215,8 +210,7 @@ bool ComArduino::lireboutonjoystick()
 // Méthode pour lire les valeurs de l'accéléromètre
 tuple<double, double, double> ComArduino::lireAccelerometre() 
 {
-    setMessages(); // Assurez-vous que cette méthode lit les données du port série
-
+    setMessages();
     double accelerationX = 0.0, accelerationY = 0.0, accelerationZ = 0.0;
     if (raw_msg.size() > 0) 
     {
@@ -239,8 +233,7 @@ tuple<double, double, double> ComArduino::lireAccelerometre()
 // Méthode pour lire les valeurs du joystick
 tuple<double, double> ComArduino::lireJoystick() 
 {
-    setMessages(); // Lire les données du port série
-
+    setMessages();
     double joystickX = 0.0, joystickY = 0.0;
     if (raw_msg.size() > 0) 
     {

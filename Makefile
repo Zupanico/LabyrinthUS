@@ -9,7 +9,7 @@ main: main.o fenetre.o game.o personnage.o map.o monster.o portail.o Inventaire.
 SerialPort.o: ./include/serial/SerialPort.cpp ./include/serial/SerialPort.hpp
 	g++ -c ./include/serial/SerialPort.cpp
  
-ComArduino.o: ComArduino.cpp ComArduino.h 
+ComArduino.o: ComArduino.cpp ComArduino.h game.h
 	g++ -c ComArduino.cpp
  
 main.o: main.cpp fenetre.h game.h 

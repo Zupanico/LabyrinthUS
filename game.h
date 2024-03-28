@@ -36,10 +36,10 @@ private:
     int             _clavier;
     int             _vies;
     int             _positionPrecedante;
-    int _lastpx;
-    int _lastpy;
+    int             _lastpx;
+    int             _lastpy;
 
-    const double    _seuilDistance = 4;
+    const float     _seuilDistance = 8;
     const double    _seuilAccel = 4.2;
 
     bool            _longerMur;
@@ -71,6 +71,7 @@ public:
     ~game();
 
     // Accesseurs
+    float distance;
     int getclavier() const;
     void setclavier();
     void setJoystick();
@@ -88,9 +89,10 @@ public:
     // Méthodes
     void afficher() const;
     void deplacerJoueur();
-
+    void patrouillageMonster();
     void deplacerMonster();
     bool checkTriggerPoints();
+    void poursuiteJoueur();
 
     void actualiserMap(string fichier);
 

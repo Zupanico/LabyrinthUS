@@ -6,7 +6,7 @@ Auteur : Bakayoko Kanvali*/
 #include "ComArduino.h"
 
 // Constructeur de la classe ComArduino
-ComArduino::ComArduino() : arduino(), com("COM7"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0)
+ComArduino::ComArduino() : arduino(), com("COM7"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0), nbVies(3)
 {
     _time = ((double) clock()) / CLOCKS_PER_SEC;
     connexion();
@@ -72,12 +72,13 @@ bool ComArduino::RcvFromSerial(SerialPort *arduino, string &msg)
     }
 }
 
-// Méthode pour envoyer et recevoir des données de l'Arduino
+// Méthode pour recevoir des données de l'Arduino
 void ComArduino::setMessages()
 {
-    if ((((double) clock()) / CLOCKS_PER_SEC) - _time >= 0.3)
+    if ((((double) clock()) / CLOCKS_PER_SEC) - _time >= 0.05)
     {
-        j_msg_send["led"] = led_state;
+        j_msg_send["distance"] = distance_Monstre_Joueur;
+        j_msg_send["nbVies"] = nbVies;
 
         if(!SendToSerial(arduino, j_msg_send))
         {
@@ -96,17 +97,9 @@ void ComArduino::setMessages()
     }
 }
 
-void ComArduino::envoyerMessages(const string& message)
+void ComArduino::setMessagesDistance(float distance)
 {
-    if(((clock() / CLOCKS_PER_SEC) - _time) >= 0.40)
-    {
-        j_msg_send = json::parse(message); // Convertir le message en objet JSON
-        if(!SendToSerial(arduino, j_msg_send)) // Envoyer le message JSON au port série
-        {
-            cerr << "Erreur lors de l'envoi du message." << endl;
-        }
-        _time = ((double) clock()) / CLOCKS_PER_SEC;
-    }
+    distance_Monstre_Joueur = distance;
 }
 
 
@@ -217,18 +210,6 @@ bool ComArduino::lireboutonjoystick()
         }
     }
     return boutonJoystick;
-}
-
-// Méthode pour lire la valeur de vibration du moteur
-
-void ComArduino::vibrationMoteur(double distance_Monstre_Joueur) 
-{
-    json j_msg_send;
-    j_msg_send["distance"] = distance_Monstre_Joueur; // Convertir la distance entre le monstre et le joueur en valeur de vibration
-    std::string message = j_msg_send.dump(); // Convertir l'objet JSON en string
-    cout << "Message envoyé: " << message << endl;
-    
-    envoyerMessages(message); // Envoyer le message JSON au port série
 }
 
 // Méthode pour lire les valeurs de l'accéléromètre

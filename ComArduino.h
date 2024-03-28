@@ -28,6 +28,8 @@ class ComArduino
 {
 private:
     int led_state;
+    float distance_Monstre_Joueur;
+    int nbVies;
     float _time;
     
     SerialPort *arduino;
@@ -42,7 +44,8 @@ public:
     void connexion();
     bool isConnected();
     void setMessages();
-    void envoyerMessages(const string& message);
+    void setMessagesVies(json message);
+    void setMessagesDistance(float distance);
 
     bool SendToSerial(SerialPort *arduino, json j_msg);
     bool RcvFromSerial(SerialPort *arduino, string &msg);
@@ -52,8 +55,6 @@ public:
     bool lireboutonHaut();
     bool lireboutonBas();
     bool lireboutonjoystick();
-
-    void vibrationMoteur(double distance_Monstre_Joueur);
 
     tuple<double, double, double> lireAccelerometre();
     tuple<double, double> lireJoystick();

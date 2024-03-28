@@ -8,12 +8,21 @@ Auteur : Bakayoko Kanvali*/
 game::game() : _f(30, 30)
 {
     _clavier = 0;
-    _vies = 3;
+    _vies = 3;  
 
     _gameOver = false;
     _keyCollect = false;
-
+    
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
+
+    _longerMur = false;
+
+    _murDroite = false;
+    _murGauche = false;
+    _murHaut = false;
+    _murBas = false;
+
+    _positionPrecedante = 0;
 
 }
 
@@ -43,6 +52,7 @@ void game::mettreAJourVies(int changement)
 
 void game::setclavier()
 {
+
     static int k = 0; // Déclarer k en tant que variable statique pour qu'elle conserve sa valeur entre les appels
     if (_kbhit())
     {
@@ -51,6 +61,10 @@ void game::setclavier()
         {
             cout << "Quitter" << endl;
             exit(0);
+        }
+        if (touche == ' ')
+        {
+            checkLocker();
         }
 
         if (touche == 224) // Vérifier si la touche est une fleche
@@ -186,11 +200,12 @@ void game::vibreur()
 {
     if (_a.isConnected())
     {            
-        double distance = sqrt(pow(_p.getX() - _m.getX(), 2) + pow(_p.getY() - _m.getY(), 2));
-        cout << "Distance entre le joueur et le monstre : " << distance << endl;
-        // Activer ou désactiver la vibration basée sur la distance
-        _a.vibrationMoteur(distance <= _seuilDistance ? distance : 0.0);
         
+        float distance = sqrt(pow(_p.getX() - _m.getX(), 2) + pow(_p.getY() - _m.getY(), 2));
+        cout << "Distance entre le joueur et le monstre : " << distance << endl;
+        
+        // Activer ou désactiver la vibration basée sur la distance
+        _a.setMessagesDistance(distance <= _seuilDistance ? distance : 0.0);
     }
 }
 
@@ -255,7 +270,6 @@ void game::deplacerJoueur()
 {
     _f.setEcran("  ", _p.getX(), _p.getY());
     
-
      // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
     if (!collision(_p.getX(), (_p.getY()-1)) && _p.getVitesseY() < 0)
     {
@@ -284,26 +298,17 @@ void game::deplacerJoueur()
     {
         _inv.addItem(new item(_cle));
         _keyCollect = true;
+        _m.setPoursuite(true);
+        checkTriggerPoints();
     }
-
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
         _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
     }
-
     // Afficher le personnage sur la fenêtre
-    _f.setEcran(_player,  _p.getX(), _p.getY());
-    
-    if (_m.getActif())
-    {
-        deplacerMonster();
-    }
-    else
-    {
-        checkTriggerPoints();
-    }
-
+    _f.setEcran(_player, _p.getX(), _p.getY());
+ 
     // Afficher le jeu complet
     afficher();   
 }
@@ -344,21 +349,34 @@ void game::reinitialiserPositionJoueur()
 
 void game::deplacerMonster()
 {
+
     _f.setEcran("  ", _m.getX(), _m.getY());
+    
+    // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
+    if (!collision(_m.getX(), (_m.getY() - 1)) && _m.getVitesseY() < 0)
+    {
+        _m.deplacementY();
+    }
 
-    if (_m.getX() < _p.getX() && !collision(_m.getX() + 1, _m.getY()))
-        _m.setX(_m.getX() + 1);
+    // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
+    if (!collision(_m.getX(), (_m.getY() + 1)) && _m.getVitesseY() > 0)
+    {
+        _m.deplacementY();
+    }
 
-    else if (_m.getX() > _p.getX() && !collision(_m.getX() - 1, _m.getY()))
-        _m.setX(_m.getX() - 1);
+    // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
+    if (!collision(_m.getX() + 1, _m.getY()) && _m.getVitesseX() > 0)
+    {
+        _m.deplacementX();
+    }
 
-    if (_m.getY() < _p.getY() && !collision(_m.getX(), _m.getY() + 1))
-        _m.setY(_m.getY() + 1);
-        
-    else if (_m.getY() > _p.getY() && !collision(_m.getX(), _m.getY() - 1))
-        _m.setY(_m.getY() - 1);
+    // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
+    if (!collision(_m.getX() - 1, _m.getY()) && _m.getVitesseX() < 0)
+    {
+        _m.deplacementX();
+    }
 
-    // Afficher le personnage sur la fenêtre
+    // Afficher le monstre sur la fenêtre
     _f.setEcran(_monster,  _m.getX(), _m.getY());
 
     if ( _p.getX() == _m.getX() && _p.getY() == _m.getY())
@@ -370,6 +388,94 @@ void game::deplacerMonster()
     {
         _gameOver = false;
     }
+}
+
+void game::patrouillageMonster()
+{
+    int mX = _m.getX();     // X du monstre
+    int mY = _m.getY();     // Y du monstre
+
+    int pX = _p.getX();     // X du joueur
+    int pY = _p.getY();     // Y du joueur
+
+    int range = _m.getRange();  // Portée du monstre
+
+
+    int distanceX = abs(mX - pX);
+    int distanceY = abs(mY - pY);
+
+    // Si le monstre est à portée du joueur en X
+    if( distanceX < range && mY == pY){
+        for (int i = 0; i < distanceX; i++)
+        {
+            if (mX < pX && !collision(mX + i, mY))
+            {
+                _m.setPoursuite(true);
+            }
+
+            if (mX > pX && !collision(mX - i, mY))
+            {
+                _m.setPoursuite(true);
+            }
+            
+        }
+    }
+
+    // Si le monstre est à portée du joueur en Y
+    if( distanceY < range && mX == pX){
+        for (int i = 0; i < distanceY; i++)
+        {
+            if (mY < pY && !collision(mX, mY + i))
+            {
+                _m.setPoursuite(true);
+            }
+
+            if (mY > pY && !collision(mX, mY - i)){
+                _m.setPoursuite(true);
+            }
+        }
+    }
+    else if (distanceY > range || distanceX > range)
+    {
+        _m.setPoursuite(false);
+    }
+    
+}
+
+void game::poursuiteJoueur()
+{
+    int mX = _m.getX(); // X du monstre
+    int mY = _m.getY(); // Y du monstre
+
+    int pX = _p.getX(); // X du joueur
+    int pY = _p.getY(); // Y du joueur
+
+    int range = _m.getRange(); // Portée du monstre
+
+    int distanceX = abs(mX - pX);
+    int distanceY = abs(mY - pY);
+
+    // Joueur en bas
+    if (mY < pY && mX == pX)
+    {
+        _m.poursuivreJoueur(2);
+    }
+    // Joueur en haut
+    if (mY > pY && mX == pX)
+    {
+        _m.poursuivreJoueur(3);
+    }
+    // Joueur à gauche
+    if (mX > pX && mY == pY)
+    {
+        _m.poursuivreJoueur(1);
+    }
+    // Joueur à droite
+    if (mX < pX && mY == pY)
+    {
+        _m.poursuivreJoueur(4);
+    }
+
 }
 
 bool game::checkTriggerPoints()
@@ -444,7 +550,6 @@ void game::afficher() const
 
 void game::loop()
 {
-    // Capturer les entrées clavier
     setclavier();
     if (_a.isConnected())
     {
@@ -455,6 +560,22 @@ void game::loop()
 
     deplacerJoueur();
 
+    if (_m.getActif())
+    {
+        // si le joueur est en poursuite
+        patrouillageMonster();
+
+        if (_m.getPoursuite())
+        {
+            poursuiteJoueur();
+        } 
+        else 
+        {
+            _m.patrol();
+        }
+        deplacerMonster();   
+    }
+
     // Pause pour limiter la vitesse d'affichage
-    Sleep(5); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
+    Sleep(50); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
 }

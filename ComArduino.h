@@ -14,17 +14,21 @@ Auteur : Bakayoko Kanvali*/
 #include <string>
 #include "include/serial/SerialPort.hpp"
 #include "include/json.hpp"
+#include <thread>
+#include <atomic>
+#include <chrono>
 
 using namespace std;
 using json = nlohmann::json;
 
-#define BAUD 9600
+#define BAUD 115200
 #define MSG_MAX_SIZE 1024
 
 class ComArduino
 {
 private:
     int led_state;
+    float _time;
     
     SerialPort *arduino;
     string com;
@@ -36,7 +40,9 @@ public:
     ~ComArduino();
 
     void connexion();
+    bool isConnected();
     void setMessages();
+    void envoyerMessages(const string& message);
 
     bool SendToSerial(SerialPort *arduino, json j_msg);
     bool RcvFromSerial(SerialPort *arduino, string &msg);
@@ -46,6 +52,8 @@ public:
     bool lireboutonHaut();
     bool lireboutonBas();
     bool lireboutonjoystick();
+
+    void vibrationMoteur(double distance_Monstre_Joueur);
 
     tuple<double, double, double> lireAccelerometre();
     tuple<double, double> lireJoystick();

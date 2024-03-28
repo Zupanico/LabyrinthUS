@@ -9,6 +9,8 @@ personnage::personnage()
 {
     _x = 0;
     _y = 0;
+    _largeur = 0;
+    _hauteur = 0;
     _vitesse_x = 0;
     _vitesse_y = 0;
     _time_x = 0;
@@ -22,6 +24,16 @@ personnage::~personnage()
 int personnage::getX() const
 {
     return this->_x;
+}
+
+int personnage::getLargeur() const
+{
+    return this->_largeur;
+}
+
+int personnage::getHauteur() const
+{
+    return this->_hauteur;
 }
 
 int personnage::getY() const
@@ -39,9 +51,14 @@ void personnage::setY(int y)
     this->_y = y;
 }
 
-void personnage::print(ostream &output) const
+void personnage::setLargeur(int largeur)
 {
-    cout << "\033[31m" << _cr << "\033[0m";
+    this->_largeur = largeur;
+}
+
+void personnage::setHauteur(int hauteur)
+{
+    this->_hauteur = hauteur;
 }
 
 void personnage::deplacementX()

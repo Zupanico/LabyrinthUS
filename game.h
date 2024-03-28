@@ -62,6 +62,8 @@ private:
     bool _murBas;
 
     int _positionPrecedante;
+    int _lastpx;
+    int _lastpy;
 
 public:
     // Constructeur et destructeur
@@ -78,6 +80,8 @@ public:
     void mettreAJourVies(int changement);
 
     void libererDuMonstre();
+    void checkLocker();
+
 
     // Méthodes
     void afficher() const;

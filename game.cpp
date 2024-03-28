@@ -204,8 +204,6 @@ void game::deplacerJoueur()
 {
     _f.setEcran("  ", _p.getX(), _p.getY());
     
-
-
      // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
     if (!collision(_p.getX(), (_p.getY()-1)) && _p.getVitesseY() < 0)
         {
@@ -234,6 +232,7 @@ void game::deplacerJoueur()
         {
             _inv.addItem(new item(_cle));
             _keyCollect = true;
+            checkTriggerPoints();
         }
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
@@ -242,21 +241,7 @@ void game::deplacerJoueur()
     }
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player, _p.getX(), _p.getY());
-    
-    // Deplacer monstre
-    if (_m.getActif()){
-        if (_m.getPoursuite()){
-            //...
-        }
-        else {
-            patrouillageMonster();
-        }
-    }
-    else
-    {
-        checkTriggerPoints();
-    }
-
+ 
     // Afficher le jeu complet
     afficher();   
 }
@@ -339,72 +324,7 @@ void game::deplacerMonster()
 
 void game::patrouillageMonster()
 {
-    if (_map.chercherMur(_m.getX()+1, _m.getY()))
-    {
-        _murDroite = true;
-        _positionPrecedante = 1; //droite
-    }
-    else if (_map.chercherMur(_m.getX()-1, _m.getY()))
-    {
-        _murGauche = true;
-        _positionPrecedante = 2; //gauche
-    }
-    else if (_map.chercherMur(_m.getX(), _m.getY()+1))
-    {
-        _murBas = true;
-        _positionPrecedante = 3; //bas
-    }
-    else if (_map.chercherMur(_m.getX(), _m.getY()-1))
-    {
-        _murHaut = true;
-        _positionPrecedante = 4; //haut
-    }
-
-    if (_longerMur == false)
-    {
-        while (_murDroite==false && _murGauche==false && _murBas==false && _murHaut==false)
-        {
-            _m.patrol();
-        }
-        _longerMur = true;
-    }
-    else if (_longerMur == true)
-    {
-        if (_murGauche == true)
-        {
-            _m.setY(_m.getY()+1);
-        }
-        else if (_murDroite == true)
-        {
-            _m.setY(_m.getY()-1);
-        }
-        else if (_murHaut == true)
-        {
-            _m.setX(_m.getX()-1);
-        }
-        else if (_murBas == true)
-        {
-            _m.setX(_m.getX()+1);
-        }
-        else
-        {
-            switch (_positionPrecedante)
-            {
-                case 1: //droite
-                    _m.setX(_m.getX()+1);
-
-                case 2: //gauche
-                    _m.setX(_m.getX()-1);
-
-                case 3: //bas
-                    _m.setY(_m.getY()+1);
-
-                case 4: //haut
-                    _m.setY(_m.getY()-1);
-            }
-        }
-    }
-
+    
 }
 
 bool game::checkTriggerPoints()
@@ -532,10 +452,17 @@ void game::loop()
     if (_a.isConnected())
     {
         setJoystick();
-        
     }
+
     deplacerJoueur();
+    if (_m.getActif())
+    {
+        _m.patrol();
+        deplacerMonster();
+    }
+    
+    
 
     // Pause pour limiter la vitesse d'affichage
-    Sleep(200); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
+    this_thread::sleep_for(chrono::milliseconds(100)); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
 }

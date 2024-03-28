@@ -46,37 +46,43 @@ coordonnees monster::getTriggerPoint() const
 
 void monster::patrol()
 {
+     _direction = rand() % 4 + 1;
+    // choisi une direction aléatoire
     if (_firstInput == false)
     {
-        srand(static_cast<unsigned int>(std::time(nullptr)));
         // Generate a random number between 1 and 2 (gauche ou droite)
-        _direction = rand() % 2 + 1;
-
+       
+        
         _firstInput = true;
     }
+    
 
     switch (_direction)
 	{
-		case GAUCHE:
+		case 1: // Gauche
 			_vitesse_x = -100;
 			_vitesse_y = 0;
+            break;
 		
-		case DROITE:
+		case 2: // Bas
 			_vitesse_x = 0;
 			_vitesse_y = 100;
+            break;
 
-		case HAUT:
+        case 3: // Haut
 			_vitesse_x = 0;
 			_vitesse_y = -100;
+            break;
 
-		case BAS:
-			_vitesse_x = 0;
-			_vitesse_y = 100;
+        case 4: // Droite
+            _vitesse_x = 100;
+            _vitesse_y = 0;
+            break;
 
-		case 0:
+        case 0: // Immobile
 			_vitesse_x = 0;
 			_vitesse_y = 0;
-	}
-
+            break;
+    }
 }
 

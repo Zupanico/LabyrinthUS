@@ -51,8 +51,6 @@ public:
     int getVitesseX() const;
     int getVitesseY() const;
 
-
-
     void deplacementX();
     void deplacementY();
 };

@@ -106,6 +106,7 @@ void maps::actualiserMap(string fichier)
                     break;
 
                 default:
+                    x++;
                     break;
                 }
         }
@@ -156,6 +157,7 @@ void maps::ajouterNiveau(int x, int y)
     coord c;
     c.x = x;
     c.y = y;
+    _niveau.push_back(c);
 }
 
 void maps::afficherCle(int x, int y)

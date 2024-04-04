@@ -74,41 +74,40 @@ void maps::actualiserMap(string fichier)
             
             fichierMur.get(c);
             c = toupper(c);
-            
-            if (c == '\n')
-            {
-                y++;
-                x = 0;
-            }
-            else
-            {
-                switch (c)
+            switch (c)
                 {
                 case '#':
                     ajouterMur(x, y);
+                    x++;
                     break;
                 case 'P' :
                     ajouterPorte(x, y);
+                    x++;
                     break;
                 case 'L':
                     ajouterLocker(x, y);
+                    x++;
                     break;
                 case 'K':
                     afficherCle(x, y);
+                    x++;
                     break;
                 case '1':
                     afficherM1(x, y);
+                    x++;
                     break;
                 case 'N':
                     ajouterNiveau(x, y);
+                    x++;
                     break;
+                case '\n':
+                    y++;
+                    x = 0;
+                    break;
+
                 default:
                     break;
                 }
-                x++;
-            }
-            
-            
         }
         fichierMur.close();
     }

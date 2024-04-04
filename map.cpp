@@ -82,25 +82,28 @@ void maps::actualiserMap(string fichier)
             }
             else
             {
-                if (c == '#')
+                switch (c)
                 {
+                case '#':
                     ajouterMur(x, y);
-                }
-                else if (c == 'P')
-                {
+                    break;
+                case 'P' :
                     ajouterPorte(x, y);
-                }
-                else if (c == 'K')
-                {
-                    afficherCle(x, y);
-                }
-                else if (c == '1')
-                {
-                    afficherM1(x, y);
-                }
-                else if (c == 'L')
-                {
+                    break;
+                case 'L':
                     ajouterLocker(x, y);
+                    break;
+                case 'K':
+                    afficherCle(x, y);
+                    break;
+                case '1':
+                    afficherM1(x, y);
+                    break;
+                case 'N':
+                    ajouterNiveau(x, y);
+                    break;
+                default:
+                    break;
                 }
                 x++;
             }

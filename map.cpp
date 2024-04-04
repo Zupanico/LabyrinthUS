@@ -44,6 +44,16 @@ bool maps::chercherLocker(int x, int y)
     return false;
 }
 
+bool maps::chercherNiveau(int x, int y)
+{
+    for (int i = 0; i < _niveau.size(); i++)
+    {
+        if (_niveau[i].x == x && _niveau[i].y == y){
+            return true;
+        }
+    }
+    return false;
+}
 
 void maps::actualiserMap(string fichier)
 {
@@ -105,6 +115,16 @@ void maps::actualiserMap(string fichier)
     }
 }
 
+int maps::getSizeNiveau() const
+{
+    return _niveau.size();
+}
+
+coord maps::getNiveau(int i) const
+{
+    return _niveau[i];
+}
+
 void maps::ajouterMur(int x, int y)
 {
     coord c;
@@ -129,6 +149,12 @@ void maps::ajouterLocker(int x, int y)
     _locker.push_back(c);
 }
 
+void maps::ajouterNiveau(int x, int y)
+{
+    coord c;
+    c.x = x;
+    c.y = y;
+}
 
 void maps::afficherCle(int x, int y)
 {

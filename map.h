@@ -28,6 +28,7 @@ class maps {
         coord _p;       // coordonnées du personnage
         coord _m1;       // coordonnées du monstre1
         vector<coord> _door;    // coordonnées de la porte
+        vector<coord> _niveau;    // coordonnées de la zone du prochain niveau
         vector<coord> _locker;  // coordonnées du locker
         coord _coin;    // coordonnées du coin
 
@@ -39,6 +40,7 @@ class maps {
         void ajouterMur(int x, int y);
         void ajouterPorte(int x, int y);
         void ajouterLocker(int x, int y);
+        void ajouterNiveau(int x, int y);
 
         void afficherCle(int x, int y);
         void afficherM1(int x, int y);
@@ -46,15 +48,22 @@ class maps {
         bool chercherMur(int x, int y);
         bool chercherDoor(int x, int y);
         bool chercherLocker(int x, int y);
+        bool chercherNiveau(int x, int y);
 
         void actualiserMap(string fichier);
 
+        int getSizeNiveau() const;
+        coord getNiveau(int i) const;
+
         int getSizeMurs() const;
         coord getMur(int i) const;
+
         int getSizeDoor() const;
         coord getDoor(int i) const;
+
         int getSizeLocker() const;
         coord getLocker(int i) const;
+
         coord getCle() const;
         coord getM1() const;
 };

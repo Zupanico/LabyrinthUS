@@ -39,4 +39,4 @@ Item.o: Item.cpp Item.h
 	$(CXX) -c Item.cpp
 
 clean:
-	del *.o labyrinthus
+	rm -f *.o labyrinthus

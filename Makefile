@@ -5,7 +5,7 @@
 
 CXX = g++
  
-main: *.o # main.o fenetre.o game.o personnage.o map.o monster.o  Inventaire.o Item.o SerialPort.o ComArduino.o
+main: main.o fenetre.o game.o personnage.o map.o monster.o  Inventaire.o Item.o SerialPort.o ComArduino.o
 	$(CXX) main.o fenetre.o game.o personnage.o map.o monster.o Inventaire.o Item.o -o labyrinthus SerialPort.o ComArduino.o
  
 SerialPort.o: ./include/serial/SerialPort.cpp ./include/serial/SerialPort.hpp

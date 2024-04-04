@@ -24,12 +24,14 @@ class maps {
     protected:
         
         vector<coord> _murs;    // vecteur des coordonnées du mur
-        coord _cle;     // coordonnées de la clee
-        coord _p;       // coordonnées du personnage
-        coord _m1;       // coordonnées du monstre1
+        coord _cle;             // coordonnées de la clee
+        coord _p;               // coordonnées du personnage
+        coord _m1;              // coordonnées du monstre1
         vector<coord> _door;    // coordonnées de la porte
         vector<coord> _locker;  // coordonnées du locker
-        coord _coin;    // coordonnées du coin
+        coord _coin;            // coordonnées du coin
+        coord _machine;         // coordonnées de la machine à distribuer
+        coord _f;               // coordonnées de la flashlight
 
     public:
     
@@ -42,10 +44,14 @@ class maps {
 
         void afficherCle(int x, int y);
         void afficherM1(int x, int y);
+        void afficherCoin(int x, int y);
+        void afficherMachine(int x, int y);
+        void afficherFlash(int x, int y);
 
         bool chercherMur(int x, int y);
         bool chercherDoor(int x, int y);
         bool chercherLocker(int x, int y);
+        bool chercherMachine(int x, int y);
 
         void actualiserMap(string fichier);
 
@@ -57,6 +63,9 @@ class maps {
         coord getLocker(int i) const;
         coord getCle() const;
         coord getM1() const;
+        coord getCoin() const;
+        coord getMachine() const;
+        coord getFlash() const;
 };
 
 #endif

@@ -13,17 +13,10 @@ game::game() : _f(30, 30)
     _gameOver = false;
 
     _keyCollect = false;
+    _coinCollect = false;
+    _flashCollect = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
-
-    _longerMur = false;
-
-    _murDroite = false;
-    _murGauche = false;
-    _murHaut = false;
-    _murBas = false;
-
-    _positionPrecedante = 0;
 
 }
 
@@ -55,7 +48,7 @@ void game::setclavier()
     if (_kbhit())
     {
         int touche = _getch();
-        if (touche=='q' || touche=='Q')
+        if (touche == 'q' || touche == 'Q')
         {
             cout << "Quitter" << endl;
             exit(0);
@@ -63,6 +56,10 @@ void game::setclavier()
         if (touche == ' ')
         {
             checkLocker();
+        }
+        if (touche == 'c' || touche == 'C')
+        {
+            checkMachine();
         }
 
         if (touche == 224) // Vérifier si la touche est une fleche
@@ -116,13 +113,15 @@ void game::getBouton()
     if (_a.lireboutonDroite())
     {}
     if (_a.lireboutonGauche())
-    {}
-    if (_a.lireboutonHaut())
     {
         checkLocker();
     }
-    if (_a.lireboutonBas())
+    if (_a.lireboutonHaut())
     {}
+    if (_a.lireboutonBas())
+    {
+        checkMachine();
+    }
     if (_a.lireboutonjoystick())
     {}
 }
@@ -147,6 +146,24 @@ void game::checkLocker()
     }
 }
 
+void game::checkMachine()
+{
+    if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
+        || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
+        && _coinCollect == true)
+    {
+        if (_vies < 3 && _coinCollect == true)
+        {
+            _inv.removeItem(2);
+            mettreAJourVies(+1);
+            _coinCollect = false;
+        }
+        else
+        {
+            cout << "Vous êtes au maximum de vies" << endl;
+        }
+    }
+}
 
 void game::libererDuMonstre() 
 {
@@ -269,13 +286,28 @@ void game::deplacerJoueur()
             _p.deplacementX();
         }
 
+    // Vérifier collection item
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
-        {
-            _inv.addItem(new item(_cle));
-            _keyCollect = true;
-            _m.setPoursuite(true);
-            checkTriggerPoints();
-        }
+    {
+        _inv.addCle(new item(_cle));
+        _keyCollect = true;
+        _m.setPoursuite(true);
+        checkTriggerPoints();
+    }
+
+    if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
+    {
+        _inv.addCoin(new item(_coin));
+        _coinCollect = true;
+    }
+
+    if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
+    {
+        _inv.addFlash(new item(_flash));
+        _flashCollect = true;
+    }
+
+
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
@@ -478,6 +510,9 @@ void game::actualiserMap(string fichier)
         _f.setEcran(_locker, _map.getLocker(i).x, _map.getLocker(i).y);
     }
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
+    _f.setEcran(_coin, _map.getCoin().x, _map.getCoin().y);
+    _f.setEcran(_machine, _map.getMachine().x, _map.getMachine().y);
+    _f.setEcran(_flash, _map.getFlash().x, _map.getFlash().y);
 }
 
 bool game::collision(int x, int y)
@@ -521,19 +556,18 @@ bool game::collision(int x, int y)
         return true;
     }
 
+    else if (_map.chercherMachine(x, y))
+    {
+        return true;
+    }
+
     else 
     {
         return false;
     }
-}
 
-void game::ajoutCle()
-{
-    if (_p.getX() == 5 && _p.getY() == 9 && _keyCollect == false)
-    {
-        _inv.addItem(new item(_cle));
-        _keyCollect = true;
-    }
+    
+
 }
 
 bool game::getGameOver()
@@ -562,7 +596,23 @@ void game::afficher() const
 
     // Afficher la vie du joueur
     cout << "Vies du joueur : " << _vies << endl;
-
+    /*if (_vies == 3)
+    {
+        cout << _heart << " "<< _heart << " "<< _heart << endl;
+    }
+    if (_vies == 2)
+    {
+        cout << _heart << " "<< _heart << endl;
+    }
+    if (_vies == 1)
+    {
+        cout << _heart << endl;
+    }
+    if (_vies == 0)
+    {
+        cout << endl;
+    }*/
+    
     // Afficher l'inventaire du joueur
     _inv.afficherInventaire();
 }

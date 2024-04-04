@@ -40,7 +40,7 @@ private:
     personnage      _p;
     monster         _m;
     inventaire      _inv;
-    ComArduino         _a;
+    ComArduino      _a;
 
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
@@ -48,20 +48,18 @@ private:
     const char *_monster = "\U0001F47E";
     const char* _door = "\U0001F6AA";
     const char* _locker = "\U0001F5C4 ";
+    const char* _coin = "\U0001FA99";
+    const char* _machine = "\U0001F4F1";
+    const char* _flash = "\U0001F526";
+    const char* _heart = "\U00002764";
 
-    bool _gameOver;    
+    bool _gameOver;
 
     maps _map;
     bool _keyCollect;
+    bool _coinCollect;
+    bool _flashCollect;
 
-    bool _longerMur;
-
-    bool _murDroite;
-    bool _murGauche;
-    bool _murHaut;
-    bool _murBas;
-
-    int _positionPrecedante;
     int _lastpx;
     int _lastpy;
 
@@ -82,6 +80,7 @@ public:
     void libererDuMonstre();
     void getBouton();
     void checkLocker();
+    void checkMachine();
 
 
     // Méthodes
@@ -94,12 +93,10 @@ public:
     void poursuiteJoueur();
 
     void actualiserMap(string fichier);
-    void ajoutCle();
 
     bool collision(int x, int y);
     void loop();
 
     bool getGameOver();
-
 };
 #endif

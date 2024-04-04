@@ -15,16 +15,6 @@ game::game() : _f(30, 30)
     _keyCollect = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
-
-    _longerMur = false;
-
-    _murDroite = false;
-    _murGauche = false;
-    _murHaut = false;
-    _murBas = false;
-
-    _positionPrecedante = 0;
-
 }
 
 game::~game()
@@ -464,19 +454,29 @@ bool game::checkTriggerPoints()
 
 void game::actualiserMap(string fichier)
 {
+    // Charger la carte à partir du fichier
     _map.actualiserMap(fichier);
+
     for (int i = 0; i < _map.getSizeMurs(); i++)
     {
         _f.setEcran(_cr, _map.getMur(i).x, _map.getMur(i).y);
     }
+
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
         _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
     }
+
     for (int i = 0; i < _map.getSizeLocker(); i++)
     {
         _f.setEcran(_locker, _map.getLocker(i).x, _map.getLocker(i).y);
     }
+
+    for (int i = 0; i < _map.getSizeNiveau(); i++)
+    {
+        _f.setEcran(_up, _map.getNiveau(i).x, _map.getNiveau(i).y);
+    }
+
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
 }
 

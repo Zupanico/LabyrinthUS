@@ -63,34 +63,35 @@ public:
     game();
     ~game();
 
-    // Accesseurs
+    // Clavier
     int getclavier() const;
     void setclavier();
     void setJoystick();
 
-    // Nouvelle méthode
+    // Manette
+    void getBouton();
+
+    // Joueur
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
-
     void libererDuMonstre();
-    void getBouton();
-    void checkLocker();
-
-    // Méthodes
-    void afficher() const;
     void deplacerJoueur();
 
-    void deplacerMonster();
+    // Monstre
     void patrouillageMonster();
-    bool checkTriggerPoints();
+    void deplacerMonster();
     void poursuiteJoueur();
 
+    // Map
+    bool collision(int x, int y);
+    void checkLocker();
+    bool checkTriggerPoints();
     void actualiserMap(string fichier);
     void ajoutCle();
 
-    bool collision(int x, int y);
+    // Jeu
+    void afficher() const;
     void loop();
-
     bool getGameOver();
 };
 

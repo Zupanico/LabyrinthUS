@@ -110,7 +110,7 @@ bool SerialPort::writeSerialPort(const char *buffer, unsigned int buf_size)
         ClearCommError(this->handler, &this->errors, &this->status);
         return false;
     }
-    
+
     return true;
 }
 

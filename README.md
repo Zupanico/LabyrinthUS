@@ -15,7 +15,7 @@ Exemples d'utilisation.
 ```bash
 make
 ./labyrinthUS.exe
-``` 
+```
 
 ## Contributing
 

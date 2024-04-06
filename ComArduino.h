@@ -25,7 +25,7 @@ class ComArduino
 {
 private:
     int led_state;
-    
+
     SerialPort *arduino;
     string com;
     string raw_msg;

@@ -32,7 +32,7 @@ protected:
     int _hauteur = 0;
 
 public:
-    
+
     personnage();
     ~personnage();
 
@@ -54,4 +54,3 @@ public:
     void deplacementX();
     void deplacementY();
 };
-

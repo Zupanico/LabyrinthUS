@@ -15,7 +15,7 @@ monster::monster()
 
 monster::~monster()
 {
-    
+
 }
 
 int monster::getRange() const
@@ -98,7 +98,7 @@ void monster::patrol()
 			_vitesse_x = -70;
 			_vitesse_y = 0;
             break;
-		
+
 		case 2: // Bas
 			_vitesse_x = 0;
 			_vitesse_y = 70;
@@ -120,4 +120,3 @@ void monster::patrol()
             break;
     }
 }
-

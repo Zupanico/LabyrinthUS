@@ -36,23 +36,23 @@ int fenetre::getHauteur() const
     return _hauteur;
 }
 
-void fenetre::setEcran(const char* c, int row, int column) 
+void fenetre::setEcran(const char* c, int row, int column)
 {
-    if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur) 
+    if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur)
     {
         _ecran[row][column] = c;
-    } 
+    }
 }
 
 
-const char* fenetre::getEcran(int row, int column) const 
+const char* fenetre::getEcran(int row, int column) const
 {
 
-    if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur) 
+    if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur)
     {
         return _ecran[row][column];
-    } 
-    else 
+    }
+    else
     {
         return " ";
     }
@@ -66,7 +66,7 @@ void fenetre::print(ostream &output) const
     {
         cout << _cr << " ";
     }
-    
+
     cout << endl; // Saute une ligne après avoir affiché la ligne supérieure
 
     // Affiche le contenu de la fenêtre

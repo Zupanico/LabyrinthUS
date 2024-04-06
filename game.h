@@ -36,6 +36,8 @@ private:
     int _clavier;
     int _vies;
 
+    int _niveau = 0;
+
     fenetre _f;
     personnage _p;
     monster _m;
@@ -88,6 +90,8 @@ public:
     bool checkTriggerPoints();
     void actualiserMap(string fichier);
     void ajoutCle();
+    bool checkNiveau(int x, int y);
+    int getNiveau() const;
 
     // Jeu
     void afficher() const;

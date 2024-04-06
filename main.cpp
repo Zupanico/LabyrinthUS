@@ -13,20 +13,20 @@ using namespace std;
 
 void HideConsoleCursor()
 {
-    CONSOLE_CURSOR_INFO _info; 
-    _info.dwSize = 100; 
-    _info.bVisible = FALSE; 
+    CONSOLE_CURSOR_INFO _info;
+    _info.dwSize = 100;
+    _info.bVisible = FALSE;
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &_info);
 }
 
 int main(int argc, char const *argv[])
 {
-    system("cls"); 
+    system("cls");
     HideConsoleCursor(); // Appel de la fonction pour masquer le curseur
     SetConsoleOutputCP(CP_UTF8);
-    
+
     game g;
-    g.actualiserMap("map1.txt");
+    g.actualiserMap("maptest2.txt");
     while (!g.getGameOver())
     {
         g.loop();

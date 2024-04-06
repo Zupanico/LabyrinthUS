@@ -23,6 +23,6 @@ public:
 
     // Accesseurs
     string getNom();
-    
+
 };
 #endif

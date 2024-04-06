@@ -21,7 +21,7 @@ private:
     int _largeur;
     int _hauteur;
 
-    const char* _ecran[MAX_HAUTEUR][MAX_LARGEUR]; 
+    const char* _ecran[MAX_HAUTEUR][MAX_LARGEUR];
     const char * _cr = "\u25A0";
 
 public:
@@ -41,4 +41,3 @@ public:
 };
 
 #endif // !FENETRE_H
-

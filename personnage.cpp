@@ -117,5 +117,3 @@ int personnage::getVitesseY() const
 {
     return _vitesse_y;
 }
-
-

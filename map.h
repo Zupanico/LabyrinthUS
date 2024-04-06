@@ -6,7 +6,7 @@ Auteur : Nicolas Garant*/
 #include <windows.h>
 #include <iostream>
 #include <fstream>
-#include <vector> 
+#include <vector>
 
 
 #ifndef MAP_H
@@ -22,7 +22,7 @@ struct coord
 
 class maps {
     protected:
-        
+
         vector<coord> _murs;    // vecteur des coordonnées du mur
         coord _cle;     // coordonnées de la clee
         coord _p;       // coordonnées du personnage
@@ -33,7 +33,7 @@ class maps {
         coord _coin;    // coordonnées du coin
 
     public:
-    
+
         maps();
         ~maps();
 

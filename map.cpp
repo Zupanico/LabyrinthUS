@@ -71,7 +71,7 @@ void maps::actualiserMap(string fichier)
         while (!fichierMur.eof())
         {
             char c;
-            
+
             fichierMur.get(c);
             c = toupper(c);
             switch (c)

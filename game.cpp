@@ -8,12 +8,12 @@ Auteur : Bakayoko Kanvali*/
 game::game() : _f(30, 30)
 {
     _clavier = 0;
-    _vies = 3;  
+    _vies = 3;
 
     _gameOver = false;
 
     _keyCollect = false;
-    
+
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 }
 
@@ -30,8 +30,8 @@ int game::getclavier() const
 void game::mettreAJourVies(int changement)
 {
     _vies += changement;
-        
-    if (_vies <= 0) 
+
+    if (_vies <= 0)
     {
         // Game over
         _gameOver = true;
@@ -102,7 +102,7 @@ void game::setJoystick()
 
 void game::getBouton()
 {
-    
+
     if (_a.lireboutonDroite())
     {}
     if (_a.lireboutonGauche())
@@ -138,7 +138,7 @@ void game::checkLocker()
 }
 
 
-void game::libererDuMonstre() 
+void game::libererDuMonstre()
 {
     if (!_a.isConnected())
     {
@@ -154,7 +154,7 @@ void game::libererDuMonstre()
 
     cout << "                    Vous avez 10 secondes pour vous libérer !" << endl;
     Sleep(5000); // Attendre 2 secondes
-    
+
     cout << "\n" << endl;
 
     // Initialisations
@@ -163,7 +163,7 @@ void game::libererDuMonstre()
 
     auto start = chrono::steady_clock::now();
 
-    while (true) 
+    while (true)
     {
         auto valeursAccelerometre = _a.lireAccelerometre();
         double valeurAccelerometreX = std::get<0>(valeursAccelerometre);
@@ -174,15 +174,15 @@ void game::libererDuMonstre()
         cout << message << valeurAccelerometreX << ", " << valeurAccelerometreY << ", " << valeurAccelerometreZ << endl;
 
         // Imprimez suffisamment d'espaces pour couvrir le message précédent
-        for (size_t i = 0; i < message.length(); ++i) 
+        for (size_t i = 0; i < message.length(); ++i)
         {
-            cout << "\b \b"; 
+            cout << "\b \b";
         }
 
         // Conditions de libération ou d'échec
-        if (abs(valeurAccelerometreX - standardValueX) < marge && 
-            abs(valeurAccelerometreY - standardValueY) < marge && 
-            abs(valeurAccelerometreZ - standardValueZ) < marge) 
+        if (abs(valeurAccelerometreX - standardValueX) < marge &&
+            abs(valeurAccelerometreY - standardValueY) < marge &&
+            abs(valeurAccelerometreZ - standardValueZ) < marge)
         {
             mettreAJourVies(-1);
             reinitialiserPositionJoueur();
@@ -192,11 +192,11 @@ void game::libererDuMonstre()
             cout << message << endl;
 
             // Imprimez suffisamment d'espaces pour couvrir le message précédent
-            for (size_t i = 0; i < message.length(); ++i) 
+            for (size_t i = 0; i < message.length(); ++i)
             {
-                cout << "\b \b"; 
+                cout << "\b \b";
             }
-            
+
             Sleep(2000); // Attendre 3 secondes
 
             system("cls");
@@ -205,7 +205,7 @@ void game::libererDuMonstre()
         }
 
         auto end = chrono::steady_clock::now();
-        if (chrono::duration_cast<chrono::seconds>(end - start).count() >= 10) 
+        if (chrono::duration_cast<chrono::seconds>(end - start).count() >= 10)
         {
             _vies = 0;
             _gameOver = true;
@@ -215,9 +215,9 @@ void game::libererDuMonstre()
             cout << message << endl;
 
             // Imprimez suffisamment d'espaces pour couvrir le message précédent
-            for (size_t i = 0; i < message.length(); ++i) 
+            for (size_t i = 0; i < message.length(); ++i)
             {
-                cout << "\b \b"; 
+                cout << "\b \b";
             }
 
             Sleep(2000); // Attendre 3 secondes
@@ -225,8 +225,8 @@ void game::libererDuMonstre()
             system("cls");
 
             break;
-        }  
-         
+        }
+
         Sleep(500); // Pause
     }
 }
@@ -234,7 +234,7 @@ void game::libererDuMonstre()
 void game::deplacerJoueur()
 {
     _f.setEcran("  ", _p.getX(), _p.getY());
-    
+
      // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
     if (!collision(_p.getX(), (_p.getY()-1)) && _p.getVitesseY() < 0)
         {
@@ -266,6 +266,14 @@ void game::deplacerJoueur()
             _m.setPoursuite(true);
             checkTriggerPoints();
         }
+
+    // Vérifier si le joueur est dans la zone de fin de niveau
+    if (checkNiveau(_p.getX(), _p.getY()))
+    {
+        cout << "PROCHAIN NIVEAU" << endl;
+        _niveau ++;
+    }
+
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
@@ -273,9 +281,9 @@ void game::deplacerJoueur()
     }
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player, _p.getX(), _p.getY());
- 
+
     // Afficher le jeu complet
-    afficher();   
+    afficher();
 }
 
 void game::reinitialiserPositionJoueur()
@@ -297,13 +305,13 @@ void game::reinitialiserPositionJoueur()
         maxTentatives--;
     } while (!positionValide && maxTentatives > 0);
 
-    if (positionValide) 
+    if (positionValide)
     {
         // Si une position valide est trouvée, mettre à jour la position du joueur
         _p.setX(newX);
         _p.setY(newY);
-    } 
-    else 
+    }
+    else
     {
         // Si aucune position valide n'est trouvée, réinitialiser le joueur à sa position initiale
         _p.setX(0);
@@ -316,7 +324,7 @@ void game::deplacerMonster()
 {
 
     _f.setEcran("  ", _m.getX(), _m.getY());
-    
+
     // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
     if (!collision(_m.getX(), (_m.getY() - 1)) && _m.getVitesseY() < 0)
     {
@@ -382,7 +390,7 @@ void game::patrouillageMonster()
             {
                 _m.setPoursuite(true);
             }
-            
+
         }
     }
 
@@ -404,7 +412,7 @@ void game::patrouillageMonster()
     {
         _m.setPoursuite(false);
     }
-    
+
 }
 
 void game::poursuiteJoueur()
@@ -439,9 +447,14 @@ void game::poursuiteJoueur()
 
 }
 
+int game::getNiveau() const
+{
+    return _niveau;
+}
+
 bool game::checkTriggerPoints()
 {
-    if (_keyCollect == true)  
+    if (_keyCollect == true)
         {
             _m.setActif(true);
             _m.setX(_map.getM1().x);
@@ -450,6 +463,11 @@ bool game::checkTriggerPoints()
             return true;
         }
     return false;
+}
+
+bool game::checkNiveau(int x, int y)
+{
+    return _map.chercherNiveau(x, y);
 }
 
 void game::actualiserMap(string fichier)
@@ -495,14 +513,15 @@ bool game::collision(int x, int y)
     {
         // Ramener le joueur à sa position précédente
         return true;
-    } 
-    
+    }
+
     else if (_map.chercherMur(x, y))
     {
         // Ramener le joueur à sa position précédente
         return true;
     }
 
+    // Collision avec la porte
     else if (_map.chercherDoor(x, y))
     {
         if (_keyCollect == false)
@@ -512,6 +531,8 @@ bool game::collision(int x, int y)
         }
         else
         {
+            // Désactive le monstre
+            _m.setActif(false);
             return false;
         }
     }
@@ -521,7 +542,7 @@ bool game::collision(int x, int y)
         return true;
     }
 
-    else 
+    else
     {
         return false;
     }
@@ -571,11 +592,14 @@ void game::loop()
 {
     // Capturer les entrées clavier
     setclavier();
+
+    // Manette Arduino
     if (_a.isConnected())
     {
         setJoystick();
         getBouton();
     }
+
     deplacerJoueur();
     if (_m.getActif())
     {
@@ -588,10 +612,10 @@ void game::loop()
         } else {
             _m.patrol();
         }
-        deplacerMonster();   
+        deplacerMonster();
     }
-    
-    
+
+
 
     // Pause pour limiter la vitesse d'affichage
     this_thread::sleep_for(chrono::milliseconds(100)); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes

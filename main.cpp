@@ -26,10 +26,15 @@ int main(int argc, char const *argv[])
     SetConsoleOutputCP(CP_UTF8);
 
     game g;
+
+    string niveau[3]={"map1.txt", "map2.txt", "map3.txt"};
+
     g.actualiserMap("maptest2.txt");
     while (!g.getGameOver())
     {
+        g.actualiserMap(niveau[g.getNiveau()]);
         g.loop();
+
     }
 
     cout << "=================== Game Over!===================" << endl;

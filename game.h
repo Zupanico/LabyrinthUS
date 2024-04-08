@@ -71,7 +71,7 @@ public:
     // Accesseurs
     int getclavier() const;
     void setclavier();
-    void setJoystick();
+    void setJoystick();   
 
     // Nouvelle méthode
     void reinitialiserPositionJoueur();

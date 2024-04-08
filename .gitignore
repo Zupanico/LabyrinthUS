@@ -33,3 +33,11 @@
 *.exe
 *.out
 *.app
+
+# QT
+.debug/*
+.release/*
+.qmake.stash
+Makefile
+Makefile.Debug
+Makefile.Release

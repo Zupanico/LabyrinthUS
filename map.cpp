@@ -44,8 +44,27 @@ bool maps::chercherLocker(int x, int y)
     return false;
 }
 
+bool maps::chercherMachine(int x, int y)
+{
+    if (getMachine().x == x && getMachine().y == y)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool maps::chercherMachine(int x, int y)
+{
+    if (getMachine().x == x && getMachine().y == y)
+    {
+        return true;
+    }
+    return false;
+}
+
 bool maps::chercherNiveau(int x, int y)
 {
+    
     for (int i = 0; i < _niveau.size(); i++)
     {
         if (_niveau[i].x == x && _niveau[i].y == y){
@@ -103,12 +122,22 @@ void maps::actualiserMap(string fichier)
                 case 'N':
                     ajouterNiveau(x, y);
                     x++;
+                case 'M':
+                    afficherMachine(x, y);
+                    x++;
+                    break;
+                case 'C':
+                    afficherCoin(x, y);
+                    x++;
+                    break;
+                case 'F':
+                    afficherFlash(x, y);
+                    x++;
                     break;
                 case '\n':
                     y++;
                     x = 0;
                     break;
-
                 default:
                     x++;
                     break;
@@ -176,6 +205,24 @@ void maps::afficherM1(int x, int y)
     _m1.y = y;
 }
 
+void maps::afficherCoin(int x, int y)
+{
+    _coin.x = x;
+    _coin.y = y;
+}
+
+void maps::afficherMachine(int x, int y)
+{
+    _machine.x = x;
+    _machine.y = y;
+}
+
+void maps::afficherFlash(int x, int y)
+{
+    _f.x = x;
+    _f.y = y;
+}
+
 int maps::getSizeMurs() const
 {
     return _murs.size();
@@ -214,4 +261,19 @@ coord maps::getCle() const
 coord maps::getM1() const
 {
     return _m1;
+}
+
+coord maps::getCoin() const
+{
+    return _coin;
+}
+
+coord maps::getMachine() const
+{
+    return _machine;
+}
+
+coord maps::getFlash() const
+{
+    return _f;
 }

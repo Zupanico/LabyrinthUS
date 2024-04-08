@@ -272,6 +272,7 @@ void game::deplacerJoueur()
     {
         cout << "PROCHAIN NIVEAU" << endl;
         _niveau ++;
+        _f.resetEcran();
     }
 
     //Actualiser les portes

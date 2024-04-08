@@ -33,6 +33,7 @@ public:
     int getLargeur() const;
     int getHauteur() const;
 
+    void resetEcran();
     void setEcran(const char* c, int row, int column);
     const char* getEcran(int row, int column) const;
 

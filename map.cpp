@@ -57,10 +57,14 @@ bool maps::chercherNiveau(int x, int y)
 
 void maps::actualiserMap(string fichier)
 {
-    for (int i = 0; i < _murs.size(); i++)
-    {
-        _murs.pop_back();
-    }
+    _murs.clear();
+    _door.clear();
+    _locker.clear();
+    _niveau.clear();
+    _cle.x = 0;
+    _cle.y = 0;
+    _m1.x = 0;
+    _m1.y = 0;
 
     ifstream fichierMur;
     int x = 0;

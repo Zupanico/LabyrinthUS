@@ -36,6 +36,17 @@ int fenetre::getHauteur() const
     return _hauteur;
 }
 
+void fenetre::resetEcran()
+{
+    for (int i = 0; i < _largeur; i++)
+    {
+        for (int j = 0; j<_hauteur; j++)
+        {
+            _ecran[i][j] = "  ";
+        }
+    }
+}
+
 void fenetre::setEcran(const char* c, int row, int column)
 {
     if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur)

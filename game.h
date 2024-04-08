@@ -74,7 +74,7 @@ public:
     // Clavier
     int getclavier() const;
     void setclavier();
-    void setJoystick();   
+    void setJoystick();
 
     // Manette
     void getBouton();
@@ -83,13 +83,7 @@ public:
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
     void libererDuMonstre();
-    void getBouton();
-    void checkLocker();
     void checkMachine();
-
-
-    // Méthodes
-    void afficher() const;
     void deplacerJoueur();
 
     // Monstre

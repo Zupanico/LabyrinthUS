@@ -258,6 +258,7 @@ void game::libererDuMonstre()
     }
 }
 
+
 void game::deplacerJoueur()
 {
     _f.setEcran("  ", _p.getX(), _p.getY());
@@ -598,7 +599,7 @@ bool game::collision(int x, int y)
         return false;
     }
 
-    
+
 
 }
 
@@ -644,7 +645,7 @@ void game::afficher() const
     {
         cout << endl;
     }*/
-    
+
     // Afficher l'inventaire du joueur
     _inv.afficherInventaire();
 }

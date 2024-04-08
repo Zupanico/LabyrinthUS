@@ -1,0 +1,12 @@
+debug/ComArduino.o
+debug/fenetre.o
+debug/game.o
+debug/Inventaire.o
+debug/Item.o
+debug/main.o
+debug/map.o
+debug/monster.o
+debug/SerialPort.o
+debug/personnage.o
+debug/MainWindow.o
+debug/moc_MainWindow.o

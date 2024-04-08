@@ -1,0 +1,12 @@
+release/ComArduino.o
+release/fenetre.o
+release/game.o
+release/Inventaire.o
+release/Item.o
+release/main.o
+release/map.o
+release/monster.o
+release/SerialPort.o
+release/personnage.o
+release/MainWindow.o
+release/moc_MainWindow.o

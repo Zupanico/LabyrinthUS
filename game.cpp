@@ -5,7 +5,7 @@ Auteur : Bakayoko Kanvali*/
 
 #include "game.h"
 
-game::game() : _f(30, 30)
+game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
 {
     _clavier = 0;
     _vies = 3;
@@ -15,6 +15,10 @@ game::game() : _f(30, 30)
     _keyCollect = false;
 
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
+
+    _w.show();
+    actualiserMap(_mapNiveau[getNiveau()]);
+
 }
 
 game::~game()
@@ -273,6 +277,8 @@ void game::deplacerJoueur()
         cout << "PROCHAIN NIVEAU" << endl;
         _niveau ++;
         _f.resetEcran();
+        _w.emptyMap();
+        actualiserMap(_mapNiveau[getNiveau()]);
     }
 
     //Actualiser les portes
@@ -479,6 +485,7 @@ void game::actualiserMap(string fichier)
     for (int i = 0; i < _map.getSizeMurs(); i++)
     {
         _f.setEcran(_cr, _map.getMur(i).x, _map.getMur(i).y);
+        _w.addMap('m', _map.getMur(i).x, _map.getMur(i).y);
     }
 
     for (int i = 0; i < _map.getSizeDoor(); i++)
@@ -564,8 +571,9 @@ bool game::getGameOver()
 }
 
 // Afficher le jeu
-void game::afficher() const
+void game::afficher()
 {
+    _w.afficherMap();
     // Effacer l'écran
     COORD _pos = {0, 0};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
@@ -591,33 +599,52 @@ void game::afficher() const
 
 void game::loop()
 {
-    // Capturer les entrées clavier
-    setclavier();
 
-    // Manette Arduino
+    QTimer timer; // Create a QTimer object for periodic updates
+    QObject::connect(&timer, &QTimer::timeout, this, &game::updateGame); // Connect the QTimer's timeout signal to the updateGame slot
+    timer.start(1000 / 60); // Start the timer to update the game approximately 60 times per second
+
+    // Start the event loop
+    exec(); // Assuming game inherits from QApplication or QCoreApplication
+    
+}
+
+void game::updateGame()
+{
+    // Update game state and perform game logic here
+    setclavier();
     if (_a.isConnected())
     {
         setJoystick();
         getBouton();
     }
-
+    
     deplacerJoueur();
     if (_m.getActif())
     {
-        // si le joueur est en poursuite
         patrouillageMonster();
-
         if (_m.getPoursuite())
         {
             poursuiteJoueur();
-        } else {
+        } 
+        else 
+        {
             _m.patrol();
         }
         deplacerMonster();
     }
 
+    // Check for game over condition and stop the game loop if true
+    if (_gameOver) {
 
-
-    // Pause pour limiter la vitesse d'affichage
-    this_thread::sleep_for(chrono::milliseconds(100)); // Utilisation de Sleep() pour introduire un délai de 5 millisecondes
+        // Stop the game loop
+        QTimer* timer = qobject_cast<QTimer*>(sender()); // Get the sender object (the timer)
+        if (timer)
+        {
+            timer->stop(); // Stop the timer
+            QObject::disconnect(timer, &QTimer::timeout, this, &game::updateGame); // Disconnect the timeout signal
+        }
+    }
+    // Update GUI
+    afficher();
 }

@@ -9,4 +9,5 @@ debug/monster.o
 debug/SerialPort.o
 debug/personnage.o
 debug/MainWindow.o
+debug/moc_game.o
 debug/moc_MainWindow.o

@@ -1,5 +1,7 @@
 #include <QMainWindow>
 #include <QPainter>
+#include <QImage>
+#include <QImageReader>
 
 class MainWindow : public QMainWindow
 {
@@ -13,13 +15,14 @@ class MainWindow : public QMainWindow
 
     public:
         void addMap(char m, int x, int y);
+        void emptyMap();
         void afficherMap();
 
 private:
     // Define your variables and methods here
-    int viewOffsetX, viewOffsetY;
-    char** labyrinth;
-    int labyrinthWidth, labyrinthHeight;
-    QImage wallImage;
-    int imageWidth;
+    int _viewOffsetX, _viewOffsetY;
+    char** _labyrinth;
+    int _labyrinthWidth, _labyrinthHeight;
+    QImage _wallImage;
+    int _imageWidth;
 };

@@ -21,6 +21,9 @@ class monster;
 #include "Inventaire.h"
 #include "Item.h"
 #include "map.h"
+#include "MainWindow.h"
+#include <QTimer>
+#include <QApplication>
 
 // Nouvelle bibliothèque
 #include <chrono> // Pour le timing
@@ -30,8 +33,9 @@ class monster;
 using namespace std;
 
 // Définition de la classe game
-class game
+class game : public QApplication
 {
+    Q_OBJECT
 private:
     int _clavier;
     int _vies;
@@ -60,9 +64,14 @@ private:
     int _lastpx;
     int _lastpy;
 
+    string _mapNiveau[3]={"map1.txt", "map2.txt", "map3.txt"};
+    MainWindow _w;
+
+
+
 public:
     // Constructeur et destructeur
-    game();
+    game(int &argc, char **argv);
     ~game();
 
     // Clavier
@@ -94,9 +103,14 @@ public:
     int getNiveau() const;
 
     // Jeu
-    void afficher() const;
-    void loop();
+    void afficher();
+
     bool getGameOver();
+
+public slots:
+    void loop();
+    void updateGame();
+
 };
 
 #endif

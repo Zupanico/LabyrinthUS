@@ -9,4 +9,5 @@ release/monster.o
 release/SerialPort.o
 release/personnage.o
 release/MainWindow.o
+release/moc_game.o
 release/moc_MainWindow.o

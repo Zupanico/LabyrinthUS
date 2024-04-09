@@ -8,6 +8,8 @@ Auteur : Bakayoko Kanvali*/
 #include <iostream>
 #include <windows.h>
 #include "game.h"
+#include <QApplication>
+#include <QTimer>
 
 using namespace std;
 
@@ -19,24 +21,20 @@ void HideConsoleCursor()
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &_info);
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char **argv)
 {
     system("cls");
     HideConsoleCursor(); // Appel de la fonction pour masquer le curseur
     SetConsoleOutputCP(CP_UTF8);
 
-    game g;
+    game g(argc, argv);
 
-    string niveau[3]={"map1.txt", "map2.txt", "map3.txt"};
 
     g.actualiserMap("maptest2.txt");
-    while (!g.getGameOver())
-    {
-        g.actualiserMap(niveau[g.getNiveau()]);
-        g.loop();
+    g.loop();
 
-    }
 
     cout << "=================== Game Over!===================" << endl;
-    return 0;
+    exit(0);
+    return g.exec();
 }

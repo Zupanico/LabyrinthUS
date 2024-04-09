@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) 
 {
     _labyrinthWidth = 30;
     _labyrinthHeight = 30;
@@ -24,6 +24,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _viewOffsetX = 0;
     _viewOffsetY = 0;
 
+}
+
+MainWindow::~MainWindow()
+{
+    for (int i = 0; i < _labyrinthWidth; ++i)
+    {
+        delete[] _labyrinth[i];
+    }
+    delete[] _labyrinth;
 }
 
 // Add a method to add a wall to the labyrinth

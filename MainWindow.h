@@ -8,6 +8,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     public:
     explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
         // Initialize your game state, player position, labyrinth, etc.
 
     protected:

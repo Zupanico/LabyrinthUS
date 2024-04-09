@@ -602,7 +602,7 @@ void game::loop()
 
     QTimer timer; // Create a QTimer object for periodic updates
     QObject::connect(&timer, &QTimer::timeout, this, &game::updateGame); // Connect the QTimer's timeout signal to the updateGame slot
-    timer.start(1000 / 60); // Start the timer to update the game approximately 60 times per second
+    timer.start(1000 / 20); // Start the timer to update the game approximately 60 times per second
 
     // Start the event loop
     exec(); // Assuming game inherits from QApplication or QCoreApplication

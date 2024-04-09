@@ -113,6 +113,10 @@ void maps::actualiserMap(string fichier)
                 {
                     afficherFlash(x, y);
                 }
+                else if (c == 'B')
+                {
+                    afficherFood(x, y);
+                }
                 x++;
             }
             
@@ -177,8 +181,14 @@ void maps::afficherMachine(int x, int y)
 
 void maps::afficherFlash(int x, int y)
 {
-    _f.x = x;
-    _f.y = y;
+    _flash.x = x;
+    _flash.y = y;
+}
+
+void maps::afficherFood(int x, int y)
+{
+    _food.x = x;
+    _food.y = y;
 }
 
 int maps::getSizeMurs() const
@@ -233,5 +243,10 @@ coord maps::getMachine() const
 
 coord maps::getFlash() const
 {
-    return _f;
+    return _flash;
+}
+
+coord maps::getFood() const
+{
+    return _food;
 }

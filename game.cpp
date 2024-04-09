@@ -15,6 +15,7 @@ game::game() : _f(30, 30)
     _keyCollect = false;
     _coinCollect = false;
     _flashCollect = false;
+    _foodCollect = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
@@ -117,11 +118,11 @@ void game::getBouton()
         checkLocker();
     }
     if (_a.lireboutonHaut())
-    {}
-    if (_a.lireboutonBas())
     {
         checkMachine();
     }
+    if (_a.lireboutonBas())
+    {}
     if (_a.lireboutonjoystick())
     {}
 }
@@ -307,6 +308,11 @@ void game::deplacerJoueur()
         _flashCollect = true;
     }
 
+    if (_p.getX() == _map.getFood().x && _p.getY() == _map.getFood().y && _foodCollect == false)
+    {
+        _inv.addFood(new item(_food));
+        _foodCollect = true;
+    }
 
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
@@ -513,6 +519,7 @@ void game::actualiserMap(string fichier)
     _f.setEcran(_coin, _map.getCoin().x, _map.getCoin().y);
     _f.setEcran(_machine, _map.getMachine().x, _map.getMachine().y);
     _f.setEcran(_flash, _map.getFlash().x, _map.getFlash().y);
+    _f.setEcran(_food, _map.getFood().x, _map.getFood().y);
 }
 
 bool game::collision(int x, int y)

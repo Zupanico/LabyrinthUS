@@ -9,7 +9,6 @@ using namespace std;
 
 inventaire::inventaire()
 {
-	_selectedSlot = 0;
 	_taille = 0;
 
 	for (int i = 0; i < MAX_ITEMS; i++)
@@ -68,13 +67,14 @@ void inventaire::addCoin(item* item)
 	_taille++;
 }
 
+void inventaire::addFood(item* item)
+{
+	_inventaire[3] = item;
+	_taille++;
+}
+
 void inventaire::removeItem(int index)
 {
 	_inventaire[index] = new item(" ");
 	_taille--;
-}
-
-void inventaire::operator ++()
-{
-	_selectedSlot++ % MAX_ITEMS;
 }

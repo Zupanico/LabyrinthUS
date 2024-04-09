@@ -31,7 +31,8 @@ class maps {
         vector<coord> _locker;  // coordonnées du locker
         coord _coin;            // coordonnées du coin
         coord _machine;         // coordonnées de la machine à distribuer
-        coord _f;               // coordonnées de la flashlight
+        coord _flash;           // coordonnées de la flashlight
+        coord _food;            // coordonnées de la barre de chocolat
 
     public:
     
@@ -47,6 +48,7 @@ class maps {
         void afficherCoin(int x, int y);
         void afficherMachine(int x, int y);
         void afficherFlash(int x, int y);
+        void afficherFood(int x, int y);
 
         bool chercherMur(int x, int y);
         bool chercherDoor(int x, int y);
@@ -66,6 +68,7 @@ class maps {
         coord getCoin() const;
         coord getMachine() const;
         coord getFlash() const;
+        coord getFood() const;
 };
 
 #endif

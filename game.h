@@ -52,6 +52,7 @@ private:
     const char* _machine = "\U0001F4F1";
     const char* _flash = "\U0001F526";
     const char* _heart = "\U00002764";
+    const char* _food = "\U0001F36B";
 
     bool _gameOver;
 
@@ -59,6 +60,7 @@ private:
     bool _keyCollect;
     bool _coinCollect;
     bool _flashCollect;
+    bool _foodCollect;
 
     int _lastpx;
     int _lastpy;

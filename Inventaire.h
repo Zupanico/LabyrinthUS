@@ -21,6 +21,8 @@ private:
     item* _inventaire[MAX_ITEMS];
     int _selectedSlot;
     int _taille;
+    
+
 public:
     // Constructeur et destructeur
     inventaire();
@@ -28,12 +30,14 @@ public:
 
     //Accesseurs
     int getCapacite();
+    item* getItem(int index) const;
 
     // Methodes
     void addItem(item* item);
-    void selectSlot(int index);
+    void removeItem();
+    void selectSlot(int index); 
     int inventairePlein();
-
+    bool estCle();
     void afficherInventaire() const;
 
     void operator ++();

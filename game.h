@@ -50,6 +50,7 @@ private:
     bool            _murGauche;
     bool            _murHaut;
     bool            _murBas;
+    bool            _clePossedee;
 
     fenetre         _f;
     personnage      _p;
@@ -57,6 +58,7 @@ private:
     inventaire      _inv;
     ComArduino      _a;
     maps            _map;
+    Position        _positionInitialeCle;
 
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
@@ -78,6 +80,7 @@ public:
     void setJoystick();
 
     // Nouvelle méthode
+    void remettreClePositionInitiale(Position positionInitialeCle);
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
 

@@ -12,6 +12,7 @@ game::game() : _f(30, 30)
 
     _gameOver = false;
     _keyCollect = false;
+    _clePossedee = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
@@ -23,6 +24,8 @@ game::game() : _f(30, 30)
     _murBas = false;
 
     _positionPrecedante = 0;
+    _lastpx = 0;
+    _lastpy = 0;
 
 }
 
@@ -241,17 +244,17 @@ void game::deplacerJoueur()
 
     // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
     if (!collision(_p.getX()-1, _p.getY()) && _p.getVitesseX() < 0)
-        {
-            _p.deplacementX();
-        }
+    {
+        _p.deplacementX();
+    }
 
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
-        {
-            _inv.addItem(new item(_cle));
-            _keyCollect = true;
-            _m.setPoursuite(true);
-            checkTriggerPoints();
-        }
+    {
+        _inv.addItem(new item(_cle));
+        _keyCollect = true;
+        _m.setPoursuite(true);
+        checkTriggerPoints();
+    }
     //Actualiser les portes
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
@@ -264,38 +267,52 @@ void game::deplacerJoueur()
     afficher();   
 }
 
+void game::remettreClePositionInitiale(Position positionInitialeCle)
+{
+    item* itemCle = new item("Cle"); // Supposons qu'un constructeur par défaut existe et est approprié.
+    itemCle->setPosition(positionInitialeCle); // Met à jour la position de l'item.
+}
+
 void game::reinitialiserPositionJoueur()
 {
+    srand(time(NULL)); // Appeler srand une seule fois est généralement suffisant et devrait être fait au début du programme plutôt qu'ici
+
     int distanceMax = 15; // Définir la distance maximale de réinitialisation
     int newX, newY;
     int maxTentatives = 100; // Limite le nombre de tentatives pour éviter une boucle infinie
     bool positionValide = false;
 
     do {
-        // Générer une nouvelle position aléatoire à proximité du joueur
         int decalageX = (rand() % (distanceMax * 2 + 1)) - distanceMax;
         int decalageY = (rand() % (distanceMax * 2 + 1)) - distanceMax;
         newX = _p.getX() + decalageX;
         newY = _p.getY() + decalageY;
 
-        // Vérifier si la nouvelle position est valide (pas en collision et dans les limites du jeu)
         positionValide = !collision(newX, newY) && newX >= 0 && newY >= 0 && newX < _f.getLargeur() && newY < _f.getHauteur();
+
+        if (_clePossedee && positionValide && _inv.estCle()) 
+        {
+            _inv.removeItem(); // Utilise la méthode spécifiquement conçue pour retirer la clé.
+            remettreClePositionInitiale(_positionInitialeCle); // S'assure que la clé retourne à sa position initiale dans le jeu.
+            _clePossedee = false; // Le joueur ne possède plus la clé.
+        }
+
         maxTentatives--;
     } while (!positionValide && maxTentatives > 0);
 
     if (positionValide) 
     {
-        // Si une position valide est trouvée, mettre à jour la position du joueur
         _p.setX(newX);
         _p.setY(newY);
     } 
     else 
     {
-        // Si aucune position valide n'est trouvée, réinitialiser le joueur à sa position initiale
         _p.setX(0);
         _p.setY(0);
     }
 }
+
+
 
 
 void game::deplacerMonster()
@@ -534,9 +551,6 @@ void game::afficher() const
 
     cout << "Coordonnées du personnage :  (" << _p.getX() << ", " << _p.getY() << ")" << endl;
     cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
-
-    cout << "Vies du joueur : " << _vies << endl;
-    // Afficher les coordonnées du personnage
 
     // Afficher l'inventaire du joueur
     _inv.afficherInventaire();

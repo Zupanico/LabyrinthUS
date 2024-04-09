@@ -19,7 +19,7 @@ void HideConsoleCursor()
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &_info); // Masquer le curseur
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char const *argv[]) 
 {
     system("cls"); // Effacer la console
     HideConsoleCursor(); // Appel de la fonction pour masquer le curseur

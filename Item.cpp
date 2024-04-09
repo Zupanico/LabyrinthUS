@@ -18,3 +18,13 @@ string item::getNom()
 {
 	return _nom;
 }
+
+Position item::getPosition() const
+{
+	return _position;
+}
+
+void item::setPosition(Position position)
+{
+	_position = position;
+}

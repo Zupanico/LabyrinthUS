@@ -30,7 +30,6 @@ int main(int argc, char **argv)
     game g(argc, argv);
 
 
-    g.actualiserMap("maptest2.txt");
     g.loop();
 
 

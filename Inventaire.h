@@ -19,7 +19,6 @@ class inventaire
 {
 private:
     item* _inventaire[MAX_ITEMS];
-    int _selectedSlot;
     int _taille;
 public:
     // Constructeur et destructeur
@@ -30,12 +29,13 @@ public:
     int getCapacite();
 
     // Methodes
-    void addItem(item* item);
-    void selectSlot(int index);
+    void addCle(item* item); //index 0 = cle
+    void addFlash(item* item); //index 1 = flashlight
+    void addCoin(item* item); //index 2 = coin
+    void addFood(item* item); //index 3 = food
+    void removeItem(int index);
     int inventairePlein();
 
     void afficherInventaire() const;
-
-    void operator ++();
 };
 #endif

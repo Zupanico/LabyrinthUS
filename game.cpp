@@ -13,7 +13,10 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
     _gameOver = false;
 
     _keyCollect = false;
-
+    _coinCollect = false;
+    _flashCollect = false;
+    _foodCollect = false;
+    
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
     _w.show();
@@ -49,7 +52,7 @@ void game::setclavier()
     if (_kbhit())
     {
         int touche = _getch();
-        if (touche=='q' || touche=='Q')
+        if (touche == 'q' || touche == 'Q')
         {
             cout << "Quitter" << endl;
             exit(0);
@@ -57,6 +60,10 @@ void game::setclavier()
         if (touche == ' ')
         {
             checkLocker();
+        }
+        if (touche == 'c' || touche == 'C')
+        {
+            checkMachine();
         }
 
         if (touche == 224) // Vérifier si la touche est une fleche
@@ -110,10 +117,12 @@ void game::getBouton()
     if (_a.lireboutonDroite())
     {}
     if (_a.lireboutonGauche())
-    {}
-    if (_a.lireboutonHaut())
     {
         checkLocker();
+    }
+    if (_a.lireboutonHaut())
+    {
+        checkMachine();
     }
     if (_a.lireboutonBas())
     {}
@@ -141,6 +150,24 @@ void game::checkLocker()
     }
 }
 
+void game::checkMachine()
+{
+    if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
+        || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
+        && _coinCollect == true)
+    {
+        if (_vies < 3 && _coinCollect == true)
+        {
+            _inv.removeItem(2);
+            mettreAJourVies(+1);
+            _coinCollect = false;
+        }
+        else
+        {
+            cout << "Vous êtes au maximum de vies" << endl;
+        }
+    }
+}
 
 void game::libererDuMonstre()
 {
@@ -263,22 +290,31 @@ void game::deplacerJoueur()
             _p.deplacementX();
         }
 
+    // Vérifier collection item
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
-        {
-            _inv.addItem(new item(_cle));
-            _keyCollect = true;
-            _m.setPoursuite(true);
-            checkTriggerPoints();
-        }
-
-    // Vérifier si le joueur est dans la zone de fin de niveau
-    if (checkNiveau(_p.getX(), _p.getY()))
     {
-        cout << "PROCHAIN NIVEAU" << endl;
-        _niveau ++;
-        _f.resetEcran();
-        _w.emptyMap();
-        actualiserMap(_mapNiveau[getNiveau()]);
+        _inv.addCle(new item(_cle));
+        _keyCollect = true;
+        _m.setPoursuite(true);
+        checkTriggerPoints();
+    }
+
+    if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
+    {
+        _inv.addCoin(new item(_coin));
+        _coinCollect = true;
+    }
+
+    if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
+    {
+        _inv.addFlash(new item(_flash));
+        _flashCollect = true;
+    }
+
+    if (_p.getX() == _map.getFood().x && _p.getY() == _map.getFood().y && _foodCollect == false)
+    {
+        _inv.addFood(new item(_food));
+        _foodCollect = true;
     }
 
     //Actualiser les portes
@@ -460,6 +496,16 @@ int game::getNiveau() const
     return _niveau;
 }
 
+void game::prochainNiveau()
+{
+        cout << "PROCHAIN NIVEAU" << endl;
+        _niveau ++;
+        _f.resetEcran();
+        _w.emptyMap();
+        // TODO VIDER ITEM
+        actualiserMap(_mapNiveau[getNiveau()]);
+}
+
 bool game::checkTriggerPoints()
 {
     if (_keyCollect == true)
@@ -501,13 +547,11 @@ void game::actualiserMap(string fichier)
         _w.addMap('l', _map.getLocker(i).x, _map.getLocker(i).y);
     }
 
-    for (int i = 0; i < _map.getSizeNiveau(); i++)
-    {
-        _f.setEcran(_up, _map.getNiveau(i).x, _map.getNiveau(i).y);
-        _w.addMap('n', _map.getNiveau(i).x, _map.getNiveau(i).y);
-    }
-
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
+    _f.setEcran(_coin, _map.getCoin().x, _map.getCoin().y);
+    _f.setEcran(_machine, _map.getMachine().x, _map.getMachine().y);
+    _f.setEcran(_flash, _map.getFlash().x, _map.getFlash().y);
+    _f.setEcran(_food, _map.getFood().x, _map.getFood().y);
     _w.addMap('k', _map.getCle().x, _map.getCle().y);
 }
 
@@ -555,19 +599,18 @@ bool game::collision(int x, int y)
         return true;
     }
 
+    else if (_map.chercherMachine(x, y))
+    {
+        return true;
+    }
+
     else
     {
         return false;
     }
-}
 
-void game::ajoutCle()
-{
-    if (_p.getX() == 5 && _p.getY() == 9 && _keyCollect == false)
-    {
-        _inv.addItem(new item(_cle));
-        _keyCollect = true;
-    }
+    
+
 }
 
 bool game::getGameOver()
@@ -597,7 +640,23 @@ void game::afficher()
 
     // Afficher la vie du joueur
     cout << "Vies du joueur : " << _vies << endl;
-
+    /*if (_vies == 3)
+    {
+        cout << _heart << " "<< _heart << " "<< _heart << endl;
+    }
+    if (_vies == 2)
+    {
+        cout << _heart << " "<< _heart << endl;
+    }
+    if (_vies == 1)
+    {
+        cout << _heart << endl;
+    }
+    if (_vies == 0)
+    {
+        cout << endl;
+    }*/
+    
     // Afficher l'inventaire du joueur
     _inv.afficherInventaire();
 }

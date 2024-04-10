@@ -5,10 +5,16 @@
 
 #include "Inventaire.h"
 
+using namespace std;
+
 inventaire::inventaire()
 {
-	_selectedSlot = 0;
 	_taille = 0;
+
+	for (int i = 0; i < MAX_ITEMS; i++)
+	{
+		_inventaire[i] = new item(" ");
+	}
 }
 
 inventaire::~inventaire()
@@ -20,10 +26,6 @@ int inventaire::getCapacite()
 	return MAX_ITEMS;
 }
 
-void inventaire::selectSlot(int index)
-{
-	_selectedSlot = index;
-}
 
 int inventaire::inventairePlein()
 {
@@ -40,22 +42,39 @@ int inventaire::inventairePlein()
 void inventaire::afficherInventaire() const
 {
 	cout << "Inventaire :";
-	for (int i = 0; i < _taille; i++)
+	for (int i = 0; i < MAX_ITEMS; i++)
 	{
 		cout << " " << _inventaire[i]->getNom();
 	}
 	cout << endl;
 }
 
-void inventaire::addItem(item* item)
+void inventaire::addCle(item* item)
 {
-
-	_inventaire[_taille] = item;
+	_inventaire[0] = item;
 	_taille++;
-
 }
 
-void inventaire::operator ++()
+void inventaire::addFlash(item* item)
 {
-	_selectedSlot++ % MAX_ITEMS;
+	_inventaire[1] = item;
+	_taille++;
+}
+
+void inventaire::addCoin(item* item)
+{
+	_inventaire[2] = item;
+	_taille++;
+}
+
+void inventaire::addFood(item* item)
+{
+	_inventaire[3] = item;
+	_taille++;
+}
+
+void inventaire::removeItem(int index)
+{
+	_inventaire[index] = new item(" ");
+	_taille--;
 }

@@ -42,24 +42,31 @@ private:
 
     int _niveau = 0;
 
-    fenetre _f;
-    personnage _p;
-    monster _m;
-    inventaire _inv;
-    ComArduino _a;
+    fenetre         _f;
+    personnage      _p;
+    monster         _m;
+    inventaire      _inv;
+    ComArduino      _a;
 
-    const char * _cle       = "\U0001F511";
-    const char * _cr        = "\u25A0 ";
-    const char * _player    = "\U0001F468";
-    const char * _monster   = "\U0001F47E";
-    const char * _door      = "\U0001F6AA";
-    const char * _locker    = "\U0001F5C4 ";
-    const char * _up        = "\U00002B06 ";
+    const char* _cle = "\U0001F511";
+    const char* _cr = "\u25A0 ";
+    const char* _player = "\U0001F468";
+    const char* _monster = "\U0001F47E";
+    const char* _door = "\U0001F6AA";
+    const char* _locker = "\U0001F5C4 ";
+    const char* _coin = "\U0001FA99";
+    const char* _machine = "\U0001F4F1";
+    const char* _flash = "\U0001F526";
+    const char* _heart = "\U00002764";
+    const char* _food = "\U0001F36B";
 
     bool _gameOver;
 
     maps _map;
     bool _keyCollect;
+    bool _coinCollect;
+    bool _flashCollect;
+    bool _foodCollect;
 
     int _lastpx;
     int _lastpy;
@@ -77,7 +84,7 @@ public:
     // Clavier
     int getclavier() const;
     void setclavier();
-    void setJoystick();
+    void setJoystick();   
 
     // Manette
     void getBouton();
@@ -86,6 +93,13 @@ public:
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
     void libererDuMonstre();
+    void getBouton();
+    void checkLocker();
+    void checkMachine();
+
+
+    // Méthodes
+    void afficher();
     void deplacerJoueur();
 
     // Monstre
@@ -101,6 +115,7 @@ public:
     void ajoutCle();
     bool checkNiveau(int x, int y);
     int getNiveau() const;
+    void prochainNiveau();
 
     // Jeu
     void afficher();

@@ -101,6 +101,7 @@ public:
     void ajoutCle();
     bool checkNiveau(int x, int y);
     int getNiveau() const;
+    void prochainNiveau();
 
     // Jeu
     void afficher();

@@ -274,11 +274,7 @@ void game::deplacerJoueur()
     // Vérifier si le joueur est dans la zone de fin de niveau
     if (checkNiveau(_p.getX(), _p.getY()))
     {
-        cout << "PROCHAIN NIVEAU" << endl;
-        _niveau ++;
-        _f.resetEcran();
-        _w.emptyMap();
-        actualiserMap(_mapNiveau[getNiveau()]);
+        prochainNiveau();
     }
 
     //Actualiser les portes
@@ -457,6 +453,16 @@ void game::poursuiteJoueur()
 int game::getNiveau() const
 {
     return _niveau;
+}
+
+void game::prochainNiveau()
+{
+        cout << "PROCHAIN NIVEAU" << endl;
+        _niveau ++;
+        _f.resetEcran();
+        _w.emptyMap();
+        // TODO VIDER ITEM
+        actualiserMap(_mapNiveau[getNiveau()]);
 }
 
 bool game::checkTriggerPoints()

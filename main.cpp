@@ -30,7 +30,6 @@ int main(int argc, char **argv)
     game g(argc, argv);
 
 
-    // g.actualiserMap("aptest2.txtm");
     g.loop();
 
 

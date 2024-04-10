@@ -501,7 +501,17 @@ void game::prochainNiveau()
         _niveau ++;
         _f.resetEcran();
         _w.emptyMap();
-        // TODO VIDER ITEM
+
+        _keyCollect = false;
+        _coinCollect = false;
+        _flashCollect = false;
+        _foodCollect = false;
+
+        for (int i; i < 4; i++)
+        {
+            _inv.removeItem(i);
+        }
+
         actualiserMap(_mapNiveau[getNiveau()]);
 }
 

@@ -114,6 +114,14 @@ void maps::actualiserMap(string fichier)
                     ajouterNiveau(x, y);
                     x++;
                     break;
+                case 'C':
+                    afficherCoin(x, y);
+                    x++;
+                    break;
+                case 'M':
+                    afficherMachine(x, y);
+                    x++;
+                    break;
                 case 'F':
                     afficherFlash(x, y);
                     x++;
@@ -208,12 +216,6 @@ void maps::afficherFlash(int x, int y)
     _flash.y = y;
 }
 
-void maps::afficherFood(int x, int y)
-{
-    _food.x = x;
-    _food.y = y;
-}
-
 int maps::getSizeMurs() const
 {
     return _murs.size();
@@ -267,9 +269,4 @@ coord maps::getMachine() const
 coord maps::getFlash() const
 {
     return _flash;
-}
-
-coord maps::getFood() const
-{
-    return _food;
 }

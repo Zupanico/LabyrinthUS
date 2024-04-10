@@ -16,6 +16,9 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
     _coinCollect = false;
     _flashCollect = false;
     _foodCollect = false;
+    _checkmachine = false;
+    _choixfood = false;
+    _choixvies = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
@@ -64,6 +67,14 @@ void game::setclavier()
         if (touche == 'c' || touche == 'C')
         {
             checkMachine();
+        }
+        if (touche == '1' && _checkmachine == true)
+        {
+            _choixvies = true;
+        }
+        if (touche == '2' && _checkmachine == true)
+        {
+            _choixfood = true;
         }
 
         if (touche == 224) // Vérifier si la touche est une fleche
@@ -156,15 +167,28 @@ void game::checkMachine()
         || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
         && _coinCollect == true)
     {
-        if (_vies < 3 && _coinCollect == true)
+        _checkmachine = true;
+        _p.setVitesseX(0);
+        _p.setVitesseY(0);
+        cout << "1 pour +1 vie, 2 pour barre d'énergie" << endl;
+        if (_vies < 3 && _choixvies == true && _coinCollect == true)
         {
             _inv.removeItem(2);
             mettreAJourVies(+1);
             _coinCollect = false;
+            _choixvies = false;
         }
-        else
+        else if (_vies == 3 && _choixvies == true && _coinCollect == true)
         {
             cout << "Vous êtes au maximum de vies" << endl;
+            _choixvies = false;
+        }
+        else if (_choixfood == true && _coinCollect == true)
+        {
+            _inv.removeItem(3);
+            _inv.addFood(new item(_food));
+            _coinCollect = false;
+            _choixfood = false;
         }
     }
 }
@@ -296,25 +320,21 @@ void game::deplacerJoueur()
         _inv.addCle(new item(_cle));
         _keyCollect = true;
         _m.setPoursuite(true);
-        checkTriggerPoints();
+        _w.addMap(' ', _map.getCle().x, _map.getCle().y);
     }
 
     if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
     {
         _inv.addCoin(new item(_coin));
         _coinCollect = true;
+        _w.addMap(' ', _map.getCoin().x, _map.getCoin().y);
     }
 
     if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
     {
         _inv.addFlash(new item(_flash));
         _flashCollect = true;
-    }
-
-    if (_p.getX() == _map.getFood().x && _p.getY() == _map.getFood().y && _foodCollect == false)
-    {
-        _inv.addFood(new item(_food));
-        _foodCollect = true;
+        _w.addMap(' ', _map.getFlash().x, _map.getFlash().y);
     }
 
     //Actualiser les portes
@@ -542,7 +562,7 @@ void game::actualiserMap(string fichier)
     for (int i = 0; i < _map.getSizeMurs(); i++)
     {
         _f.setEcran(_cr, _map.getMur(i).x, _map.getMur(i).y);
-        _w.addMap('m', _map.getMur(i).x, _map.getMur(i).y);
+        _w.addMap('w', _map.getMur(i).x, _map.getMur(i).y);
     }
 
     for (int i = 0; i < _map.getSizeDoor(); i++)
@@ -561,8 +581,10 @@ void game::actualiserMap(string fichier)
     _f.setEcran(_coin, _map.getCoin().x, _map.getCoin().y);
     _f.setEcran(_machine, _map.getMachine().x, _map.getMachine().y);
     _f.setEcran(_flash, _map.getFlash().x, _map.getFlash().y);
-    _f.setEcran(_food, _map.getFood().x, _map.getFood().y);
     _w.addMap('k', _map.getCle().x, _map.getCle().y);
+    _w.addMap('c', _map.getCoin().x, _map.getCoin().y);
+    _w.addMap('m', _map.getMachine().x, _map.getMachine().y);
+    _w.addMap('f', _map.getFlash().x, _map.getFlash().y);
 }
 
 bool game::collision(int x, int y)

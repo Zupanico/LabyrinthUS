@@ -50,7 +50,6 @@ class maps {
         void afficherCoin(int x, int y);
         void afficherMachine(int x, int y);
         void afficherFlash(int x, int y);
-        void afficherFood(int x, int y);
 
         bool chercherMur(int x, int y);
         bool chercherDoor(int x, int y);
@@ -77,7 +76,6 @@ class maps {
         coord getCoin() const;
         coord getMachine() const;
         coord getFlash() const;
-        coord getFood() const;
 };
 
 #endif

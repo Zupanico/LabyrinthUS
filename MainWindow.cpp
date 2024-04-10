@@ -27,6 +27,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _monsterImage = reader.read();
     reader.setFileName("door_image.png");
     _doorImage = reader.read();
+    reader.setFileName("key.png");
+    _keyImage = reader.read();
+    reader.setFileName("dollar.png");
+    _coinImage = reader.read();
+    reader.setFileName("torch.png");
+    _flashImage = reader.read();
+    reader.setFileName("key.png");
+    _keyImage = reader.read();
+    reader.setFileName("vending-machine.png");
+    _machineImage = reader.read();
+    reader.setFileName("cerclevision1.png");
+    _cerclevision1 = reader.read();
+    reader.setFileName("cerclevision2.png");
+    _cerclevision2 = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
@@ -81,9 +95,6 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     QMainWindow::paintEvent(event);
 
     int _imageWidth = width() / 10;
-    int number = height() / _imageWidth;
-    int _differenceX =  -_imageWidth + (width()/2 % 5);
-    int _differenceY =  -_imageWidth + ((height()) % (number));
 
     QPainter painter(this);
 
@@ -91,30 +102,34 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     _viewOffsetY = _playerY * _imageWidth - height() / 2;
 
     // Iterate through the entire area of the widget
-    for (int x = _differenceX; x <= width() + _differenceX; x += _imageWidth) {
-        for (int y = _differenceY; y <= height() + _differenceY; y += _imageWidth) {
+    for (int i = 0; i < _labyrinthWidth; i++)
+    {
+        for (int j = 0; j < _labyrinthHeight; j++)
+        {
             // Convert screen coordinates to labyrinth coordinates
-            int labyrinthX = _playerX + (x - width()/2) / _imageWidth;
-            int labyrinthY = _playerY + (y - height()/2) / _imageWidth;
+            int x = i * _imageWidth - _viewOffsetX;
+            int y = j* _imageWidth - _viewOffsetY;
 
-            // Check if the labyrinth coordinates fall within the labyrinth bounds
-
-            if (labyrinthX >= 0 && labyrinthX < _labyrinthWidth && labyrinthY >= 0 && labyrinthY < _labyrinthHeight) {
                 // Draw elements of the labyrinth
-                if (_labyrinth[labyrinthX][labyrinthY] == 'm') {
-                    painter.drawImage(x, y, _wallImage.scaled(_imageWidth, _imageWidth));
-                } else if (_labyrinth[labyrinthX][labyrinthY] == 'l') {
-                    painter.drawImage(x, y, _lockerImage.scaled(_imageWidth, _imageWidth));
-                } else if (_labyrinth[labyrinthX][labyrinthY] == 'd') {
-                    painter.drawImage(x, y, _doorImage.scaled(_imageWidth, _imageWidth));
-                }
-            } else {
-                // Draw the wall texture for areas outside the labyrinth
+            if (_labyrinth[i][j] == 'w') {
                 painter.drawImage(x, y, _wallImage.scaled(_imageWidth, _imageWidth));
+            } else if (_labyrinth[i][j] == 'l') {
+                painter.drawImage(x, y, _lockerImage.scaled(_imageWidth, _imageWidth));
+            } else if (_labyrinth[i][j] == 'd') {
+                painter.drawImage(x, y, _doorImage.scaled(_imageWidth, _imageWidth));
+            } else if (_labyrinth[i][j] == 'k') {
+                painter.drawImage(x, y, _keyImage.scaled(_imageWidth, _imageWidth));
+            } else if (_labyrinth[i][j] == 'c') {
+                painter.drawImage(x, y, _coinImage.scaled(_imageWidth, _imageWidth));
+            } else if (_labyrinth[i][j] == 'f') {
+                painter.drawImage(x, y, _flashImage.scaled(_imageWidth, _imageWidth));
+            } else if (_labyrinth[i][j] == 'm') {
+                painter.drawImage(x, y, _machineImage.scaled(_imageWidth, _imageWidth));
             }
         }
     }
-
     // Draw the player
     painter.drawImage(width() / 2 , height() / 2 , _playerImage.scaled(_imageWidth, _imageWidth));
+
+    painter.drawImage(0, 0, _cerclevision1.scaled(width(), height()));
 }

@@ -29,6 +29,14 @@ private:
     QImage _lockerImage;
     QImage _playerImage;
     QImage _monsterImage;
-    QImage _doorImage;    
+    QImage _doorImage;
+    QImage _keyImage;
+    QImage _flashImage;
+    QImage _coinImage;
+    QImage _foodImage;
+    QImage _machineImage;
+    QImage _cerclevision1;
+    QImage _cerclevision2;
+
     int _playerX, _playerY;
 };

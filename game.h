@@ -93,13 +93,11 @@ public:
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
     void libererDuMonstre();
-    void getBouton();
     void checkLocker();
     void checkMachine();
 
 
     // Méthodes
-    void afficher();
     void deplacerJoueur();
 
     // Monstre
@@ -109,10 +107,8 @@ public:
 
     // Map
     bool collision(int x, int y);
-    void checkLocker();
     bool checkTriggerPoints();
     void actualiserMap(string fichier);
-    void ajoutCle();
     bool checkNiveau(int x, int y);
     int getNiveau() const;
     void prochainNiveau();

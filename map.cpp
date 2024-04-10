@@ -53,14 +53,6 @@ bool maps::chercherMachine(int x, int y)
     return false;
 }
 
-bool maps::chercherMachine(int x, int y)
-{
-    if (getMachine().x == x && getMachine().y == y)
-    {
-        return true;
-    }
-    return false;
-}
 
 bool maps::chercherNiveau(int x, int y)
 {

@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
         void addMap(char m, int x, int y);
         void emptyMap();
         void afficherMap();
+        void setPlayerPosition(int x, int y);
 
 private:
     // Define your variables and methods here
@@ -25,5 +26,9 @@ private:
     char** _labyrinth;
     int _labyrinthWidth, _labyrinthHeight;
     QImage _wallImage;
-    int _imageWidth;
+    QImage _lockerImage;
+    QImage _playerImage;
+    QImage _monsterImage;
+    QImage _doorImage;    
+    int _playerX, _playerY;
 };

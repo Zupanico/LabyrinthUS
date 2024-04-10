@@ -19,7 +19,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     QImageReader reader("wall_image.png");
     _wallImage = reader.read();
-    _imageWidth = 20;
+    reader.setFileName("locker_image.png");
+    _lockerImage = reader.read();
+    reader.setFileName("jp_ok.png");
+    _playerImage = reader.read();
+    reader.setFileName("Alex_mad.png");
+    _monsterImage = reader.read();
+    reader.setFileName("door_image.png");
+    _doorImage = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
@@ -51,6 +58,12 @@ void MainWindow::afficherMap()
     update();
 }
 
+void MainWindow::setPlayerPosition(int x, int y)
+{
+    _playerX = x;
+    _playerY = y;
+}
+
 void MainWindow::emptyMap()
 {
     // Clear the labyrinth
@@ -67,19 +80,41 @@ void MainWindow::emptyMap()
 void MainWindow::paintEvent(QPaintEvent *event) {
     QMainWindow::paintEvent(event);
 
+    int _imageWidth = width() / 10;
+    int number = height() / _imageWidth;
+    int _differenceX =  -_imageWidth + (width()/2 % 5);
+    int _differenceY =  -_imageWidth + ((height()) % (number));
+
     QPainter painter(this);
 
-    // Iterate through the labyrinth and draw walls
-    for (int x = 0; x < _labyrinthWidth; ++x) {
-        for (int y = 0; y < _labyrinthHeight; ++y) {
-            if (_labyrinth[x][y] == 'm') { // Check if there's a wall at this position
-                int screenX = x * _imageWidth - _viewOffsetX;
-                int screenY = y * _imageWidth - _viewOffsetY;
-                
-                // Draw the wall at the calculated screen coordinates
-                painter.drawImage(screenX, screenY, _wallImage.scaled(_imageWidth, _imageWidth));
+    _viewOffsetX = _playerX * _imageWidth - width() / 2;
+    _viewOffsetY = _playerY * _imageWidth - height() / 2;
+
+    // Iterate through the entire area of the widget
+    for (int x = _differenceX; x <= width() + _differenceX; x += _imageWidth) {
+        for (int y = _differenceY; y <= height() + _differenceY; y += _imageWidth) {
+            // Convert screen coordinates to labyrinth coordinates
+            int labyrinthX = _playerX + (x - width()/2) / _imageWidth;
+            int labyrinthY = _playerY + (y - height()/2) / _imageWidth;
+
+            // Check if the labyrinth coordinates fall within the labyrinth bounds
+
+            if (labyrinthX >= 0 && labyrinthX < _labyrinthWidth && labyrinthY >= 0 && labyrinthY < _labyrinthHeight) {
+                // Draw elements of the labyrinth
+                if (_labyrinth[labyrinthX][labyrinthY] == 'm') {
+                    painter.drawImage(x, y, _wallImage.scaled(_imageWidth, _imageWidth));
+                } else if (_labyrinth[labyrinthX][labyrinthY] == 'l') {
+                    painter.drawImage(x, y, _lockerImage.scaled(_imageWidth, _imageWidth));
+                } else if (_labyrinth[labyrinthX][labyrinthY] == 'd') {
+                    painter.drawImage(x, y, _doorImage.scaled(_imageWidth, _imageWidth));
+                }
+            } else {
+                // Draw the wall texture for areas outside the labyrinth
+                painter.drawImage(x, y, _wallImage.scaled(_imageWidth, _imageWidth));
             }
         }
     }
+
+    // Draw the player
+    painter.drawImage(width() / 2 , height() / 2 , _playerImage.scaled(_imageWidth, _imageWidth));
 }
-    

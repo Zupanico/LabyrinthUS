@@ -288,6 +288,7 @@ void game::deplacerJoueur()
     }
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player, _p.getX(), _p.getY());
+    _w.setPlayerPosition(_p.getX(), _p.getY());
 
     // Afficher le jeu complet
     afficher();
@@ -491,19 +492,23 @@ void game::actualiserMap(string fichier)
     for (int i = 0; i < _map.getSizeDoor(); i++)
     {
         _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
+        _w.addMap('d', _map.getDoor(i).x, _map.getDoor(i).y);
     }
 
     for (int i = 0; i < _map.getSizeLocker(); i++)
     {
         _f.setEcran(_locker, _map.getLocker(i).x, _map.getLocker(i).y);
+        _w.addMap('l', _map.getLocker(i).x, _map.getLocker(i).y);
     }
 
     for (int i = 0; i < _map.getSizeNiveau(); i++)
     {
         _f.setEcran(_up, _map.getNiveau(i).x, _map.getNiveau(i).y);
+        _w.addMap('n', _map.getNiveau(i).x, _map.getNiveau(i).y);
     }
 
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
+    _w.addMap('k', _map.getCle().x, _map.getCle().y);
 }
 
 bool game::collision(int x, int y)
@@ -602,7 +607,7 @@ void game::loop()
 
     QTimer timer; // Create a QTimer object for periodic updates
     QObject::connect(&timer, &QTimer::timeout, this, &game::updateGame); // Connect the QTimer's timeout signal to the updateGame slot
-    timer.start(1000 / 20); // Start the timer to update the game approximately 60 times per second
+    timer.start(1000 / 30); // Start the timer to update the game approximately 60 times per second
 
     // Start the event loop
     exec(); // Assuming game inherits from QApplication or QCoreApplication

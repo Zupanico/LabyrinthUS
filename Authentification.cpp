@@ -92,11 +92,11 @@ void Authentification::MenuAuthentification()
     }
     EditNomJoueur->setFont(font2);
 
-    mainLayout->addWidget(iconLabel, 0, 0, 1, 2, Qt::AlignCenter);
-    mainLayout->addWidget(LabelAuthentification, 1, 0, 1, 2, Qt::AlignCenter);
-    mainLayout->addWidget(EditNomJoueur, 2, 0, 1, 2, Qt::AlignCenter);
-    mainLayout->addWidget(boutonPrecedent, 3, 0, 1, 1, Qt::AlignLeft | Qt::AlignBottom);
-    mainLayout->addWidget(boutonDemarrer, 3, 1, 1, 1, Qt::AlignRight | Qt::AlignBottom);
+    mainLayout->addWidget(iconLabel, 0, 0, 2, 8, Qt::AlignCenter);
+    mainLayout->addWidget(LabelAuthentification, 1, 1, 2, 6, Qt::AlignCenter);
+    mainLayout->addWidget(EditNomJoueur, 2, 1, 1, 6, Qt::AlignCenter);
+    mainLayout->addWidget(boutonPrecedent, 3, 0, 1, 2, Qt::AlignLeft | Qt::AlignBottom);
+    mainLayout->addWidget(boutonDemarrer, 3, 6, 1, 2, Qt::AlignRight | Qt::AlignBottom);
 
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
@@ -111,17 +111,30 @@ void Authentification::MenuAuthentification()
 
 void Authentification::startGame()
 {
+    // Créer une nouvelle instance du jeu
     g = new game(this);
 
+    // Créer un timer pour mettre à jour le jeu à intervalles réguliers
     QTimer* timer = new QTimer(this);
     connect(timer, &QTimer::timeout, g, &game::updateGame);
     timer->start(1000 / 30);
 
+    // Connecter le signal GameOver au slot pour arrêter le timer
     connect(g, &game::GameOver, [&]() {
         timer->stop();
         });
 
-    g->actualiserMap("map2.txt");
+    // Actualiser la map pour commencer le jeu
+    g->actualiserMap("map1.txt");
+}
+
+void Authentification::restartGame()
+{
+
+}
+
+void Authentification::continueGame()
+{
 }
 
 void Authentification::playClickSound()

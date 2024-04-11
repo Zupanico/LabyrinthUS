@@ -6,6 +6,7 @@ Auteur : Bakayoko Kanvali*/
 #include "game.h"
 #include "Window.h"
 #include "Authentification.h"
+#include "MainWindow.h"
 
 game::game(QObject* parent) : QObject(parent), _f(30, 30)
 {
@@ -31,6 +32,7 @@ game::game(QObject* parent) : QObject(parent), _f(30, 30)
 
 game::~game()
 {
+    delete _w;
 }
 
 int game::getclavier() const
@@ -722,6 +724,15 @@ void game::updateGame()
             _m.patrol();
         }
         deplacerMonster();
+    }
+
+    if (_flashCollect == true)
+    {
+        _w->setFlash(true);
+    }
+    else if (_flashCollect == false)
+    {
+        _w->setFlash(false);
     }
 
     // Update GUI

@@ -22,7 +22,9 @@ class Authentification : public QMainWindow
 
 public:
     explicit Authentification(QWidget* parent = nullptr);
-
+    void startGame();
+    void restartGame();
+    void continueGame();
 protected:
     void paintEvent(QPaintEvent* event) override;
 
@@ -32,7 +34,7 @@ private slots:
 
 private:
     void MenuAuthentification();
-    void startGame();
+    
 
     QWidget* centralWidget;
     QLabel* LabelAuthentification;

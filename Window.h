@@ -4,7 +4,13 @@
 #include <QMainWindow>
 #include <QPainter>
 #include <QImage>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QSoundEffect>
 #include <QImageReader>
+
+class MainWindow;
 
 class Window : public QMainWindow
 {
@@ -16,12 +22,17 @@ public:
 
 protected:
     void paintEvent(QPaintEvent* event) override;
+    bool _flashlight;
 
 public:
     void addMap(char m, int x, int y);
     void emptyMap();
     void afficherMap();
     void setPlayerPosition(int x, int y);
+    void setFlash(bool etat);
+
+private slots:
+    void playClickSound();
 
 private:
     int _viewOffsetX, _viewOffsetY;
@@ -40,7 +51,11 @@ private:
     QImage _machineImage;
     QImage _cerclevision1;
     QImage _cerclevision2;
+    QImage _floorImage;
 
-    Window* window;
+    QWidget* centralWidget;
+    QPushButton* pauseButton;
+    QSoundEffect SonClick;
+    MainWindow* mainWindow;
 };
 #endif

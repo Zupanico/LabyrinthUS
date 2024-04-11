@@ -14,6 +14,7 @@
         <file>information.png</file>
         <file>aller.png</file>
         <file>retour.png</file>
+	<file>pause-button.png</file>
 	<file>wall_image.png</file>
 	<file>locker_image.png</file>
 	<file>jp_ok.png</file>
@@ -25,6 +26,7 @@
 	<file>vending-machine.png</file>
 	<file>cerclevision1.png</file>
 	<file>cerclevision2.png</file>   
+	<file>floor.png</file>
     </qresource>
 </RCC>
 

@@ -12,6 +12,9 @@
 #include <QPainter>
 #include <QWidget>
 #include <QSoundEffect>
+#include <QTextEdit>
+#include <QFile>
+#include <QTextStream>
 
 class MainWindow;
 
@@ -22,6 +25,7 @@ class Info : public QMainWindow
 public:
     explicit Info(QWidget* parent = nullptr);
     void MenuInfo();
+    void saveData();
 
 protected:
     void paintEvent(QPaintEvent* event) override;
@@ -34,6 +38,7 @@ private:
     QSoundEffect SonClick;
     MainWindow* mainWindow;
     QPushButton* boutonPrecedent;
+    QTextEdit* textEdit;
 };
 
 #endif

@@ -150,20 +150,6 @@ void MainWindow::MenuPause()
     // Création du grid layout pour les boutons
     QGridLayout* gridLayout = new QGridLayout();
 
-    // Création du QPushButton pour afficher l'icône Menu bar
-    iconButton = new QPushButton(this);
-    QPixmap originalIcon(":/images/barreMenu.png");
-    QPixmap resizedIcon = originalIcon.scaled(QSize(60, 60), Qt::KeepAspectRatio); // Redimensionner l'icône
-    iconButton->setIcon(QIcon(resizedIcon));
-    iconButton->setIconSize(resizedIcon.size());
-    iconButton->setFixedSize(resizedIcon.size()); // Taille fixe pour s'adapter à l'icône
-    iconButton->setFlat(true); // Rendre le bouton sans bordure
-
-    // Ajouter l'icône dans le grid layout
-    gridLayout->addWidget(iconButton, 0, 0, Qt::AlignTop | Qt::AlignLeft); // Utiliser pour placer l'icône en haut à gauche
-
-    connect(iconButton, &QPushButton::clicked, this, bind(&MainWindow::playClickSound, this, 1));
-
     // Creation de mes Boutons
     listButton.push_back(new QPushButton(tr("&CONTINUER")));
     listButton.push_back(new QPushButton(tr("&RECOMMENCER")));
@@ -262,11 +248,12 @@ void MainWindow::MenuQuitPlay()
 void MainWindow::Continuer()
 {
     // Applle la class pour Continuer
+    authentificationWindow->continueGame();
 }
 
 void MainWindow::Redemarrer()
 {
-    // Applle la class pour Redemarrer
+    authentificationWindow->restartGame();
 }
 
 void MainWindow::RetourMenuPrincipale()

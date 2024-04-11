@@ -21,7 +21,10 @@
 #include <thread>
 #include <cmath>
 
+class personnage;
+class monster;
 class Authentification;
+class MainWindow;
 class Window;
 
 // Définition de la classe game

@@ -4,7 +4,7 @@
 Info::Info(QWidget* parent) : QMainWindow(parent)
 {
     mainWindow = qobject_cast<MainWindow*>(parent);
-    MenuInfo();
+    MenuInfo(); 
 }
 
 void Info::paintEvent(QPaintEvent* event)
@@ -25,13 +25,15 @@ void Info::paintEvent(QPaintEvent* event)
 
 void Info::MenuInfo()
 {
-    // Supprime tous les enfants de ce widget
     qDeleteAll(this->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
-
     centralWidget = new QWidget(this);
 
     // Layout principal
     QGridLayout* mainLayout = new QGridLayout(centralWidget);
+
+    textEdit = new QTextEdit;
+    textEdit->setFixedSize(1000, 400);
+    textEdit->setReadOnly(true);
 
     // Configuration des groupes Info Label
     QGroupBox* InfoGroupBox = new QGroupBox(tr(""), this);
@@ -90,6 +92,7 @@ void Info::MenuInfo()
         mainLayout->setColumnStretch(i, 1);
     }
 
+    mainLayout->addWidget(textEdit, 5, 2, 1, 6, Qt::AlignCenter);
     mainLayout->addWidget(InfoGroupBox, 0, 4, Qt::AlignTop | Qt::AlignCenter);
 
     mainLayout->addWidget(boutonPrecedent, 9, 0, 1, 1, Qt::AlignLeft | Qt::AlignBottom); // Précédent en bas à gauche
@@ -102,6 +105,67 @@ void Info::MenuInfo()
 
     setFixedSize(1525, 785);
     setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    
+    saveData();
+}
+
+void Info::saveData()
+{
+    // Chemin du fichier de sauvegarde
+    QString filePath = "./Interface_Graphique/Informations.txt";
+
+    // Ouvrir le fichier en mode écriture (créer s'il n'existe pas)
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug() << "Impossible d'ouvrir le fichier pour l'écriture.";
+        return;
+    }
+
+    // Créer un flux de texte pour écrire dans le fichier
+    QTextStream out(&file);
+
+    // Écrire les données dans le fichier
+    out << "Informations importantes\n";
+    out << "Ligne 1 : Données importantes\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    out << "Ligne 2 : Autres informations\n";
+    // Ajoutez autant de lignes que nécessaire
+
+    // Fermer le fichier après avoir écrit les données
+    file.close();
+
+    qDebug() << "Données enregistrées avec succès dans le fichier.";
+
+    // Afficher le contenu du fichier dans le QTextEdit
+    if (!textEdit->toPlainText().isEmpty())
+    {
+        textEdit->clear(); // Efface le contenu précédent
+    }
+
+    // Lire le contenu du fichier et l'afficher dans textEdit
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream in(&file);
+        QString fileContent = in.readAll();
+        textEdit->setText(fileContent);
+
+        // Fermer le fichier après lecture
+        file.close();
+    }
+    else
+    {
+        qDebug() << "Impossible d'ouvrir le fichier pour la lecture.";
+    }
 }
 
 void Info::playClickSound()
@@ -137,3 +201,5 @@ void Info::playClickSound()
         }
     }
 }
+
+

@@ -8,6 +8,7 @@
 #include <QStyleOption>
 #include <QFontDatabase>
 #include <QPainter>
+#include <QTimer>
 #include <QDebug>
 #include <QWidget>
 #include <QSoundEffect>
@@ -20,6 +21,7 @@ class Authentification;
 class LoadGame;
 class Info;
 class Play;
+class game;
 
 class MainWindow : public QMainWindow
 {

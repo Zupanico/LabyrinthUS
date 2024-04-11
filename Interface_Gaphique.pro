@@ -4,6 +4,9 @@ TEMPLATE = vcapp
 # Nom de l'exécutable de sortie
 TARGET = Interface_Graphique
 
+# Nom de la configuration
+CONFIG += warn_on qt debug windows console
+
 # Répertoires d'inclusion des fichiers d'en-tête
 INCLUDEPATH += \
     . \

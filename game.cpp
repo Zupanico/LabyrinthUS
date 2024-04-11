@@ -5,11 +5,10 @@ Auteur : Bakayoko Kanvali*/
 
 #include "game.h"
 
-game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
+game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30), _son(new son(this))
 {
     _clavier = 0;
     _vies = 3;
-
     _gameOver = false;
 
     _keyCollect = false;
@@ -24,8 +23,8 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
 
     _w.show();
     actualiserMap(_mapNiveau[getNiveau()]);
-
 }
+
 
 game::~game()
 {
@@ -640,9 +639,6 @@ bool game::collision(int x, int y)
     {
         return false;
     }
-
-    
-
 }
 
 bool game::getGameOver()
@@ -707,6 +703,7 @@ void game::loop()
 
 void game::updateGame()
 {
+    _son.playClick1();
     // Update game state and perform game logic here
     setclavier();
     if (_a.isConnected())

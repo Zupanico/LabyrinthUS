@@ -9,6 +9,7 @@
 // Déclaration avancée des classes
 class personnage;
 class monster;
+class son;
 
 #include <iostream>
 #include <windows.h>
@@ -24,6 +25,7 @@ class monster;
 #include "MainWindow.h"
 #include <QTimer>
 #include <QApplication>
+#include "son.h"
 
 // Nouvelle bibliothèque
 #include <chrono> // Pour le timing
@@ -47,6 +49,7 @@ private:
     monster         _m;
     inventaire      _inv;
     ComArduino      _a;
+    son             _son;
 
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
@@ -76,8 +79,6 @@ private:
 
     string _mapNiveau[3]={"map1.txt", "map2.txt", "map3.txt"};
     MainWindow _w;
-
-
 
 public:
     // Constructeur et destructeur

@@ -21,7 +21,7 @@ private:
     int _largeur;
     int _hauteur;
 
-    const char* _ecran[MAX_HAUTEUR][MAX_LARGEUR]; 
+    const char* _ecran[MAX_HAUTEUR][MAX_LARGEUR];
     const char * _cr = "\u25A0";
 
 public:
@@ -33,6 +33,7 @@ public:
     int getLargeur() const;
     int getHauteur() const;
 
+    void resetEcran();
     void setEcran(const char* c, int row, int column);
     const char* getEcran(int row, int column) const;
 
@@ -41,4 +42,3 @@ public:
 };
 
 #endif // !FENETRE_H
-

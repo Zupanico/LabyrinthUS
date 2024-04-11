@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>BadBoys.ttf</file>
+        <file>BadBoys1.ttf</file>
+        <file>OldLondon.otf</file>
+    </qresource>
+    <qresource prefix="/images">
+	<file>imgInterface.jpg</file>
+        <file>play.jpg</file>
+        <file>imgInterface.png</file>
+        <file>profil.png</file>
+        <file>barreMenu.png</file>
+        <file>parametres.png</file>
+        <file>information.png</file>
+        <file>aller.png</file>
+        <file>retour.png</file>
+	<file>wall_image.png</file>
+	<file>locker_image.png</file>
+	<file>jp_ok.png</file>
+	<file>Alex_mad.png</file>
+	<file>door_image.png</file>
+	<file>dollar.png</file>
+	<file>torch.png</file>
+	<file>key.png</file>
+	<file>vending-machine.png</file>
+	<file>cerclevision1.png</file>
+	<file>cerclevision2.png</file>   
+    </qresource>
+</RCC>
+

@@ -136,7 +136,7 @@ enum class value_t : std::uint8_t
     number_integer,   ///< number value (signed integer)
     number_unsigned,  ///< number value (unsigned integer)
     number_float,     ///< number value (floating-point)
-    binary,           ///< binary array (ordered collection of bytes)
+    binary,           ///< binary array (ordered collection of _bytes)
     discarded         ///< discarded by the parser callback function
 };
 
@@ -2927,28 +2927,28 @@ class parse_error : public exception
     }
 
     template<typename BasicJsonType>
-    static parse_error create(int id_, std::size_t byte_, const std::string& what_arg, const BasicJsonType& context)
+    static parse_error create(int id_, std::size_t _byte_, const std::string& what_arg, const BasicJsonType& context)
     {
         std::string w = exception::name("parse_error", id_) + "parse error" +
-                        (byte_ != 0 ? (" at byte " + std::to_string(byte_)) : "") +
+                        (_byte_ != 0 ? (" at _byte " + std::to_string(_byte_)) : "") +
                         ": " + exception::diagnostics(context) + what_arg;
-        return {id_, byte_, w.c_str()};
+        return {id_, _byte_, w.c_str()};
     }
 
     /*!
-    @brief byte index of the parse error
+    @brief _byte index of the parse error
 
-    The byte index of the last read character in the input file.
+    The _byte index of the last read character in the input file.
 
-    @note For an input with n bytes, 1 is the index of the first character and
-          n+1 is the index of the terminating null byte or the end of file.
-          This also holds true when reading a byte vector (CBOR or MessagePack).
+    @note For an input with n _bytes, 1 is the index of the first character and
+          n+1 is the index of the terminating null _byte or the end of file.
+          This also holds true when reading a _byte vector (CBOR or MessagePack).
     */
-    const std::size_t byte;
+    const std::size_t _byte;
 
   private:
-    parse_error(int id_, std::size_t byte_, const char* what_arg)
-        : exception(id_, what_arg), byte(byte_) {}
+    parse_error(int id_, std::size_t _byte_, const char* what_arg)
+        : exception(id_, what_arg), _byte(_byte_) {}
 
     static std::string position_string(const position_t& pos)
     {
@@ -4965,7 +4965,7 @@ struct adl_serializer
 };
 }  // namespace nlohmann
 
-// #include <nlohmann/byte_container_with_subtype.hpp>
+// #include <nlohmann/_byte_container_with_subtype.hpp>
 
 
 #include <cstdint> // uint8_t, uint64_t
@@ -4976,56 +4976,56 @@ namespace nlohmann
 {
 
 /// @brief an internal type for a backed binary type
-/// @sa https://json.nlohmann.me/api/byte_container_with_subtype/
+/// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/
 template<typename BinaryType>
-class byte_container_with_subtype : public BinaryType
+class _byte_container_with_subtype : public BinaryType
 {
   public:
     using container_type = BinaryType;
     using subtype_type = std::uint64_t;
 
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/byte_container_with_subtype/
-    byte_container_with_subtype() noexcept(noexcept(container_type()))
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/_byte_container_with_subtype/
+    _byte_container_with_subtype() noexcept(noexcept(container_type()))
         : container_type()
     {}
 
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/byte_container_with_subtype/
-    byte_container_with_subtype(const container_type& b) noexcept(noexcept(container_type(b)))
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/_byte_container_with_subtype/
+    _byte_container_with_subtype(const container_type& b) noexcept(noexcept(container_type(b)))
         : container_type(b)
     {}
 
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/byte_container_with_subtype/
-    byte_container_with_subtype(container_type&& b) noexcept(noexcept(container_type(std::move(b))))
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/_byte_container_with_subtype/
+    _byte_container_with_subtype(container_type&& b) noexcept(noexcept(container_type(std::move(b))))
         : container_type(std::move(b))
     {}
 
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/byte_container_with_subtype/
-    byte_container_with_subtype(const container_type& b, subtype_type subtype_) noexcept(noexcept(container_type(b)))
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/_byte_container_with_subtype/
+    _byte_container_with_subtype(const container_type& b, subtype_type subtype_) noexcept(noexcept(container_type(b)))
         : container_type(b)
         , m_subtype(subtype_)
         , m_has_subtype(true)
     {}
 
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/byte_container_with_subtype/
-    byte_container_with_subtype(container_type&& b, subtype_type subtype_) noexcept(noexcept(container_type(std::move(b))))
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/_byte_container_with_subtype/
+    _byte_container_with_subtype(container_type&& b, subtype_type subtype_) noexcept(noexcept(container_type(std::move(b))))
         : container_type(std::move(b))
         , m_subtype(subtype_)
         , m_has_subtype(true)
     {}
 
-    bool operator==(const byte_container_with_subtype& rhs) const
+    bool operator==(const _byte_container_with_subtype& rhs) const
     {
         return std::tie(static_cast<const BinaryType&>(*this), m_subtype, m_has_subtype) ==
                std::tie(static_cast<const BinaryType&>(rhs), rhs.m_subtype, rhs.m_has_subtype);
     }
 
-    bool operator!=(const byte_container_with_subtype& rhs) const
+    bool operator!=(const _byte_container_with_subtype& rhs) const
     {
         return !(rhs == *this);
     }
 
     /// @brief sets the binary subtype
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/set_subtype/
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/set_subtype/
     void set_subtype(subtype_type subtype_) noexcept
     {
         m_subtype = subtype_;
@@ -5033,21 +5033,21 @@ class byte_container_with_subtype : public BinaryType
     }
 
     /// @brief return the binary subtype
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/subtype/
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/subtype/
     constexpr subtype_type subtype() const noexcept
     {
         return m_has_subtype ? m_subtype : static_cast<subtype_type>(-1);
     }
 
     /// @brief return whether the value has a subtype
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/has_subtype/
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/has_subtype/
     constexpr bool has_subtype() const noexcept
     {
         return m_has_subtype;
     }
 
     /// @brief clears the binary subtype
-    /// @sa https://json.nlohmann.me/api/byte_container_with_subtype/clear_subtype/
+    /// @sa https://json.nlohmann.me/api/_byte_container_with_subtype/clear_subtype/
     void clear_subtype() noexcept
     {
         m_subtype = 0;
@@ -5177,9 +5177,9 @@ std::size_t hash(const BasicJsonType& j)
             const auto h = std::hash<bool> {}(j.get_binary().has_subtype());
             seed = combine(seed, h);
             seed = combine(seed, static_cast<std::size_t>(j.get_binary().subtype()));
-            for (const auto byte : j.get_binary())
+            for (const auto _byte : j.get_binary())
             {
-                seed = combine(seed, std::hash<std::uint8_t> {}(byte));
+                seed = combine(seed, std::hash<std::uint8_t> {}(_byte));
             }
             return seed;
         }
@@ -5247,7 +5247,7 @@ enum class input_format_t { json, cbor, msgpack, ubjson, bson };
 
 #ifndef JSON_NO_IO
 /*!
-Input adapter for stdio file access. This adapter read only 1 byte and do not use any
+Input adapter for stdio file access. This adapter read only 1 _byte and do not use any
  buffer. This adapter is a very low level adapter.
 */
 class file_input_adapter
@@ -5279,7 +5279,7 @@ class file_input_adapter
 
 
 /*!
-Input adapter for a (caching) istream. Ignores a UFT Byte Order Mark at
+Input adapter for a (caching) istream. Ignores a UFT _byte Order Mark at
 beginning of input. Does not support changing the underlying std::streambuf
 in mid-input. Maintains underlying std::istream and std::streambuf to support
 subsequent use of standard std::istream operations to process any input
@@ -5385,16 +5385,16 @@ struct wide_string_input_helper<BaseInputAdapter, 4>
 {
     // UTF-32
     static void fill_buffer(BaseInputAdapter& input,
-                            std::array<std::char_traits<char>::int_type, 4>& utf8_bytes,
-                            size_t& utf8_bytes_index,
-                            size_t& utf8_bytes_filled)
+                            std::array<std::char_traits<char>::int_type, 4>& utf8__bytes,
+                            size_t& utf8__bytes_index,
+                            size_t& utf8__bytes_filled)
     {
-        utf8_bytes_index = 0;
+        utf8__bytes_index = 0;
 
         if (JSON_HEDLEY_UNLIKELY(input.empty()))
         {
-            utf8_bytes[0] = std::char_traits<char>::eof();
-            utf8_bytes_filled = 1;
+            utf8__bytes[0] = std::char_traits<char>::eof();
+            utf8__bytes_filled = 1;
         }
         else
         {
@@ -5404,35 +5404,35 @@ struct wide_string_input_helper<BaseInputAdapter, 4>
             // UTF-32 to UTF-8 encoding
             if (wc < 0x80)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
-                utf8_bytes_filled = 1;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
+                utf8__bytes_filled = 1;
             }
             else if (wc <= 0x7FF)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(0xC0u | ((static_cast<unsigned int>(wc) >> 6u) & 0x1Fu));
-                utf8_bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
-                utf8_bytes_filled = 2;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(0xC0u | ((static_cast<unsigned int>(wc) >> 6u) & 0x1Fu));
+                utf8__bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
+                utf8__bytes_filled = 2;
             }
             else if (wc <= 0xFFFF)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(0xE0u | ((static_cast<unsigned int>(wc) >> 12u) & 0x0Fu));
-                utf8_bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 6u) & 0x3Fu));
-                utf8_bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
-                utf8_bytes_filled = 3;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(0xE0u | ((static_cast<unsigned int>(wc) >> 12u) & 0x0Fu));
+                utf8__bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 6u) & 0x3Fu));
+                utf8__bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
+                utf8__bytes_filled = 3;
             }
             else if (wc <= 0x10FFFF)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(0xF0u | ((static_cast<unsigned int>(wc) >> 18u) & 0x07u));
-                utf8_bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 12u) & 0x3Fu));
-                utf8_bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 6u) & 0x3Fu));
-                utf8_bytes[3] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
-                utf8_bytes_filled = 4;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(0xF0u | ((static_cast<unsigned int>(wc) >> 18u) & 0x07u));
+                utf8__bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 12u) & 0x3Fu));
+                utf8__bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 6u) & 0x3Fu));
+                utf8__bytes[3] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
+                utf8__bytes_filled = 4;
             }
             else
             {
                 // unknown character
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
-                utf8_bytes_filled = 1;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
+                utf8__bytes_filled = 1;
             }
         }
     }
@@ -5443,16 +5443,16 @@ struct wide_string_input_helper<BaseInputAdapter, 2>
 {
     // UTF-16
     static void fill_buffer(BaseInputAdapter& input,
-                            std::array<std::char_traits<char>::int_type, 4>& utf8_bytes,
-                            size_t& utf8_bytes_index,
-                            size_t& utf8_bytes_filled)
+                            std::array<std::char_traits<char>::int_type, 4>& utf8__bytes,
+                            size_t& utf8__bytes_index,
+                            size_t& utf8__bytes_filled)
     {
-        utf8_bytes_index = 0;
+        utf8__bytes_index = 0;
 
         if (JSON_HEDLEY_UNLIKELY(input.empty()))
         {
-            utf8_bytes[0] = std::char_traits<char>::eof();
-            utf8_bytes_filled = 1;
+            utf8__bytes[0] = std::char_traits<char>::eof();
+            utf8__bytes_filled = 1;
         }
         else
         {
@@ -5462,21 +5462,21 @@ struct wide_string_input_helper<BaseInputAdapter, 2>
             // UTF-16 to UTF-8 encoding
             if (wc < 0x80)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
-                utf8_bytes_filled = 1;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
+                utf8__bytes_filled = 1;
             }
             else if (wc <= 0x7FF)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(0xC0u | ((static_cast<unsigned int>(wc) >> 6u)));
-                utf8_bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
-                utf8_bytes_filled = 2;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(0xC0u | ((static_cast<unsigned int>(wc) >> 6u)));
+                utf8__bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
+                utf8__bytes_filled = 2;
             }
             else if (0xD800 > wc || wc >= 0xE000)
             {
-                utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(0xE0u | ((static_cast<unsigned int>(wc) >> 12u)));
-                utf8_bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 6u) & 0x3Fu));
-                utf8_bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
-                utf8_bytes_filled = 3;
+                utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(0xE0u | ((static_cast<unsigned int>(wc) >> 12u)));
+                utf8__bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((static_cast<unsigned int>(wc) >> 6u) & 0x3Fu));
+                utf8__bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | (static_cast<unsigned int>(wc) & 0x3Fu));
+                utf8__bytes_filled = 3;
             }
             else
             {
@@ -5484,23 +5484,23 @@ struct wide_string_input_helper<BaseInputAdapter, 2>
                 {
                     const auto wc2 = static_cast<unsigned int>(input.get_character());
                     const auto charcode = 0x10000u + (((static_cast<unsigned int>(wc) & 0x3FFu) << 10u) | (wc2 & 0x3FFu));
-                    utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(0xF0u | (charcode >> 18u));
-                    utf8_bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((charcode >> 12u) & 0x3Fu));
-                    utf8_bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | ((charcode >> 6u) & 0x3Fu));
-                    utf8_bytes[3] = static_cast<std::char_traits<char>::int_type>(0x80u | (charcode & 0x3Fu));
-                    utf8_bytes_filled = 4;
+                    utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(0xF0u | (charcode >> 18u));
+                    utf8__bytes[1] = static_cast<std::char_traits<char>::int_type>(0x80u | ((charcode >> 12u) & 0x3Fu));
+                    utf8__bytes[2] = static_cast<std::char_traits<char>::int_type>(0x80u | ((charcode >> 6u) & 0x3Fu));
+                    utf8__bytes[3] = static_cast<std::char_traits<char>::int_type>(0x80u | (charcode & 0x3Fu));
+                    utf8__bytes_filled = 4;
                 }
                 else
                 {
-                    utf8_bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
-                    utf8_bytes_filled = 1;
+                    utf8__bytes[0] = static_cast<std::char_traits<char>::int_type>(wc);
+                    utf8__bytes_filled = 1;
                 }
             }
         }
     }
 };
 
-// Wraps another input apdater to convert wide character types into individual bytes.
+// Wraps another input apdater to convert wide character types into individual _bytes.
 template<typename BaseInputAdapter, typename WideCharType>
 class wide_string_input_adapter
 {
@@ -5513,18 +5513,18 @@ class wide_string_input_adapter
     typename std::char_traits<char>::int_type get_character() noexcept
     {
         // check if buffer needs to be filled
-        if (utf8_bytes_index == utf8_bytes_filled)
+        if (utf8__bytes_index == utf8__bytes_filled)
         {
             fill_buffer<sizeof(WideCharType)>();
 
-            JSON_ASSERT(utf8_bytes_filled > 0);
-            JSON_ASSERT(utf8_bytes_index == 0);
+            JSON_ASSERT(utf8__bytes_filled > 0);
+            JSON_ASSERT(utf8__bytes_index == 0);
         }
 
         // use buffer
-        JSON_ASSERT(utf8_bytes_filled > 0);
-        JSON_ASSERT(utf8_bytes_index < utf8_bytes_filled);
-        return utf8_bytes[utf8_bytes_index++];
+        JSON_ASSERT(utf8__bytes_filled > 0);
+        JSON_ASSERT(utf8__bytes_index < utf8__bytes_filled);
+        return utf8__bytes[utf8__bytes_index++];
     }
 
   private:
@@ -5533,16 +5533,16 @@ class wide_string_input_adapter
     template<size_t T>
     void fill_buffer()
     {
-        wide_string_input_helper<BaseInputAdapter, T>::fill_buffer(base_adapter, utf8_bytes, utf8_bytes_index, utf8_bytes_filled);
+        wide_string_input_helper<BaseInputAdapter, T>::fill_buffer(base_adapter, utf8__bytes, utf8__bytes_index, utf8__bytes_filled);
     }
 
-    /// a buffer for UTF-8 bytes
-    std::array<std::char_traits<char>::int_type, 4> utf8_bytes = {{0, 0, 0, 0}};
+    /// a buffer for UTF-8 _bytes
+    std::array<std::char_traits<char>::int_type, 4> utf8__bytes = {{0, 0, 0, 0}};
 
-    /// index to the utf8_codes array for the next valid byte
-    std::size_t utf8_bytes_index = 0;
-    /// number of valid bytes in the utf8_codes array
-    std::size_t utf8_bytes_filled = 0;
+    /// index to the utf8_codes array for the next valid _byte
+    std::size_t utf8__bytes_index = 0;
+    /// number of valid _bytes in the utf8_codes array
+    std::size_t utf8__bytes_filled = 0;
 };
 
 
@@ -5560,7 +5560,7 @@ struct iterator_input_adapter_factory
 };
 
 template<typename T>
-struct is_iterator_of_multibyte
+struct is_iterator_of_multi_byte
 {
     using value_type = typename std::iterator_traits<T>::value_type;
     enum
@@ -5570,7 +5570,7 @@ struct is_iterator_of_multibyte
 };
 
 template<typename IteratorType>
-struct iterator_input_adapter_factory<IteratorType, enable_if_t<is_iterator_of_multibyte<IteratorType>::value>>
+struct iterator_input_adapter_factory<IteratorType, enable_if_t<is_iterator_of_multi_byte<IteratorType>::value>>
 {
     using iterator_type = IteratorType;
     using char_type = typename std::iterator_traits<iterator_type>::value_type;
@@ -5642,7 +5642,7 @@ inline input_stream_adapter input_adapter(std::istream&& stream)
 }
 #endif  // JSON_NO_IO
 
-using contiguous_bytes_input_adapter = decltype(input_adapter(std::declval<const char*>(), std::declval<const char*>()));
+using contiguous__bytes_input_adapter = decltype(input_adapter(std::declval<const char*>(), std::declval<const char*>()));
 
 // Null-delimited strings, and the like.
 template < typename CharT,
@@ -5652,7 +5652,7 @@ template < typename CharT,
                std::is_integral<typename std::remove_pointer<CharT>::type>::value&&
                sizeof(typename std::remove_pointer<CharT>::type) == 1,
                int >::type = 0 >
-contiguous_bytes_input_adapter input_adapter(CharT b)
+contiguous__bytes_input_adapter input_adapter(CharT b)
 {
     auto length = std::strlen(reinterpret_cast<const char*>(b));
     const auto* ptr = reinterpret_cast<const char*>(b);
@@ -5687,13 +5687,13 @@ class span_input_adapter
     span_input_adapter(IteratorType first, IteratorType last)
         : ia(input_adapter(first, last)) {}
 
-    contiguous_bytes_input_adapter&& get()
+    contiguous__bytes_input_adapter&& get()
     {
         return std::move(ia); // NOLINT(hicpp-move-const-arg,performance-move-const-arg)
     }
 
   private:
-    contiguous_bytes_input_adapter ia;
+    contiguous__bytes_input_adapter ia;
 };
 }  // namespace detail
 }  // namespace nlohmann
@@ -6611,9 +6611,9 @@ class lexer : public lexer_base<BasicJsonType>
     }
 
     /*!
-    @brief check if the next byte(s) are inside a given range
+    @brief check if the next _byte(s) are inside a given range
 
-    Adds the current byte and, for each passed range, reads a new byte and
+    Adds the current _byte and, for each passed range, reads a new _byte and
     checks if it is inside the range. If a violation was detected, set up an
     error message and return false. Otherwise, return true.
 
@@ -6625,7 +6625,7 @@ class lexer : public lexer_base<BasicJsonType>
 
     @return true if and only if no range violation was detected
     */
-    bool next_byte_in_range(std::initializer_list<char_int_type> ranges)
+    bool next__byte_in_range(std::initializer_list<char_int_type> ranges)
     {
         JSON_ASSERT(ranges.size() == 2 || ranges.size() == 4 || ranges.size() == 6);
         add(current);
@@ -6639,7 +6639,7 @@ class lexer : public lexer_base<BasicJsonType>
             }
             else
             {
-                error_message = "invalid string: ill-formed UTF-8 byte";
+                error_message = "invalid string: ill-formed UTF-8 _byte";
                 return false;
             }
         }
@@ -6651,9 +6651,9 @@ class lexer : public lexer_base<BasicJsonType>
     @brief scan a string literal
 
     This function scans a string according to Sect. 7 of RFC 8259. While
-    scanning, bytes are escaped and copied into buffer token_buffer. Then the
+    scanning, _bytes are escaped and copied into buffer token_buffer. Then the
     function returns successfully, token_buffer is *not* null-terminated (as it
-    may contain \0 bytes), and token_buffer.size() is the number of bytes in the
+    may contain \0 _bytes), and token_buffer.size() is the number of _bytes in the
     string.
 
     @return token_type::value_string if string could be successfully scanned,
@@ -6790,28 +6790,28 @@ class lexer : public lexer_base<BasicJsonType>
                             // result of the above calculation yields a proper codepoint
                             JSON_ASSERT(0x00 <= codepoint && codepoint <= 0x10FFFF);
 
-                            // translate codepoint into bytes
+                            // translate codepoint into _bytes
                             if (codepoint < 0x80)
                             {
-                                // 1-byte characters: 0xxxxxxx (ASCII)
+                                // 1-_byte characters: 0xxxxxxx (ASCII)
                                 add(static_cast<char_int_type>(codepoint));
                             }
                             else if (codepoint <= 0x7FF)
                             {
-                                // 2-byte characters: 110xxxxx 10xxxxxx
+                                // 2-_byte characters: 110xxxxx 10xxxxxx
                                 add(static_cast<char_int_type>(0xC0u | (static_cast<unsigned int>(codepoint) >> 6u)));
                                 add(static_cast<char_int_type>(0x80u | (static_cast<unsigned int>(codepoint) & 0x3Fu)));
                             }
                             else if (codepoint <= 0xFFFF)
                             {
-                                // 3-byte characters: 1110xxxx 10xxxxxx 10xxxxxx
+                                // 3-_byte characters: 1110xxxx 10xxxxxx 10xxxxxx
                                 add(static_cast<char_int_type>(0xE0u | (static_cast<unsigned int>(codepoint) >> 12u)));
                                 add(static_cast<char_int_type>(0x80u | ((static_cast<unsigned int>(codepoint) >> 6u) & 0x3Fu)));
                                 add(static_cast<char_int_type>(0x80u | (static_cast<unsigned int>(codepoint) & 0x3Fu)));
                             }
                             else
                             {
-                                // 4-byte characters: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+                                // 4-_byte characters: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
                                 add(static_cast<char_int_type>(0xF0u | (static_cast<unsigned int>(codepoint) >> 18u)));
                                 add(static_cast<char_int_type>(0x80u | ((static_cast<unsigned int>(codepoint) >> 12u) & 0x3Fu)));
                                 add(static_cast<char_int_type>(0x80u | ((static_cast<unsigned int>(codepoint) >> 6u) & 0x3Fu)));
@@ -7123,7 +7123,7 @@ class lexer : public lexer_base<BasicJsonType>
                     break;
                 }
 
-                // U+0080..U+07FF: bytes C2..DF 80..BF
+                // U+0080..U+07FF: _bytes C2..DF 80..BF
                 case 0xC2:
                 case 0xC3:
                 case 0xC4:
@@ -7155,25 +7155,25 @@ class lexer : public lexer_base<BasicJsonType>
                 case 0xDE:
                 case 0xDF:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!next_byte_in_range({0x80, 0xBF})))
+                    if (JSON_HEDLEY_UNLIKELY(!next__byte_in_range({0x80, 0xBF})))
                     {
                         return token_type::parse_error;
                     }
                     break;
                 }
 
-                // U+0800..U+0FFF: bytes E0 A0..BF 80..BF
+                // U+0800..U+0FFF: _bytes E0 A0..BF 80..BF
                 case 0xE0:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!(next_byte_in_range({0xA0, 0xBF, 0x80, 0xBF}))))
+                    if (JSON_HEDLEY_UNLIKELY(!(next__byte_in_range({0xA0, 0xBF, 0x80, 0xBF}))))
                     {
                         return token_type::parse_error;
                     }
                     break;
                 }
 
-                // U+1000..U+CFFF: bytes E1..EC 80..BF 80..BF
-                // U+E000..U+FFFF: bytes EE..EF 80..BF 80..BF
+                // U+1000..U+CFFF: _bytes E1..EC 80..BF 80..BF
+                // U+E000..U+FFFF: _bytes EE..EF 80..BF 80..BF
                 case 0xE1:
                 case 0xE2:
                 case 0xE3:
@@ -7189,17 +7189,17 @@ class lexer : public lexer_base<BasicJsonType>
                 case 0xEE:
                 case 0xEF:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!(next_byte_in_range({0x80, 0xBF, 0x80, 0xBF}))))
+                    if (JSON_HEDLEY_UNLIKELY(!(next__byte_in_range({0x80, 0xBF, 0x80, 0xBF}))))
                     {
                         return token_type::parse_error;
                     }
                     break;
                 }
 
-                // U+D000..U+D7FF: bytes ED 80..9F 80..BF
+                // U+D000..U+D7FF: _bytes ED 80..9F 80..BF
                 case 0xED:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!(next_byte_in_range({0x80, 0x9F, 0x80, 0xBF}))))
+                    if (JSON_HEDLEY_UNLIKELY(!(next__byte_in_range({0x80, 0x9F, 0x80, 0xBF}))))
                     {
                         return token_type::parse_error;
                     }
@@ -7209,7 +7209,7 @@ class lexer : public lexer_base<BasicJsonType>
                 // U+10000..U+3FFFF F0 90..BF 80..BF 80..BF
                 case 0xF0:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!(next_byte_in_range({0x90, 0xBF, 0x80, 0xBF, 0x80, 0xBF}))))
+                    if (JSON_HEDLEY_UNLIKELY(!(next__byte_in_range({0x90, 0xBF, 0x80, 0xBF, 0x80, 0xBF}))))
                     {
                         return token_type::parse_error;
                     }
@@ -7221,7 +7221,7 @@ class lexer : public lexer_base<BasicJsonType>
                 case 0xF2:
                 case 0xF3:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!(next_byte_in_range({0x80, 0xBF, 0x80, 0xBF, 0x80, 0xBF}))))
+                    if (JSON_HEDLEY_UNLIKELY(!(next__byte_in_range({0x80, 0xBF, 0x80, 0xBF, 0x80, 0xBF}))))
                     {
                         return token_type::parse_error;
                     }
@@ -7231,17 +7231,17 @@ class lexer : public lexer_base<BasicJsonType>
                 // U+100000..U+10FFFF F4 80..8F 80..BF 80..BF
                 case 0xF4:
                 {
-                    if (JSON_HEDLEY_UNLIKELY(!(next_byte_in_range({0x80, 0x8F, 0x80, 0xBF, 0x80, 0xBF}))))
+                    if (JSON_HEDLEY_UNLIKELY(!(next__byte_in_range({0x80, 0x8F, 0x80, 0xBF, 0x80, 0xBF}))))
                     {
                         return token_type::parse_error;
                     }
                     break;
                 }
 
-                // remaining bytes (80..C1 and F5..FF) are ill-formed
+                // remaining _bytes (80..C1 and F5..FF) are ill-formed
                 default:
                 {
-                    error_message = "invalid string: ill-formed UTF-8 byte";
+                    error_message = "invalid string: ill-formed UTF-8 _byte";
                     return token_type::parse_error;
                 }
             }
@@ -7365,7 +7365,7 @@ class lexer : public lexer_base<BasicJsonType>
     contains cycles, but any cycle can be left when EOF is read. Therefore,
     the function is guaranteed to terminate.
 
-    During scanning, the read bytes are stored in token_buffer. This string is
+    During scanning, the read _bytes are stored in token_buffer. This string is
     then converted to a signed integer, an unsigned integer, or a
     floating-point number.
 
@@ -7379,7 +7379,7 @@ class lexer : public lexer_base<BasicJsonType>
     */
     token_type scan_number()  // lgtm [cpp/use-of-goto]
     {
-        // reset token_buffer to store the number's bytes
+        // reset token_buffer to store the number's _bytes
         reset();
 
         // the type of the parsed number; initially set to unsigned; will be
@@ -7891,7 +7891,7 @@ scan_number_done:
     /////////////////////
 
     /*!
-    @brief skip the UTF-8 byte order mark
+    @brief skip the UTF-8 _byte order mark
     @return true iff there is no BOM or the correct BOM has been skipped
     */
     bool skip_bom()
@@ -7992,7 +7992,7 @@ scan_number_done:
             case '9':
                 return scan_number();
 
-            // end of input (the null byte is needed when parsing from
+            // end of input (the null _byte is needed when parsing from
             // string literals)
             case '\0':
             case std::char_traits<char_type>::eof():
@@ -8215,9 +8215,9 @@ enum class cbor_tag_handler_t
 };
 
 /*!
-@brief determine system byte order
+@brief determine system _byte order
 
-@return true if and only if system's byte order is little endian
+@return true if and only if system's _byte order is little endian
 
 @note from https://stackoverflow.com/a/1001328/266378
 */
@@ -8304,7 +8304,7 @@ class binary_reader
                 JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert) LCOV_EXCL_LINE
         }
 
-        // strict mode: next byte must be EOF
+        // strict mode: next _byte must be EOF
         if (result && strict)
         {
             if (format == input_format_t::ubjson)
@@ -8319,7 +8319,7 @@ class binary_reader
             if (JSON_HEDLEY_UNLIKELY(current != std::char_traits<char_type>::eof()))
             {
                 return sax->parse_error(chars_read, get_token_string(),
-                                        parse_error::create(110, chars_read, exception_message(format, "expected end of input; last byte: 0x" + get_token_string(), "value"), BasicJsonType()));
+                                        parse_error::create(110, chars_read, exception_message(format, "expected end of input; last _byte: 0x" + get_token_string(), "value"), BasicJsonType()));
             }
         }
 
@@ -8357,7 +8357,7 @@ class binary_reader
     @brief Parses a C-style string from the BSON input.
     @param[in,out] result  A reference to the string variable where the read
                             string is to be stored.
-    @return `true` if the \x00-byte indicating the end of the string was
+    @return `true` if the \x00-_byte indicating the end of the string was
              encountered before the EOF; false` indicates an unexpected EOF.
     */
     bool get_bson_cstr(string_t& result)
@@ -8381,7 +8381,7 @@ class binary_reader
     /*!
     @brief Parses a zero-terminated string of length @a len from the BSON
            input.
-    @param[in] len  The length (including the zero-byte at the end) of the
+    @param[in] len  The length (including the zero-_byte at the end) of the
                     string to be read.
     @param[in,out] result  A reference to the string variable where the read
                             string is to be stored.
@@ -8402,13 +8402,13 @@ class binary_reader
     }
 
     /*!
-    @brief Parses a byte array input of length @a len from the BSON input.
-    @param[in] len  The length of the byte array to be read.
+    @brief Parses a _byte array input of length @a len from the BSON input.
+    @param[in] len  The length of the _byte array to be read.
     @param[in,out] result  A reference to the binary variable where the read
                             array is to be stored.
     @tparam NumberType The type of the length @a len
     @pre len >= 0
-    @return `true` if the byte array was successfully parsed
+    @return `true` if the _byte array was successfully parsed
     */
     template<typename NumberType>
     bool get_bson_binary(const NumberType len, binary_t& result)
@@ -8416,7 +8416,7 @@ class binary_reader
         if (JSON_HEDLEY_UNLIKELY(len < 0))
         {
             auto last_token = get_token_string();
-            return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::bson, "byte array length cannot be negative, is " + std::to_string(len), "binary"), BasicJsonType()));
+            return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::bson, "_byte array length cannot be negative, is " + std::to_string(len), "binary"), BasicJsonType()));
         }
 
         // All BSON binary values have a subtype
@@ -8619,25 +8619,25 @@ class binary_reader
             case 0x17:
                 return sax->number_unsigned(static_cast<number_unsigned_t>(current));
 
-            case 0x18: // Unsigned integer (one-byte uint8_t follows)
+            case 0x18: // Unsigned integer (one-_byte uint8_t follows)
             {
                 std::uint8_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_unsigned(number);
             }
 
-            case 0x19: // Unsigned integer (two-byte uint16_t follows)
+            case 0x19: // Unsigned integer (two-_byte uint16_t follows)
             {
                 std::uint16_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_unsigned(number);
             }
 
-            case 0x1A: // Unsigned integer (four-byte uint32_t follows)
+            case 0x1A: // Unsigned integer (four-_byte uint32_t follows)
             {
                 std::uint32_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_unsigned(number);
             }
 
-            case 0x1B: // Unsigned integer (eight-byte uint64_t follows)
+            case 0x1B: // Unsigned integer (eight-_byte uint64_t follows)
             {
                 std::uint64_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_unsigned(number);
@@ -8670,32 +8670,32 @@ class binary_reader
             case 0x37:
                 return sax->number_integer(static_cast<std::int8_t>(0x20 - 1 - current));
 
-            case 0x38: // Negative integer (one-byte uint8_t follows)
+            case 0x38: // Negative integer (one-_byte uint8_t follows)
             {
                 std::uint8_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_integer(static_cast<number_integer_t>(-1) - number);
             }
 
-            case 0x39: // Negative integer -1-n (two-byte uint16_t follows)
+            case 0x39: // Negative integer -1-n (two-_byte uint16_t follows)
             {
                 std::uint16_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_integer(static_cast<number_integer_t>(-1) - number);
             }
 
-            case 0x3A: // Negative integer -1-n (four-byte uint32_t follows)
+            case 0x3A: // Negative integer -1-n (four-_byte uint32_t follows)
             {
                 std::uint32_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_integer(static_cast<number_integer_t>(-1) - number);
             }
 
-            case 0x3B: // Negative integer -1-n (eight-byte uint64_t follows)
+            case 0x3B: // Negative integer -1-n (eight-_byte uint64_t follows)
             {
                 std::uint64_t number{};
                 return get_number(input_format_t::cbor, number) && sax->number_integer(static_cast<number_integer_t>(-1)
                         - static_cast<number_integer_t>(number));
             }
 
-            // Binary data (0x00..0x17 bytes follow)
+            // Binary data (0x00..0x17 _bytes follow)
             case 0x40:
             case 0x41:
             case 0x42:
@@ -8720,17 +8720,17 @@ class binary_reader
             case 0x55:
             case 0x56:
             case 0x57:
-            case 0x58: // Binary data (one-byte uint8_t for n follows)
-            case 0x59: // Binary data (two-byte uint16_t for n follow)
-            case 0x5A: // Binary data (four-byte uint32_t for n follow)
-            case 0x5B: // Binary data (eight-byte uint64_t for n follow)
+            case 0x58: // Binary data (one-_byte uint8_t for n follows)
+            case 0x59: // Binary data (two-_byte uint16_t for n follow)
+            case 0x5A: // Binary data (four-_byte uint32_t for n follow)
+            case 0x5B: // Binary data (eight-_byte uint64_t for n follow)
             case 0x5F: // Binary data (indefinite length)
             {
                 binary_t b;
                 return get_cbor_binary(b) && sax->binary(b);
             }
 
-            // UTF-8 string (0x00..0x17 bytes follow)
+            // UTF-8 string (0x00..0x17 _bytes follow)
             case 0x60:
             case 0x61:
             case 0x62:
@@ -8755,10 +8755,10 @@ class binary_reader
             case 0x75:
             case 0x76:
             case 0x77:
-            case 0x78: // UTF-8 string (one-byte uint8_t for n follows)
-            case 0x79: // UTF-8 string (two-byte uint16_t for n follow)
-            case 0x7A: // UTF-8 string (four-byte uint32_t for n follow)
-            case 0x7B: // UTF-8 string (eight-byte uint64_t for n follow)
+            case 0x78: // UTF-8 string (one-_byte uint8_t for n follows)
+            case 0x79: // UTF-8 string (two-_byte uint16_t for n follow)
+            case 0x7A: // UTF-8 string (four-_byte uint32_t for n follow)
+            case 0x7B: // UTF-8 string (eight-_byte uint64_t for n follow)
             case 0x7F: // UTF-8 string (indefinite length)
             {
                 string_t s;
@@ -8792,25 +8792,25 @@ class binary_reader
             case 0x97:
                 return get_cbor_array(static_cast<std::size_t>(static_cast<unsigned int>(current) & 0x1Fu), tag_handler);
 
-            case 0x98: // array (one-byte uint8_t for n follows)
+            case 0x98: // array (one-_byte uint8_t for n follows)
             {
                 std::uint8_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_array(static_cast<std::size_t>(len), tag_handler);
             }
 
-            case 0x99: // array (two-byte uint16_t for n follow)
+            case 0x99: // array (two-_byte uint16_t for n follow)
             {
                 std::uint16_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_array(static_cast<std::size_t>(len), tag_handler);
             }
 
-            case 0x9A: // array (four-byte uint32_t for n follow)
+            case 0x9A: // array (four-_byte uint32_t for n follow)
             {
                 std::uint32_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_array(static_cast<std::size_t>(len), tag_handler);
             }
 
-            case 0x9B: // array (eight-byte uint64_t for n follow)
+            case 0x9B: // array (eight-_byte uint64_t for n follow)
             {
                 std::uint64_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_array(detail::conditional_static_cast<std::size_t>(len), tag_handler);
@@ -8846,25 +8846,25 @@ class binary_reader
             case 0xB7:
                 return get_cbor_object(static_cast<std::size_t>(static_cast<unsigned int>(current) & 0x1Fu), tag_handler);
 
-            case 0xB8: // map (one-byte uint8_t for n follows)
+            case 0xB8: // map (one-_byte uint8_t for n follows)
             {
                 std::uint8_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_object(static_cast<std::size_t>(len), tag_handler);
             }
 
-            case 0xB9: // map (two-byte uint16_t for n follow)
+            case 0xB9: // map (two-_byte uint16_t for n follow)
             {
                 std::uint16_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_object(static_cast<std::size_t>(len), tag_handler);
             }
 
-            case 0xBA: // map (four-byte uint32_t for n follow)
+            case 0xBA: // map (four-_byte uint32_t for n follow)
             {
                 std::uint32_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_object(static_cast<std::size_t>(len), tag_handler);
             }
 
-            case 0xBB: // map (eight-byte uint64_t for n follow)
+            case 0xBB: // map (eight-_byte uint64_t for n follow)
             {
                 std::uint64_t len{};
                 return get_number(input_format_t::cbor, len) && get_cbor_object(detail::conditional_static_cast<std::size_t>(len), tag_handler);
@@ -8888,17 +8888,17 @@ class binary_reader
             case 0xD2:
             case 0xD3:
             case 0xD4:
-            case 0xD8: // tagged item (1 bytes follow)
-            case 0xD9: // tagged item (2 bytes follow)
-            case 0xDA: // tagged item (4 bytes follow)
-            case 0xDB: // tagged item (8 bytes follow)
+            case 0xD8: // tagged item (1 _bytes follow)
+            case 0xD9: // tagged item (2 _bytes follow)
+            case 0xDA: // tagged item (4 _bytes follow)
+            case 0xDB: // tagged item (8 _bytes follow)
             {
                 switch (tag_handler)
                 {
                     case cbor_tag_handler_t::error:
                     {
                         auto last_token = get_token_string();
-                        return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::cbor, "invalid byte: 0x" + last_token, "value"), BasicJsonType()));
+                        return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::cbor, "invalid _byte: 0x" + last_token, "value"), BasicJsonType()));
                     }
 
                     case cbor_tag_handler_t::ignore:
@@ -8992,21 +8992,21 @@ class binary_reader
             case 0xF6: // null
                 return sax->null();
 
-            case 0xF9: // Half-Precision Float (two-byte IEEE 754)
+            case 0xF9: // Half-Precision Float (two-_byte IEEE 754)
             {
-                const auto byte1_raw = get();
+                const auto _byte1_raw = get();
                 if (JSON_HEDLEY_UNLIKELY(!unexpect_eof(input_format_t::cbor, "number")))
                 {
                     return false;
                 }
-                const auto byte2_raw = get();
+                const auto _byte2_raw = get();
                 if (JSON_HEDLEY_UNLIKELY(!unexpect_eof(input_format_t::cbor, "number")))
                 {
                     return false;
                 }
 
-                const auto byte1 = static_cast<unsigned char>(byte1_raw);
-                const auto byte2 = static_cast<unsigned char>(byte2_raw);
+                const auto _byte1 = static_cast<unsigned char>(_byte1_raw);
+                const auto _byte2 = static_cast<unsigned char>(_byte2_raw);
 
                 // code from RFC 7049, Appendix D, Figure 3:
                 // As half-precision floating-point numbers were only added
@@ -9016,7 +9016,7 @@ class binary_reader
                 // without such support. An example of a small decoder for
                 // half-precision floating-point numbers in the C language
                 // is shown in Fig. 3.
-                const auto half = static_cast<unsigned int>((byte1 << 8u) + byte2);
+                const auto half = static_cast<unsigned int>((_byte1 << 8u) + _byte2);
                 const double val = [&half]
                 {
                     const int exp = (half >> 10u) & 0x1Fu;
@@ -9040,13 +9040,13 @@ class binary_reader
                                          : static_cast<number_float_t>(val), "");
             }
 
-            case 0xFA: // Single-Precision Float (four-byte IEEE 754)
+            case 0xFA: // Single-Precision Float (four-_byte IEEE 754)
             {
                 float number{};
                 return get_number(input_format_t::cbor, number) && sax->number_float(static_cast<number_float_t>(number), "");
             }
 
-            case 0xFB: // Double-Precision Float (eight-byte IEEE 754)
+            case 0xFB: // Double-Precision Float (eight-_byte IEEE 754)
             {
                 double number{};
                 return get_number(input_format_t::cbor, number) && sax->number_float(static_cast<number_float_t>(number), "");
@@ -9055,7 +9055,7 @@ class binary_reader
             default: // anything else (0xFF is handled inside the other types)
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::cbor, "invalid byte: 0x" + last_token, "value"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::cbor, "invalid _byte: 0x" + last_token, "value"), BasicJsonType()));
             }
         }
     }
@@ -9063,8 +9063,8 @@ class binary_reader
     /*!
     @brief reads a CBOR string
 
-    This function first reads starting bytes to determine the expected
-    string length and then copies this number of bytes into a string.
+    This function first reads starting _bytes to determine the expected
+    string length and then copies this number of _bytes into a string.
     Additionally, CBOR's strings with indefinite lengths are supported.
 
     @param[out] result  created string
@@ -9080,7 +9080,7 @@ class binary_reader
 
         switch (current)
         {
-            // UTF-8 string (0x00..0x17 bytes follow)
+            // UTF-8 string (0x00..0x17 _bytes follow)
             case 0x60:
             case 0x61:
             case 0x62:
@@ -9109,25 +9109,25 @@ class binary_reader
                 return get_string(input_format_t::cbor, static_cast<unsigned int>(current) & 0x1Fu, result);
             }
 
-            case 0x78: // UTF-8 string (one-byte uint8_t for n follows)
+            case 0x78: // UTF-8 string (one-_byte uint8_t for n follows)
             {
                 std::uint8_t len{};
                 return get_number(input_format_t::cbor, len) && get_string(input_format_t::cbor, len, result);
             }
 
-            case 0x79: // UTF-8 string (two-byte uint16_t for n follow)
+            case 0x79: // UTF-8 string (two-_byte uint16_t for n follow)
             {
                 std::uint16_t len{};
                 return get_number(input_format_t::cbor, len) && get_string(input_format_t::cbor, len, result);
             }
 
-            case 0x7A: // UTF-8 string (four-byte uint32_t for n follow)
+            case 0x7A: // UTF-8 string (four-_byte uint32_t for n follow)
             {
                 std::uint32_t len{};
                 return get_number(input_format_t::cbor, len) && get_string(input_format_t::cbor, len, result);
             }
 
-            case 0x7B: // UTF-8 string (eight-byte uint64_t for n follow)
+            case 0x7B: // UTF-8 string (eight-_byte uint64_t for n follow)
             {
                 std::uint64_t len{};
                 return get_number(input_format_t::cbor, len) && get_string(input_format_t::cbor, len, result);
@@ -9150,21 +9150,21 @@ class binary_reader
             default:
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::cbor, "expected length specification (0x60-0x7B) or indefinite string type (0x7F); last byte: 0x" + last_token, "string"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::cbor, "expected length specification (0x60-0x7B) or indefinite string type (0x7F); last _byte: 0x" + last_token, "string"), BasicJsonType()));
             }
         }
     }
 
     /*!
-    @brief reads a CBOR byte array
+    @brief reads a CBOR _byte array
 
-    This function first reads starting bytes to determine the expected
-    byte array length and then copies this number of bytes into the byte array.
-    Additionally, CBOR's byte arrays with indefinite lengths are supported.
+    This function first reads starting _bytes to determine the expected
+    _byte array length and then copies this number of _bytes into the _byte array.
+    Additionally, CBOR's _byte arrays with indefinite lengths are supported.
 
-    @param[out] result  created byte array
+    @param[out] result  created _byte array
 
-    @return whether byte array creation completed
+    @return whether _byte array creation completed
     */
     bool get_cbor_binary(binary_t& result)
     {
@@ -9175,7 +9175,7 @@ class binary_reader
 
         switch (current)
         {
-            // Binary data (0x00..0x17 bytes follow)
+            // Binary data (0x00..0x17 _bytes follow)
             case 0x40:
             case 0x41:
             case 0x42:
@@ -9204,28 +9204,28 @@ class binary_reader
                 return get_binary(input_format_t::cbor, static_cast<unsigned int>(current) & 0x1Fu, result);
             }
 
-            case 0x58: // Binary data (one-byte uint8_t for n follows)
+            case 0x58: // Binary data (one-_byte uint8_t for n follows)
             {
                 std::uint8_t len{};
                 return get_number(input_format_t::cbor, len) &&
                        get_binary(input_format_t::cbor, len, result);
             }
 
-            case 0x59: // Binary data (two-byte uint16_t for n follow)
+            case 0x59: // Binary data (two-_byte uint16_t for n follow)
             {
                 std::uint16_t len{};
                 return get_number(input_format_t::cbor, len) &&
                        get_binary(input_format_t::cbor, len, result);
             }
 
-            case 0x5A: // Binary data (four-byte uint32_t for n follow)
+            case 0x5A: // Binary data (four-_byte uint32_t for n follow)
             {
                 std::uint32_t len{};
                 return get_number(input_format_t::cbor, len) &&
                        get_binary(input_format_t::cbor, len, result);
             }
 
-            case 0x5B: // Binary data (eight-byte uint64_t for n follow)
+            case 0x5B: // Binary data (eight-_byte uint64_t for n follow)
             {
                 std::uint64_t len{};
                 return get_number(input_format_t::cbor, len) &&
@@ -9249,7 +9249,7 @@ class binary_reader
             default:
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::cbor, "expected length specification (0x40-0x5B) or indefinite binary array type (0x5F); last byte: 0x" + last_token, "binary"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::cbor, "expected length specification (0x40-0x5B) or indefinite binary array type (0x5F); last _byte: 0x" + last_token, "binary"), BasicJsonType()));
             }
         }
     }
@@ -9719,7 +9719,7 @@ class binary_reader
             default: // anything else
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::msgpack, "invalid byte: 0x" + last_token, "value"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::msgpack, "invalid _byte: 0x" + last_token, "value"), BasicJsonType()));
             }
         }
     }
@@ -9727,8 +9727,8 @@ class binary_reader
     /*!
     @brief reads a MessagePack string
 
-    This function first reads starting bytes to determine the expected
-    string length and then copies this number of bytes into a string.
+    This function first reads starting _bytes to determine the expected
+    string length and then copies this number of _bytes into a string.
 
     @param[out] result  created string
 
@@ -9801,20 +9801,20 @@ class binary_reader
             default:
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::msgpack, "expected length specification (0xA0-0xBF, 0xD9-0xDB); last byte: 0x" + last_token, "string"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::msgpack, "expected length specification (0xA0-0xBF, 0xD9-0xDB); last _byte: 0x" + last_token, "string"), BasicJsonType()));
             }
         }
     }
 
     /*!
-    @brief reads a MessagePack byte array
+    @brief reads a MessagePack _byte array
 
-    This function first reads starting bytes to determine the expected
-    byte array length and then copies this number of bytes into a byte array.
+    This function first reads starting _bytes to determine the expected
+    _byte array length and then copies this number of _bytes into a _byte array.
 
-    @param[out] result  created byte array
+    @param[out] result  created _byte array
 
-    @return whether byte array creation completed
+    @return whether _byte array creation completed
     */
     bool get_msgpack_binary(binary_t& result)
     {
@@ -9994,8 +9994,8 @@ class binary_reader
     /*!
     @brief reads a UBJSON string
 
-    This function is either called after reading the 'S' byte explicitly
-    indicating a string, or in case of an object key where the 'S' byte can be
+    This function is either called after reading the 'S' _byte explicitly
+    indicating a string, or in case of an object key where the 'S' _byte can be
     left out.
 
     @param[out] result   created string
@@ -10051,7 +10051,7 @@ class binary_reader
 
             default:
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::ubjson, "expected length type specification (U, i, I, l, L); last byte: 0x" + last_token, "string"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::ubjson, "expected length type specification (U, i, I, l, L); last _byte: 0x" + last_token, "string"), BasicJsonType()));
         }
     }
 
@@ -10121,7 +10121,7 @@ class binary_reader
             default:
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::ubjson, "expected length type specification (U, i, I, l, L) after '#'; last byte: 0x" + last_token, "size"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::ubjson, "expected length type specification (U, i, I, l, L) after '#'; last _byte: 0x" + last_token, "size"), BasicJsonType()));
             }
         }
     }
@@ -10159,7 +10159,7 @@ class binary_reader
                     return false;
                 }
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::ubjson, "expected '#' after type information; last byte: 0x" + last_token, "size"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::ubjson, "expected '#' after type information; last _byte: 0x" + last_token, "size"), BasicJsonType()));
             }
 
             return get_ubjson_size_value(result.first);
@@ -10249,7 +10249,7 @@ class binary_reader
                 if (JSON_HEDLEY_UNLIKELY(current > 127))
                 {
                     auto last_token = get_token_string();
-                    return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::ubjson, "byte after 'C' must be in range 0x00..0x7F; last byte: 0x" + last_token, "char"), BasicJsonType()));
+                    return sax->parse_error(chars_read, last_token, parse_error::create(113, chars_read, exception_message(input_format_t::ubjson, "_byte after 'C' must be in range 0x00..0x7F; last _byte: 0x" + last_token, "char"), BasicJsonType()));
                 }
                 string_t s(1, static_cast<typename string_t::value_type>(current));
                 return sax->string(s);
@@ -10270,7 +10270,7 @@ class binary_reader
             default: // anything else
             {
                 auto last_token = get_token_string();
-                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::ubjson, "invalid byte: 0x" + last_token, "value"), BasicJsonType()));
+                return sax->parse_error(chars_read, last_token, parse_error::create(112, chars_read, exception_message(input_format_t::ubjson, "invalid _byte: 0x" + last_token, "value"), BasicJsonType()));
             }
         }
     }
@@ -10521,13 +10521,13 @@ class binary_reader
     @return whether conversion completed
 
     @note This function needs to respect the system's endianness, because
-          bytes in CBOR, MessagePack, and UBJSON are stored in network order
+          _bytes in CBOR, MessagePack, and UBJSON are stored in network order
           (big endian) and therefore need reordering on little endian systems.
     */
     template<typename NumberType, bool InputIsLittleEndian = false>
     bool get_number(const input_format_t format, NumberType& result)
     {
-        // step 1: read input into array with system's byte order
+        // step 1: read input into array with system's _byte order
         std::array<std::uint8_t, sizeof(NumberType)> vec{};
         for (std::size_t i = 0; i < sizeof(NumberType); ++i)
         {
@@ -10537,7 +10537,7 @@ class binary_reader
                 return false;
             }
 
-            // reverse byte order prior to conversion if necessary
+            // reverse _byte order prior to conversion if necessary
             if (is_little_endian != InputIsLittleEndian)
             {
                 vec[sizeof(NumberType) - i - 1] = static_cast<std::uint8_t>(current);
@@ -10559,11 +10559,11 @@ class binary_reader
     @tparam NumberType the type of the number
     @param[in] format the current format (for diagnostics)
     @param[in] len number of characters to read
-    @param[out] result string created by reading @a len bytes
+    @param[out] result string created by reading @a len _bytes
 
     @return whether string creation completed
 
-    @note We can not reserve @a len bytes for the result, because @a len
+    @note We can not reserve @a len _bytes for the result, because @a len
           may be too large. Usually, @ref unexpect_eof() detects the end of
           the input before we run out of string memory.
     */
@@ -10587,16 +10587,16 @@ class binary_reader
     }
 
     /*!
-    @brief create a byte array by reading bytes from the input
+    @brief create a _byte array by reading _bytes from the input
 
     @tparam NumberType the type of the number
     @param[in] format the current format (for diagnostics)
-    @param[in] len number of bytes to read
-    @param[out] result byte array created by reading @a len bytes
+    @param[in] len number of _bytes to read
+    @param[out] result _byte array created by reading @a len _bytes
 
-    @return whether byte array creation completed
+    @return whether _byte array creation completed
 
-    @note We can not reserve @a len bytes for the result, because @a len
+    @note We can not reserve @a len _bytes for the result, because @a len
           may be too large. Usually, @ref unexpect_eof() detects the end of
           the input before we run out of memory.
     */
@@ -10636,7 +10636,7 @@ class binary_reader
     }
 
     /*!
-    @return a string representation of the last read byte
+    @return a string representation of the last read _byte
     */
     std::string get_token_string() const
     {
@@ -10871,7 +10871,7 @@ class parser
         (void)detail::is_sax_static_asserts<SAX, BasicJsonType> {};
         const bool result = sax_parse_internal(sax);
 
-        // strict mode: next byte must be EOF
+        // strict mode: next _byte must be EOF
         if (result && strict && (get_token() != token_type::end_of_input))
         {
             return sax->parse_error(m_lexer.get_position(),
@@ -13206,7 +13206,7 @@ template<typename CharType> struct output_adapter_protocol
 template<typename CharType>
 using output_adapter_t = std::shared_ptr<output_adapter_protocol<CharType>>;
 
-/// output adapter for byte vectors
+/// output adapter for _byte vectors
 template<typename CharType, typename AllocatorType = std::allocator<CharType>>
 class output_vector_adapter : public output_adapter_protocol<CharType>
 {
@@ -13423,7 +13423,7 @@ class binary_writer
                 else
                 {
                     // The conversions below encode the sign in the first
-                    // byte, and the value is converted to a positive number.
+                    // _byte, and the value is converted to a positive number.
                     const auto positive_number = -1 - j.m_value.number_integer;
                     if (j.m_value.number_integer >= -24)
                     {
@@ -13507,7 +13507,7 @@ class binary_writer
 
             case value_t::string:
             {
-                // step 1: write control byte and the string length
+                // step 1: write control _byte and the string length
                 const auto N = j.m_value.string->size();
                 if (N <= 0x17)
                 {
@@ -13545,7 +13545,7 @@ class binary_writer
 
             case value_t::array:
             {
-                // step 1: write control byte and the array size
+                // step 1: write control _byte and the array size
                 const auto N = j.m_value.array->size();
                 if (N <= 0x17)
                 {
@@ -13608,7 +13608,7 @@ class binary_writer
                     }
                 }
 
-                // step 1: write control byte and the binary array size
+                // step 1: write control _byte and the binary array size
                 const auto N = j.m_value.binary->size();
                 if (N <= 0x17)
                 {
@@ -13647,7 +13647,7 @@ class binary_writer
 
             case value_t::object:
             {
-                // step 1: write control byte and the object size
+                // step 1: write control _byte and the object size
                 const auto N = j.m_value.object->size();
                 if (N <= 0x17)
                 {
@@ -13830,7 +13830,7 @@ class binary_writer
 
             case value_t::string:
             {
-                // step 1: write control byte and the string length
+                // step 1: write control _byte and the string length
                 const auto N = j.m_value.string->size();
                 if (N <= 31)
                 {
@@ -13865,7 +13865,7 @@ class binary_writer
 
             case value_t::array:
             {
-                // step 1: write control byte and the array size
+                // step 1: write control _byte and the array size
                 const auto N = j.m_value.array->size();
                 if (N <= 15)
                 {
@@ -13899,7 +13899,7 @@ class binary_writer
                 // determine whether or not to use the ext or fixext types
                 const bool use_ext = j.m_value.binary->has_subtype();
 
-                // step 1: write control byte and the byte string length
+                // step 1: write control _byte and the _byte string length
                 const auto N = j.m_value.binary->size();
                 if (N <= (std::numeric_limits<std::uint8_t>::max)())
                 {
@@ -13968,7 +13968,7 @@ class binary_writer
                     write_number(static_cast<std::int8_t>(j.m_value.binary->subtype()));
                 }
 
-                // step 2: write the byte string
+                // step 2: write the _byte string
                 oa->write_characters(
                     reinterpret_cast<const CharType*>(j.m_value.binary->data()),
                     N);
@@ -13978,7 +13978,7 @@ class binary_writer
 
             case value_t::object:
             {
-                // step 1: write control byte and the object size
+                // step 1: write control _byte and the object size
                 const auto N = j.m_value.object->size();
                 if (N <= 15)
                 {
@@ -14232,7 +14232,7 @@ class binary_writer
         const auto it = name.find(static_cast<typename string_t::value_type>(0));
         if (JSON_HEDLEY_UNLIKELY(it != BasicJsonType::string_t::npos))
         {
-            JSON_THROW(out_of_range::create(409, "BSON key cannot contain code point U+0000 (at byte " + std::to_string(it) + ")", j));
+            JSON_THROW(out_of_range::create(409, "BSON key cannot contain code point U+0000 (at _byte " + std::to_string(it) + ")", j));
             static_cast<void>(j);
         }
 
@@ -14830,7 +14830,7 @@ class binary_writer
     @tparam OutputIsLittleEndian Set to true if output data is
                                  required to be little endian
 
-    @note This function needs to respect the system's endianness, because bytes
+    @note This function needs to respect the system's endianness, because _bytes
           in CBOR, MessagePack, and UBJSON are stored in network order (big
           endian) and therefore need reordering on little endian systems.
     */
@@ -14844,7 +14844,7 @@ class binary_writer
         // step 2: write array to output (with possible reordering)
         if (is_little_endian != OutputIsLittleEndian)
         {
-            // reverse byte order prior to conversion if necessary
+            // reverse _byte order prior to conversion if necessary
             std::reverse(vec.begin(), vec.end());
         }
 
@@ -16136,7 +16136,7 @@ class serializer
     - integer numbers are converted implicitly via `operator<<`
     - floating-point numbers are converted to a string using `"%g"` format
     - binary values are serialized as objects containing the subtype and the
-      byte array
+      _byte array
 
     @param[in] val               value to serialize
     @param[in] pretty_print      whether the output shall be pretty-printed
@@ -16309,7 +16309,7 @@ class serializer
 
                     o->write_characters(indent_string.c_str(), new_indent);
 
-                    o->write_characters("\"bytes\": [", 10);
+                    o->write_characters("\"_bytes\": [", 10);
 
                     if (!val.m_value.binary->empty())
                     {
@@ -16340,7 +16340,7 @@ class serializer
                 }
                 else
                 {
-                    o->write_characters("{\"bytes\":[", 10);
+                    o->write_characters("{\"_bytes\":[", 10);
 
                     if (!val.m_value.binary->empty())
                     {
@@ -16434,17 +16434,17 @@ class serializer
     {
         std::uint32_t codepoint{};
         std::uint8_t state = UTF8_ACCEPT;
-        std::size_t bytes = 0;  // number of bytes written to string_buffer
+        std::size_t _bytes = 0;  // number of _bytes written to string_buffer
 
-        // number of bytes written at the point of the last valid byte
-        std::size_t bytes_after_last_accept = 0;
+        // number of _bytes written at the point of the last valid _byte
+        std::size_t _bytes_after_last_accept = 0;
         std::size_t undumped_chars = 0;
 
         for (std::size_t i = 0; i < s.size(); ++i)
         {
-            const auto byte = static_cast<std::uint8_t>(s[i]);
+            const auto _byte = static_cast<std::uint8_t>(s[i]);
 
-            switch (decode(state, codepoint, byte))
+            switch (decode(state, codepoint, _byte))
             {
                 case UTF8_ACCEPT:  // decode found a new code point
                 {
@@ -16452,50 +16452,50 @@ class serializer
                     {
                         case 0x08: // backspace
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = 'b';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = 'b';
                             break;
                         }
 
                         case 0x09: // horizontal tab
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = 't';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = 't';
                             break;
                         }
 
                         case 0x0A: // newline
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = 'n';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = 'n';
                             break;
                         }
 
                         case 0x0C: // formfeed
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = 'f';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = 'f';
                             break;
                         }
 
                         case 0x0D: // carriage return
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = 'r';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = 'r';
                             break;
                         }
 
                         case 0x22: // quotation mark
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = '\"';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = '\"';
                             break;
                         }
 
                         case 0x5C: // reverse solidus
                         {
-                            string_buffer[bytes++] = '\\';
-                            string_buffer[bytes++] = '\\';
+                            string_buffer[_bytes++] = '\\';
+                            string_buffer[_bytes++] = '\\';
                             break;
                         }
 
@@ -16508,58 +16508,58 @@ class serializer
                                 if (codepoint <= 0xFFFF)
                                 {
                                     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
-                                    static_cast<void>((std::snprintf)(string_buffer.data() + bytes, 7, "\\u%04x",
+                                    static_cast<void>((std::snprintf)(string_buffer.data() + _bytes, 7, "\\u%04x",
                                                                       static_cast<std::uint16_t>(codepoint)));
-                                    bytes += 6;
+                                    _bytes += 6;
                                 }
                                 else
                                 {
                                     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg,hicpp-vararg)
-                                    static_cast<void>((std::snprintf)(string_buffer.data() + bytes, 13, "\\u%04x\\u%04x",
+                                    static_cast<void>((std::snprintf)(string_buffer.data() + _bytes, 13, "\\u%04x\\u%04x",
                                                                       static_cast<std::uint16_t>(0xD7C0u + (codepoint >> 10u)),
                                                                       static_cast<std::uint16_t>(0xDC00u + (codepoint & 0x3FFu))));
-                                    bytes += 12;
+                                    _bytes += 12;
                                 }
                             }
                             else
                             {
-                                // copy byte to buffer (all previous bytes
+                                // copy _byte to buffer (all previous _bytes
                                 // been copied have in default case above)
-                                string_buffer[bytes++] = s[i];
+                                string_buffer[_bytes++] = s[i];
                             }
                             break;
                         }
                     }
 
-                    // write buffer and reset index; there must be 13 bytes
-                    // left, as this is the maximal number of bytes to be
+                    // write buffer and reset index; there must be 13 _bytes
+                    // left, as this is the maximal number of _bytes to be
                     // written ("\uxxxx\uxxxx\0") for one code point
-                    if (string_buffer.size() - bytes < 13)
+                    if (string_buffer.size() - _bytes < 13)
                     {
-                        o->write_characters(string_buffer.data(), bytes);
-                        bytes = 0;
+                        o->write_characters(string_buffer.data(), _bytes);
+                        _bytes = 0;
                     }
 
-                    // remember the byte position of this accept
-                    bytes_after_last_accept = bytes;
+                    // remember the _byte position of this accept
+                    _bytes_after_last_accept = _bytes;
                     undumped_chars = 0;
                     break;
                 }
 
-                case UTF8_REJECT:  // decode found invalid UTF-8 byte
+                case UTF8_REJECT:  // decode found invalid UTF-8 _byte
                 {
                     switch (error_handler)
                     {
                         case error_handler_t::strict:
                         {
-                            JSON_THROW(type_error::create(316, "invalid UTF-8 byte at index " + std::to_string(i) + ": 0x" + hex_bytes(byte | 0), BasicJsonType()));
+                            JSON_THROW(type_error::create(316, "invalid UTF-8 _byte at index " + std::to_string(i) + ": 0x" + hex__bytes(_byte | 0), BasicJsonType()));
                         }
 
                         case error_handler_t::ignore:
                         case error_handler_t::replace:
                         {
                             // in case we saw this character the first time, we
-                            // would like to read it again, because the byte
+                            // would like to read it again, because the _byte
                             // may be OK for itself, but just not OK for the
                             // previous sequence
                             if (undumped_chars > 0)
@@ -16569,37 +16569,37 @@ class serializer
 
                             // reset length buffer to the last accepted index;
                             // thus removing/ignoring the invalid characters
-                            bytes = bytes_after_last_accept;
+                            _bytes = _bytes_after_last_accept;
 
                             if (error_handler == error_handler_t::replace)
                             {
                                 // add a replacement character
                                 if (ensure_ascii)
                                 {
-                                    string_buffer[bytes++] = '\\';
-                                    string_buffer[bytes++] = 'u';
-                                    string_buffer[bytes++] = 'f';
-                                    string_buffer[bytes++] = 'f';
-                                    string_buffer[bytes++] = 'f';
-                                    string_buffer[bytes++] = 'd';
+                                    string_buffer[_bytes++] = '\\';
+                                    string_buffer[_bytes++] = 'u';
+                                    string_buffer[_bytes++] = 'f';
+                                    string_buffer[_bytes++] = 'f';
+                                    string_buffer[_bytes++] = 'f';
+                                    string_buffer[_bytes++] = 'd';
                                 }
                                 else
                                 {
-                                    string_buffer[bytes++] = detail::binary_writer<BasicJsonType, char>::to_char_type('\xEF');
-                                    string_buffer[bytes++] = detail::binary_writer<BasicJsonType, char>::to_char_type('\xBF');
-                                    string_buffer[bytes++] = detail::binary_writer<BasicJsonType, char>::to_char_type('\xBD');
+                                    string_buffer[_bytes++] = detail::binary_writer<BasicJsonType, char>::to_char_type('\xEF');
+                                    string_buffer[_bytes++] = detail::binary_writer<BasicJsonType, char>::to_char_type('\xBF');
+                                    string_buffer[_bytes++] = detail::binary_writer<BasicJsonType, char>::to_char_type('\xBD');
                                 }
 
-                                // write buffer and reset index; there must be 13 bytes
-                                // left, as this is the maximal number of bytes to be
+                                // write buffer and reset index; there must be 13 _bytes
+                                // left, as this is the maximal number of _bytes to be
                                 // written ("\uxxxx\uxxxx\0") for one code point
-                                if (string_buffer.size() - bytes < 13)
+                                if (string_buffer.size() - _bytes < 13)
                                 {
-                                    o->write_characters(string_buffer.data(), bytes);
-                                    bytes = 0;
+                                    o->write_characters(string_buffer.data(), _bytes);
+                                    _bytes = 0;
                                 }
 
-                                bytes_after_last_accept = bytes;
+                                _bytes_after_last_accept = _bytes;
                             }
 
                             undumped_chars = 0;
@@ -16615,12 +16615,12 @@ class serializer
                     break;
                 }
 
-                default:  // decode found yet incomplete multi-byte code point
+                default:  // decode found yet incomplete multi-_byte code point
                 {
                     if (!ensure_ascii)
                     {
-                        // code point will not be escaped - copy byte to buffer
-                        string_buffer[bytes++] = s[i];
+                        // code point will not be escaped - copy _byte to buffer
+                        string_buffer[_bytes++] = s[i];
                     }
                     ++undumped_chars;
                     break;
@@ -16632,9 +16632,9 @@ class serializer
         if (JSON_HEDLEY_LIKELY(state == UTF8_ACCEPT))
         {
             // write buffer
-            if (bytes > 0)
+            if (_bytes > 0)
             {
-                o->write_characters(string_buffer.data(), bytes);
+                o->write_characters(string_buffer.data(), _bytes);
             }
         }
         else
@@ -16644,20 +16644,20 @@ class serializer
             {
                 case error_handler_t::strict:
                 {
-                    JSON_THROW(type_error::create(316, "incomplete UTF-8 string; last byte: 0x" + hex_bytes(static_cast<std::uint8_t>(s.back() | 0)), BasicJsonType()));
+                    JSON_THROW(type_error::create(316, "incomplete UTF-8 string; last _byte: 0x" + hex__bytes(static_cast<std::uint8_t>(s.back() | 0)), BasicJsonType()));
                 }
 
                 case error_handler_t::ignore:
                 {
-                    // write all accepted bytes
-                    o->write_characters(string_buffer.data(), bytes_after_last_accept);
+                    // write all accepted _bytes
+                    o->write_characters(string_buffer.data(), _bytes_after_last_accept);
                     break;
                 }
 
                 case error_handler_t::replace:
                 {
-                    // write all accepted bytes
-                    o->write_characters(string_buffer.data(), bytes_after_last_accept);
+                    // write all accepted _bytes
+                    o->write_characters(string_buffer.data(), _bytes_after_last_accept);
                     // add a replacement character
                     if (ensure_ascii)
                     {
@@ -16712,16 +16712,16 @@ class serializer
     }
 
     /*!
-     * @brief convert a byte to a uppercase hex representation
-     * @param[in] byte byte to represent
+     * @brief convert a _byte to a uppercase hex representation
+     * @param[in] _byte _byte to represent
      * @return representation ("00".."FF")
      */
-    static std::string hex_bytes(std::uint8_t byte)
+    static std::string hex__bytes(std::uint8_t _byte)
     {
         std::string result = "FF";
         constexpr const char* nibble_to_hex = "0123456789ABCDEF";
-        result[0] = nibble_to_hex[byte / 16];
-        result[1] = nibble_to_hex[byte % 16];
+        result[0] = nibble_to_hex[_byte / 16];
+        result[1] = nibble_to_hex[_byte % 16];
         return result;
     }
 
@@ -16790,7 +16790,7 @@ class serializer
             *buffer_ptr = '-';
             abs_value = remove_sign(static_cast<number_integer_t>(x));
 
-            // account one more byte for the minus sign
+            // account one more _byte for the minus sign
             n_chars = 1 + count_digits(abs_value);
         }
         else
@@ -16799,7 +16799,7 @@ class serializer
             n_chars = count_digits(abs_value);
         }
 
-        // spare 1 byte for '\0'
+        // spare 1 _byte for '\0'
         JSON_ASSERT(n_chars < number_buffer.size() - 1);
 
         // jump to the end to generate the string from backward,
@@ -16921,17 +16921,17 @@ class serializer
     /*!
     @brief check whether a string is UTF-8 encoded
 
-    The function checks each byte of a string whether it is UTF-8 encoded. The
+    The function checks each _byte of a string whether it is UTF-8 encoded. The
     result of the check is stored in the @a state parameter. The function must
     be called initially with state 0 (accept). State 1 means the string must
-    be rejected, because the current byte is not allowed. If the string is
+    be rejected, because the current _byte is not allowed. If the string is
     completely processed, but the state is non-zero, the string ended
-    prematurely; that is, the last byte indicated more bytes should have
+    prematurely; that is, the last _byte indicated more _bytes should have
     followed.
 
     @param[in,out] state  the state of the decoding
     @param[in,out] codep  codepoint (valid only if resulting state is UTF8_ACCEPT)
-    @param[in] byte       next byte to decode
+    @param[in] _byte       next _byte to decode
     @return               new state
 
     @note The function has been edited: a std::array is used.
@@ -16939,7 +16939,7 @@ class serializer
     @copyright Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
     @sa http://bjoern.hoehrmann.de/utf-8/decoder/dfa/
     */
-    static std::uint8_t decode(std::uint8_t& state, std::uint32_t& codep, const std::uint8_t byte) noexcept
+    static std::uint8_t decode(std::uint8_t& state, std::uint32_t& codep, const std::uint8_t _byte) noexcept
     {
         static const std::array<std::uint8_t, 400> utf8d =
         {
@@ -16961,12 +16961,12 @@ class serializer
             }
         };
 
-        JSON_ASSERT(byte < utf8d.size());
-        const std::uint8_t type = utf8d[byte];
+        JSON_ASSERT(_byte < utf8d.size());
+        const std::uint8_t type = utf8d[_byte];
 
         codep = (state != UTF8_ACCEPT)
-                ? (byte & 0x3fu) | (codep << 6u)
-                : (0xFFu >> type) & (byte);
+                ? (_byte & 0x3fu) | (codep << 6u)
+                : (0xFFu >> type) & (_byte);
 
         std::size_t index = 256u + static_cast<size_t>(state) * 16u + static_cast<size_t>(type);
         JSON_ASSERT(index < 400);
@@ -17552,7 +17552,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
 
     /// @brief a type for a packed binary type
     /// @sa https://json.nlohmann.me/api/basic_json/binary_t/
-    using binary_t = nlohmann::byte_container_with_subtype<BinaryType>;
+    using binary_t = nlohmann::_byte_container_with_subtype<BinaryType>;
 
     /// @}
 

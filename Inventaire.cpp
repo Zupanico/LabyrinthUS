@@ -5,10 +5,16 @@
 
 #include "Inventaire.h"
 
+using namespace std;
+
 inventaire::inventaire()
 {
-	_selectedSlot = 0;
 	_taille = 0;
+
+	for (int i = 0; i < MAX_ITEMS; i++)
+	{
+		_inventaire[i] = new item(" ");
+	}
 }
 
 inventaire::~inventaire()
@@ -20,15 +26,6 @@ int inventaire::getCapacite()
 	return MAX_ITEMS;
 }
 
-item* inventaire::getItem(int index) const
-{
-	return _inventaire[index];
-}
-
-void inventaire::selectSlot(int index)
-{
-	_selectedSlot = index;
-}
 
 int inventaire::inventairePlein()
 {
@@ -42,49 +39,42 @@ int inventaire::inventairePlein()
 	return 1;
 }
 
-bool inventaire::estCle()
-{
-	for (int i = 0; i < MAX_ITEMS; i++)
-	{
-		if (_inventaire[i] != NULL && _inventaire[i]->getNom() == "cle")
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
 void inventaire::afficherInventaire() const
 {
 	cout << "Inventaire :";
-	for (int i = 0; i < _taille; i++)
+	for (int i = 0; i < MAX_ITEMS; i++)
 	{
 		cout << " " << _inventaire[i]->getNom();
 	}
 	cout << endl;
 }
 
-void inventaire::removeItem() 
+void inventaire::addCle(item* item)
 {
-     for (int i = 0; i < MAX_ITEMS; i++) 
-	 {
-        if (_inventaire[i] != nullptr && _inventaire[i]->getNom() == "cle") 
-		{
-            delete _inventaire[i]; // Supprime l'objet pour éviter les fuites de mémoire.
-            _inventaire[i] = nullptr; // Enlève l'item de l'inventaire en mettant son emplacement à nullptr.
-
-            break; // Sort de la boucle après avoir trouvé et retiré la clé.
-        }
-    }
-}
-
-void inventaire::addItem(item* item)
-{
-	_inventaire[_taille] = item;
+	_inventaire[0] = item;
 	_taille++;
 }
 
-void inventaire::operator ++()
+void inventaire::addFlash(item* item)
 {
-	_selectedSlot++ % MAX_ITEMS;
+	_inventaire[1] = item;
+	_taille++;
+}
+
+void inventaire::addCoin(item* item)
+{
+	_inventaire[2] = item;
+	_taille++;
+}
+
+void inventaire::addFood(item* item)
+{
+	_inventaire[3] = item;
+	_taille++;
+}
+
+void inventaire::removeItem(int index)
+{
+	_inventaire[index] = new item(" ");
+	_taille--;
 }

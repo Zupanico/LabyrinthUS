@@ -38,7 +38,7 @@ class monster : public personnage
 private:
     bool _actif;
     coordonnees _triggerPoints;
-    
+
     int _direction; // Direction de déplacement
     int _range;     // Range de vision
     bool _poursuite; // Si en poursuite du joueur

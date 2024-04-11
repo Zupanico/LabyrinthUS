@@ -48,9 +48,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     reader.setFileName("floor.png");
     _floorImage = reader.read();
     reader.setFileName("shake.png");
-    _shake = reader.read();
+    _shakeImage = reader.read();
     reader.setFileName("heart.png");
-    _coeur = reader.read();
+    _coeurImage = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
@@ -96,7 +96,6 @@ void MainWindow::setPlayerPosition(int x, int y)
     {
         _hidePlayer = true;
     }
-        
 }
 
 void MainWindow::emptyMap()
@@ -258,31 +257,38 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     if (_checkmachine == true)
     {
         painter.setBrush(QBrush(Qt::gray));
-        painter.drawEllipse(width()*0.10, height()*0.55, width()*0.025, width()*0.025);
-        painter.drawEllipse(width()*0.07, height()*0.50, width()*0.025, width()*0.025);
-        painter.drawEllipse(width()*0.13, height()*0.50, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.08, height()*0.55, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.05, height()*0.50, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.11, height()*0.50, width()*0.025, width()*0.025);
 
         painter.setBrush(QBrush(Qt::red));
-        painter.drawEllipse(width()*0.10, height()*0.45, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.08, height()*0.45, width()*0.025, width()*0.025);
     }
 
     if (_checklocker == true)
     {
         painter.setBrush(QBrush(Qt::gray));
-        painter.drawEllipse(width()*0.10, height()*0.55, width()*0.025, width()*0.025);
-        painter.drawEllipse(width()*0.10, height()*0.45, width()*0.025, width()*0.025);
-        painter.drawEllipse(width()*0.13, height()*0.50, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.08, height()*0.55, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.08, height()*0.45, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.11, height()*0.50, width()*0.025, width()*0.025);
 
         painter.setBrush(QBrush(Qt::red));
-        painter.drawEllipse(width()*0.07, height()*0.50, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.05, height()*0.50, width()*0.025, width()*0.025);
     }
+
+    painter.drawImage(width()*0.85, height()*0.5, _shakeImage.scaled(_imageWidth*1.8, _imageWidth*1.8));
+
+    QFont font("Arial", 12);
+    painter.setFont(font);
+    painter.setPen(Qt::red);
+    painter.drawText(width()*0.85, height()*0.5, "SHAKE");
 
     // Vies
 
     for (int i = 0; i < _vies; i++)
     {
+        painter.drawImage(width()*(0.04+(i*0.045)), height()*0.07, _coeurImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
     }
-
     
 }
 
@@ -324,4 +330,9 @@ void MainWindow::changerVies(int changement)
 void MainWindow::resetVies()
 {
     _vies = 3;
+}
+
+void MainWindow::setShake(bool etat)
+{
+    _shake = etat;
 }

@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow
         bool _food;
         bool _checkmachine;
         bool _checklocker;
+        bool _shake;
 
         int _vies;
 
@@ -38,6 +39,7 @@ class MainWindow : public QMainWindow
         void setLocker(bool etat);
         void changerVies(int changement);
         void resetVies();
+        void setShake(bool etat);
 
 private:
     // Define your variables and methods here
@@ -59,8 +61,8 @@ private:
     QImage _shadowFoodImage;
     QImage _machineImage;
     QImage _floorImage;
-    QImage _shake;
-    QImage _coeur;
+    QImage _shakeImage;
+    QImage _coeurImage;
 
     int _playerX, _playerY;
     bool _hidePlayer;

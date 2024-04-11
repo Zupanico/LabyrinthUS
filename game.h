@@ -72,6 +72,7 @@ private:
     bool _coinCollect;
     bool _flashCollect;
     bool _foodCollect;
+    bool _sprint;
 
     int _lastpx;
     int _lastpy;

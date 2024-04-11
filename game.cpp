@@ -15,6 +15,7 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
     _coinCollect = false;
     _flashCollect = false;
     _foodCollect = false;
+    _sprint = true;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
@@ -78,26 +79,53 @@ void game::setclavier()
         }
         else if (k == 1) // Vérifier si nous sommes dans la deuxieme étape
         {
-            switch (touche)
+            if (_sprint == false)
             {
-            case 72:    // fleche haut
-                _p.setVitesseY(-100);
-                _p.setVitesseX(0);
-                break;
-            case 80:    //fleche bas
-                _p.setVitesseY(100);
-                _p.setVitesseX(0);
-                break;
-            case 77:    // fleche droite
-                _p.setVitesseX(100);
-                _p.setVitesseY(0);
-                break;
-            case 75:    // fleche gauche
-                _p.setVitesseX(-100);
-                _p.setVitesseY(0);
-                break;
-            default:
-                break;
+                switch (touche)
+                {
+                case 72:    // fleche haut
+                    _p.setVitesseY(-100);
+                    _p.setVitesseX(0);
+                    break;
+                case 80:    //fleche bas
+                    _p.setVitesseY(100);
+                    _p.setVitesseX(0);
+                    break;
+                case 77:    // fleche droite
+                    _p.setVitesseX(100);
+                    _p.setVitesseY(0);
+                    break;
+                case 75:    // fleche gauche
+                    _p.setVitesseX(-100);
+                    _p.setVitesseY(0);
+                    break;
+                default:
+                    break;
+                }
+            }
+            else if (_sprint == true)
+            {
+                switch (touche)
+                {
+                case 72:    // fleche haut
+                    _p.setVitesseY(-180);
+                    _p.setVitesseX(0);
+                    break;
+                case 80:    //fleche bas
+                    _p.setVitesseY(180);
+                    _p.setVitesseX(0);
+                    break;
+                case 77:    // fleche droite
+                    _p.setVitesseX(180);
+                    _p.setVitesseY(0);
+                    break;
+                case 75:    // fleche gauche
+                    _p.setVitesseX(-180);
+                    _p.setVitesseY(0);
+                    break;
+                default:
+                    break;
+                }
             }
             k = 0; // Réinitialiser k après avoir traité la touche fléchée
         }
@@ -113,8 +141,11 @@ void game::setJoystick()
     tie(joystickX, joystickY) = joystickValues;
 
     // Déterminez la direction de déplacement en fonction des valeurs du joystick
-    _p.setVitesseX(joystickX);
-    _p.setVitesseY(joystickY);
+    if (_sprint == false)
+    {
+        _p.setVitesseX(joystickX*1.8);
+        _p.setVitesseY(joystickY*1.8);
+    }
 }
 
 void game::getBouton()
@@ -165,6 +196,7 @@ void game::checkMachine()
         && _coinCollect == true) 
     {
         _foodCollect = true;
+        _coinCollect = false;
     }
 }
 
@@ -172,8 +204,8 @@ void game::sprint()
 {
     if (_foodCollect == true)
     {
-
         _foodCollect = false;
+        _sprint = true;
     }
 }
 
@@ -189,7 +221,7 @@ void game::vibreur()
 
 void game::libererDuMonstre()
 {
-    _w.changerVies(-1);
+    _w.setShake(true);
 
     if (!_a.isConnected())
     {
@@ -240,6 +272,9 @@ void game::libererDuMonstre()
 
         Sleep(500); // Pause pour la prochaine lecture
     }
+
+    _w.setShake(false);
+    _w.changerVies(-1);
 }
 
 

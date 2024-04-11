@@ -9,6 +9,8 @@ personnage::personnage()
 {
     _x = 0;
     _y = 0;
+    _largeur = 0;
+    _hauteur = 0;
     _vitesse_x = 0;
     _vitesse_y = 0;
     _time_x = 0;
@@ -24,11 +26,6 @@ int personnage::getX() const
     return this->_x;
 }
 
-int personnage::getY() const
-{
-    return this->_y;
-}
-
 int personnage::getLargeur() const
 {
     return this->_largeur;
@@ -38,6 +35,12 @@ int personnage::getHauteur() const
 {
     return this->_hauteur;
 }
+
+int personnage::getY() const
+{
+    return this->_y;
+}
+
 
 void personnage::setX(int x)
 {

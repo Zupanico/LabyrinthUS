@@ -15,7 +15,6 @@ monster::monster()
 
 monster::~monster()
 {
-
 }
 
 int monster::getRange() const

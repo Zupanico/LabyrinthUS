@@ -94,7 +94,7 @@ void MainWindow::emptyMap()
 void MainWindow::paintEvent(QPaintEvent *event) {
     QMainWindow::paintEvent(event);
 
-    int _imageWidth = width() / 10;
+    int _imageWidth = width() / 18;
 
     QPainter painter(this);
 
@@ -129,7 +129,19 @@ void MainWindow::paintEvent(QPaintEvent *event) {
         }
     }
     // Draw the player
-    painter.drawImage(width() / 2 , height() / 2 , _playerImage.scaled(_imageWidth, _imageWidth));
+    painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
 
-    painter.drawImage(0, 0, _cerclevision1.scaled(width(), height()));
+    if (_flashlight == false)
+    {
+        painter.drawImage(0, -200, _cerclevision1.scaled(width(), width()));
+    }
+    else if (_flashlight == true)
+    {
+        painter.drawImage(0, -200, _cerclevision2.scaled(width(), width()));
+    }
+}
+
+void MainWindow::setFlash(bool etat)
+{
+    _flashlight = etat;
 }

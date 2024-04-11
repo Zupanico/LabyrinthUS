@@ -528,7 +528,7 @@ void game::prochainNiveau()
         _flashCollect = false;
         _foodCollect = false;
 
-        for (int i; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             _inv.removeItem(i);
         }
@@ -729,6 +729,17 @@ void game::updateGame()
         }
         deplacerMonster();
     }
+
+    if (_flashCollect == true)
+    {
+        _w.setFlash(true);
+    }
+    else if (_flashCollect == false)
+    {
+        _w.setFlash(false);
+    }
+
+
 
     // Check for game over condition and stop the game loop if true
     if (_gameOver) {

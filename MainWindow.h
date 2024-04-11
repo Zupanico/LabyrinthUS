@@ -14,11 +14,14 @@ class MainWindow : public QMainWindow
     protected:
         void paintEvent(QPaintEvent *event) override;
 
+        bool _flashlight;
+
     public:
         void addMap(char m, int x, int y);
         void emptyMap();
         void afficherMap();
         void setPlayerPosition(int x, int y);
+        void setFlash(bool etat);
 
 private:
     // Define your variables and methods here

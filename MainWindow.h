@@ -40,6 +40,7 @@ private:
     QImage _machineImage;
     QImage _cerclevision1;
     QImage _cerclevision2;
+    QImage _floorImage;
 
     int _playerX, _playerY;
 };

@@ -322,7 +322,7 @@ void game::deplacerJoueur()
         _son.playCollect1();
         _inv.addCle(new item(_cle));
         _keyCollect = true;
-        _m.setPoursuite(true);
+        _m.setActif(true);
         _w.addMap(' ', _map.getCle().x, _map.getCle().y);
     }
 
@@ -625,7 +625,6 @@ bool game::collision(int x, int y)
         }
         else
         {
-            _son.playDoorOpen1();
             // Désactive le monstre
             _m.setActif(false);
             return false;
@@ -741,18 +740,6 @@ void game::updateGame()
     {
         _w.setFlash(false);
     }
-
-
-    // son de battement de coeur
-    bool soundPlayed = false;
-    if (_vies < 3 && !soundPlayed) {
-        _son.playHeartbeat1();
-        soundPlayed = true;
-    } else {
-        soundPlayed = false; // Reset the flag if the value is no longer 2
-    }
-
-
 
     // Check for game over condition and stop the game loop if true
     if (_gameOver) {

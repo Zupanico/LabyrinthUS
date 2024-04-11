@@ -30,6 +30,7 @@ class monster;
 #include <thread> // Pour la pause
 #include <cmath>  // Pour la fonction abs()
 
+
 using namespace std;
 
 // Définition de la classe game
@@ -41,6 +42,9 @@ private:
     int _vies;
 
     int _niveau = 0;
+
+    const float     _seuilDistance = 8;
+    const double    _seuilAccel = 4;
 
     fenetre         _f;
     personnage      _p;
@@ -84,7 +88,8 @@ public:
     game(int &argc, char **argv);
     ~game();
 
-    // Clavier
+    // Accesseurs
+    float distance;
     int getclavier() const;
     void setclavier();
     void setJoystick();   
@@ -95,10 +100,11 @@ public:
     // Joueur
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
+
+    void vibreur();
     void libererDuMonstre();
     void checkLocker();
     void checkMachine();
-
 
     // Méthodes
     void deplacerJoueur();

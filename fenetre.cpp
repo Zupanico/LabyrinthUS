@@ -55,8 +55,7 @@ void fenetre::setEcran(const char* c, int row, int column)
     }
 }
 
-
-const char* fenetre::getEcran(int row, int column) const
+const char* fenetre::getEcran(int row, int column) const 
 {
 
     if (row >= 0 && row < _largeur && column >= 0 && column < _hauteur)

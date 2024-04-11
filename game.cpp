@@ -11,7 +11,6 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
     _vies = 3;
 
     _gameOver = false;
-
     _keyCollect = false;
     _coinCollect = false;
     _flashCollect = false;
@@ -29,6 +28,8 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
 
 game::~game()
 {
+    // Libérer la mémoire allouée pour l'objet game
+    delete this;
 }
 
 int game::getclavier() const
@@ -40,17 +41,22 @@ int game::getclavier() const
 void game::mettreAJourVies(int changement)
 {
     _vies += changement;
-
-    if (_vies <= 0)
+    
+    if (_vies <= 0) 
     {
         // Game over
+        _a.setMessagesVies(0);
         _gameOver = true;
+    }
+    else
+    {
+        _a.setMessagesVies(_vies);
     }
 }
 
+
 void game::setclavier()
 {
-
     static int k = 0; // Déclarer k en tant que variable statique pour qu'elle conserve sa valeur entre les appels
     if (_kbhit())
     {
@@ -193,6 +199,16 @@ void game::checkMachine()
     }*/
 }
 
+void game::vibreur()
+{
+    if (_a.isConnected())
+    {                    
+        float distance = sqrt(pow(_p.getX() - _m.getX(), 2) + pow(_p.getY() - _m.getY(), 2));
+        // Activer ou désactiver la vibration basée sur la distance
+        _a.setMessagesDistance(distance <= _seuilDistance ? distance : 0.0);
+    }
+}
+
 void game::libererDuMonstre()
 {
     if (!_a.isConnected())
@@ -201,90 +217,50 @@ void game::libererDuMonstre()
         reinitialiserPositionJoueur();
         return;
     }
-    cout << "                    !!!!!!! LE MONSTRE VOUS A ATTRAPÉ !!!!!!!" << endl;
-    Sleep(3000); // Attendre 1 seconde
 
-    cout << "Tournez rapidement la manette du HAUT vers le BAS de la DROITE vers la GAUCHE pour vous libérer !" << endl;
-    Sleep(3000); // Attendre 1 seconde
+    cout << "                    !!!!!!! LE MONSTRE VOUS A ATTRAPÉ !!!!!!!" << endl;
+    Sleep(2000); // Attendre 2 secondes
+
+    cout << "       Tournez rapidement la manette dans tous les sens pour vous libérer !" << endl;
+    Sleep(2000); // Attendre 2 secondes
 
     cout << "                    Vous avez 10 secondes pour vous libérer !" << endl;
-    Sleep(5000); // Attendre 2 secondes
-
-    cout << "\n" << endl;
-
-    // Initialisations
-    const double standardValueX = 0.5, standardValueY = -0.2, standardValueZ = 0.8;
-    const double marge = 0.50;
+    Sleep(4000); // Attendre 4 secondes
 
     auto start = chrono::steady_clock::now();
 
-    while (true)
-    {
+    while (true) 
+    {   
+        vibreur();
+        
         auto valeursAccelerometre = _a.lireAccelerometre();
-        double valeurAccelerometreX = std::get<0>(valeursAccelerometre);
-        double valeurAccelerometreY = std::get<1>(valeursAccelerometre);
-        double valeurAccelerometreZ = std::get<2>(valeursAccelerometre);
+        double normeAccel = sqrt(pow(std::get<0>(valeursAccelerometre), 2) + pow(std::get<1>(valeursAccelerometre), 2) + pow(std::get<2>(valeursAccelerometre), 2)); 
 
-        string message = "Valeurs de l'accéléromètre : " ;
-        cout << message << valeurAccelerometreX << ", " << valeurAccelerometreY << ", " << valeurAccelerometreZ << endl;
-
-        // Imprimez suffisamment d'espaces pour couvrir le message précédent
-        for (size_t i = 0; i < message.length(); ++i)
-        {
-            cout << "\b \b";
-        }
-
-        // Conditions de libération ou d'échec
-        if (abs(valeurAccelerometreX - standardValueX) < marge &&
-            abs(valeurAccelerometreY - standardValueY) < marge &&
-            abs(valeurAccelerometreZ - standardValueZ) < marge)
+        if (normeAccel > _seuilAccel) 
         {
             mettreAJourVies(-1);
             reinitialiserPositionJoueur();
-
-            string message = "Vous vous êtes libéré du monstre mais vous avez perdu une vie !";
-
-            cout << message << endl;
-
-            // Imprimez suffisamment d'espaces pour couvrir le message précédent
-            for (size_t i = 0; i < message.length(); ++i)
-            {
-                cout << "\b \b";
-            }
-
-            Sleep(2000); // Attendre 3 secondes
-
+            cout << "Vous vous êtes libéré du monstre mais vous avez perdu une vie !" << endl;
+            Sleep(2000); // Attendre 2 secondes
             system("cls");
-
             break;
         }
 
         auto end = chrono::steady_clock::now();
-        if (chrono::duration_cast<chrono::seconds>(end - start).count() >= 10)
+        if (chrono::duration_cast<chrono::seconds>(end - start).count() >= 10) // Si le temps dépasse 10 secondes
         {
             _vies = 0;
             _gameOver = true;
-
-            string message = "Vous n'avez pas réussi à vous libérer à temps. Vous avez perdu toutes vos vies !";
-
-            cout << message << endl;
-
-            // Imprimez suffisamment d'espaces pour couvrir le message précédent
-            for (size_t i = 0; i < message.length(); ++i)
-            {
-                cout << "\b \b";
-            }
-
-            Sleep(2000); // Attendre 3 secondes
-
+            cout << "Vous n'avez pas réussi à vous libérer à temps. Vous avez perdu toutes vos vies !" << endl;
+            Sleep(2000); // Attendre 2 secondes
             system("cls");
-
             break;
         }
 
-        Sleep(500); // Pause
+        Sleep(500); // Pause pour la prochaine lecture
     }
 }
+
 
 void game::deplacerJoueur()
 {
@@ -292,21 +268,21 @@ void game::deplacerJoueur()
 
      // Vérifier que le mouvement vers le haut n'est pas une collision avec un mur
     if (!collision(_p.getX(), (_p.getY()-1)) && _p.getVitesseY() < 0)
-        {
-            _p.deplacementY();
-        }
+    {
+        _p.deplacementY();
+    }
 
     // Vérifier que le mouvement vers le bas n'est pas une collision avec un mur
     if (!collision(_p.getX(), (_p.getY()+1)) && _p.getVitesseY() > 0)
-        {
-            _p.deplacementY();
-        }
+    {
+        _p.deplacementY();
+    }
 
     // Vérifier que le mouvement vers la droite n'est pas une collision avec un mur
     if (!collision(_p.getX()+1, _p.getY()) && _p.getVitesseX() > 0)
-        {
-            _p.deplacementX();
-        }
+    {
+        _p.deplacementX();
+    }
 
     // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
     if (!collision(_p.getX()-1, _p.getY()) && _p.getVitesseX() < 0)
@@ -351,10 +327,10 @@ void game::deplacerJoueur()
 
 void game::reinitialiserPositionJoueur()
 {
-    int distanceMax = 10; // Définir la distance maximale de réinitialisation
+    int distanceMax = 15; // Définir la distance maximale de réinitialisation
     int newX, newY;
     int maxTentatives = 100; // Limite le nombre de tentatives pour éviter une boucle infinie
-    bool positionValide;
+    bool positionValide = false;
 
     do {
         // Générer une nouvelle position aléatoire à proximité du joueur
@@ -656,20 +632,15 @@ void game::afficher()
     // Effacer l'écran
     COORD _pos = {0, 0};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), _pos); // Positionne le curseur en haut à gauche de la fenêtre
-    // Afficher le jeu
 
     // Afficher le titre du jeu
-    cout << "                           LABYRINTHUS" << endl;
+    cout << "                     LABYRINTHUS" << endl;
 
     _f.print(cout);
 
-    // Afficher les coordonnées du personnage
-    cout << "Coordonnées du personnage : (" << _p.getX() << ", " << _p.getY() << ")" << endl;
-
-    // Afficher les coordonnées du monstre
+    cout << "Coordonnées du personnage :  (" << _p.getX() << ", " << _p.getY() << ")" << endl;
     cout << "Coordonnées du monstre : (" << _m.getX() << ", " << _m.getY() << ")" << endl;
 
-    // Afficher la vie du joueur
     cout << "Vies du joueur : " << _vies << endl;
     
     // Afficher l'inventaire du joueur
@@ -692,13 +663,19 @@ void game::updateGame()
 {
     // Update game state and perform game logic here
     setclavier();
+
     if (_a.isConnected())
     {
+        _a.setMessagesVies(_vies);
+        _a.setMessages();
         setJoystick();
         getBouton();
+        vibreur();
     }
+
     
     deplacerJoueur();
+
     if (_m.getActif())
     {
         patrouillageMonster();

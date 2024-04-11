@@ -29,18 +29,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _doorImage = reader.read();
     reader.setFileName("key.png");
     _keyImage = reader.read();
+    reader.setFileName("shadow_key.png");
+    _shadowKeyImage = reader.read();
     reader.setFileName("dollar.png");
     _coinImage = reader.read();
+    reader.setFileName("shadow_coin.png");
+    _shadowCoinImage = reader.read();
     reader.setFileName("torch.png");
     _flashImage = reader.read();
-    reader.setFileName("key.png");
-    _keyImage = reader.read();
+    reader.setFileName("shadow_torch.png");
+    _shadowFlashImage = reader.read();
+    reader.setFileName("chocolate.png");
+    _foodImage = reader.read();
+    reader.setFileName("shadow_chocolate.png");
+    _shadowFoodImage = reader.read();
     reader.setFileName("vending-machine.png");
     _machineImage = reader.read();
-    reader.setFileName("cerclevision1.png");
-    _cerclevision1 = reader.read();
-    reader.setFileName("cerclevision2.png");
-    _cerclevision2 = reader.read();
     reader.setFileName("floor.png");
     _floorImage = reader.read();
 
@@ -127,11 +131,11 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                 } else if (_labyrinth[i][j] == 'd') {
                     painter.drawImage(x, y, _doorImage.scaled(_imageWidth, _imageWidth));
                 } else if (_labyrinth[i][j] == 'k') {
-                    painter.drawImage(x, y, _keyImage.scaled(_imageWidth, _imageWidth));
+                    painter.drawImage(x, y, _keyImage.scaled(_imageWidth/2, _imageWidth/2));
                 } else if (_labyrinth[i][j] == 'c') {
-                    painter.drawImage(x, y, _coinImage.scaled(_imageWidth, _imageWidth));
+                    painter.drawImage(x, y, _coinImage.scaled(_imageWidth/2, _imageWidth/2));
                 } else if (_labyrinth[i][j] == 'f') {
-                    painter.drawImage(x, y, _flashImage.scaled(_imageWidth, _imageWidth));
+                    painter.drawImage(x, y, _flashImage.scaled(_imageWidth/2, _imageWidth/2));
                 } else if (_labyrinth[i][j] == 'm') {
                     painter.drawImage(x, y, _machineImage.scaled(_imageWidth, _imageWidth));
                 }
@@ -155,8 +159,8 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     // Calculate the radius of the circle
     int radius = qMax(width(), height())/2;
 
-
-if (_flashlight == false)
+    // Cercle de vision
+    if (_flashlight == false)
     {
         radius *= 1.5;
 
@@ -190,9 +194,65 @@ if (_flashlight == false)
 
         painter.drawEllipse(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
     }
+
+    // Inventaire
+    painter.setPen(QPen(Qt::darkGray, width()*0.002));
+
+    painter.drawRect(width()*0.41, height()*0.07, width()*0.035, width()*0.035);
+    painter.drawRect(width()*0.47, height()*0.07, width()*0.035, width()*0.035);
+    painter.drawRect(width()*0.53, height()*0.07, width()*0.035, width()*0.035);
+    painter.drawRect(width()*0.59, height()*0.07, width()*0.035, width()*0.035);
+    
+    if (_key == true)
+    {
+        painter.drawImage(width()*0.415, height()*0.08, _keyImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    else if (_key == false)
+    {
+        painter.drawImage(width()*0.415, height()*0.08, _shadowKeyImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    if (_flashlight == true)
+    {
+        painter.drawImage(width()*0.475, height()*0.08, _flashImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    else if (_flashlight == false)
+    {
+        painter.drawImage(width()*0.475, height()*0.08, _shadowFlashImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    if (_coin == true)
+    {
+        painter.drawImage(width()*0.535, height()*0.08, _coinImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    else if (_coin == false)
+    {
+        painter.drawImage(width()*0.535, height()*0.08, _shadowCoinImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    if (_food == true)
+    {
+        painter.drawImage(width()*0.595, height()*0.08, _foodImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
+    else if (_food == false)
+    {
+        painter.drawImage(width()*0.595, height()*0.08, _shadowFoodImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
+    }
 }
 
 void MainWindow::setFlash(bool etat)
 {
     _flashlight = etat;
+}
+
+void MainWindow::setKey(bool etat)
+{
+    _key = etat;
+}
+
+void MainWindow::setCoin(bool etat)
+{
+    _coin = etat;
+}
+
+void MainWindow::setFood(bool etat)
+{
+    _food = etat;
 }

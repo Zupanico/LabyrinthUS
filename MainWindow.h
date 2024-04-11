@@ -13,14 +13,23 @@ class MainWindow : public QMainWindow
 
     protected:
         void paintEvent(QPaintEvent *event) override;
+
         bool _flashlight;
+        bool _key;
+        bool _coin;
+        bool _food;
 
     public:
         void addMap(char m, int x, int y);
         void emptyMap();
         void afficherMap();
         void setPlayerPosition(int x, int y);
+
+        // Items
         void setFlash(bool etat);
+        void setKey(bool etat);
+        void setCoin(bool etat);
+        void setFood(bool etat);
 
 private:
     // Define your variables and methods here
@@ -33,12 +42,14 @@ private:
     QImage _monsterImage;
     QImage _doorImage;
     QImage _keyImage;
+    QImage _shadowKeyImage;
     QImage _flashImage;
+    QImage _shadowFlashImage;
     QImage _coinImage;
+    QImage _shadowCoinImage;
     QImage _foodImage;
+    QImage _shadowFoodImage;
     QImage _machineImage;
-    QImage _cerclevision1;
-    QImage _cerclevision2;
     QImage _floorImage;
 
     int _playerX, _playerY;

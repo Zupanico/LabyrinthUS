@@ -1,7 +1,7 @@
 /*Fichier : game.cpp
 Description : Fichier d'en-tête de la classe game
 Date : 2024-02-22
-Auteur : Bakayoko Kanvali*/
+Auteur : Olympus*/
 
 #include "game.h"
 
@@ -162,7 +162,7 @@ void game::checkLocker()
 }
 
 void game::checkMachine()
-{
+{   /*
     if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
         || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
         && _coinCollect == true)
@@ -190,7 +190,7 @@ void game::checkMachine()
             _coinCollect = false;
             _choixfood = false;
         }
-    }
+    }*/
 }
 
 void game::libererDuMonstre()
@@ -319,7 +319,6 @@ void game::deplacerJoueur()
     {
         _inv.addCle(new item(_cle));
         _keyCollect = true;
-        _m.setPoursuite(true);
         _w.addMap(' ', _map.getCle().x, _map.getCle().y);
     }
 
@@ -672,22 +671,6 @@ void game::afficher()
 
     // Afficher la vie du joueur
     cout << "Vies du joueur : " << _vies << endl;
-    /*if (_vies == 3)
-    {
-        cout << _heart << " "<< _heart << " "<< _heart << endl;
-    }
-    if (_vies == 2)
-    {
-        cout << _heart << " "<< _heart << endl;
-    }
-    if (_vies == 1)
-    {
-        cout << _heart << endl;
-    }
-    if (_vies == 0)
-    {
-        cout << endl;
-    }*/
     
     // Afficher l'inventaire du joueur
     _inv.afficherInventaire();
@@ -737,6 +720,33 @@ void game::updateGame()
     else if (_flashCollect == false)
     {
         _w.setFlash(false);
+    }
+
+    if (_keyCollect == true)
+    {
+        _w.setKey(true);
+    }
+    else if (_keyCollect == false)
+    {
+        _w.setKey(false);
+    }
+
+    if (_coinCollect == true)
+    {
+        _w.setCoin(true);
+    }
+    else if (_coinCollect == false)
+    {
+        _w.setCoin(false);
+    }
+
+    if (_foodCollect == true)
+    {
+        _w.setFood(true);
+    }
+    else if (_foodCollect == false)
+    {
+        _w.setFood(false);
     }
 
 

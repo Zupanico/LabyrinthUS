@@ -1,7 +1,7 @@
  /*Fichier : game.h
  Description : Fichier d'en-tête de la classe game
  Date : 2024-02-22
- Auteur : Bakayoko Kanvali*/
+ Auteur : Olympus*/
 
 #ifndef GAME_H
 #define GAME_H

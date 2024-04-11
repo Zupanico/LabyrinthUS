@@ -147,13 +147,48 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     // Draw the player
     painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
 
-    if (_flashlight == false)
+
+    // Calculate the center position of the circle
+    int centerX = (width() + _imageWidth) / 2;
+    int centerY = (height() + _imageWidth) / 2; // Adjust the vertical position as needed
+
+    // Calculate the radius of the circle
+    int radius = qMax(width(), height())/2;
+
+
+if (_flashlight == false)
     {
-        painter.drawImage(0, -200, _cerclevision1.scaled(width(), width()));
+        radius *= 1.5;
+
+        QRadialGradient gradient(centerX, centerY, radius/2, centerX, centerY);
+        gradient.setColorAt(0, Qt::transparent);
+        gradient.setColorAt(1, Qt::black); // Set the inside color to black
+
+        painter.setBrush(gradient);
+        painter.setPen(QPen(Qt::black, radius)); 
+
+        painter.drawEllipse(centerX - 2*radius, centerY - 2*radius, 4 * radius, 4 * radius);
+
+        painter.setPen(Qt::NoPen); // No border
+
+        painter.drawEllipse(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
     }
     else if (_flashlight == true)
     {
-        painter.drawImage(0, -200, _cerclevision2.scaled(width(), width()));
+        radius *= 2.2;
+
+        QRadialGradient gradient(centerX, centerY, radius/2, centerX, centerY);
+        gradient.setColorAt(0, Qt::transparent);
+        gradient.setColorAt(1, Qt::black); // Set the inside color to black
+
+        painter.setBrush(gradient);
+        painter.setPen(QPen(Qt::black, radius)); 
+
+        painter.drawEllipse(centerX - 2*radius, centerY - 2*radius, 4 * radius, 4 * radius);
+
+        painter.setPen(Qt::NoPen); // No border
+
+        painter.drawEllipse(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
     }
 }
 

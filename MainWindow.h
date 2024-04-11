@@ -13,7 +13,6 @@ class MainWindow : public QMainWindow
 
     protected:
         void paintEvent(QPaintEvent *event) override;
-
         bool _flashlight;
 
     public:

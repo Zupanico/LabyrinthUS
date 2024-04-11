@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _machineImage = reader.read();
     reader.setFileName("floor.png");
     _floorImage = reader.read();
+    reader.setFileName("shake.png");
+    _shake = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
@@ -244,6 +246,22 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     {
         painter.drawImage(width()*0.595, height()*0.08, _shadowFoodImage.scaled(_imageWidth/2.2, _imageWidth/2.2));
     }
+
+    // Indications
+    QPen pen(Qt::NoPen);
+    painter.setPen(pen);
+
+    if (_checkmachine == true)
+    {
+        painter.setBrush(QBrush(Qt::gray));
+        painter.drawEllipse(width()*0.85, height()*0.55, width()*0.005, width()*0.005);
+        painter.drawEllipse(width()*0.80, height()*0.50, width()*0.005, width()*0.005);
+        painter.drawEllipse(width()*0.90, height()*0.50, width()*0.005, width()*0.005);
+
+        painter.setBrush(QBrush(Qt::red));
+        painter.drawEllipse(width()*0.85, height()*0.45, width()*0.005, width()*0.005);
+    }
+
 }
 
 void MainWindow::setFlash(bool etat)
@@ -264,4 +282,14 @@ void MainWindow::setCoin(bool etat)
 void MainWindow::setFood(bool etat)
 {
     _food = etat;
+}
+
+void MainWindow::setMachine(bool etat)
+{
+    _checkmachine = etat;
+}
+
+void MainWindow::setLocker(bool etat)
+{
+    _checklocker = etat;
 }

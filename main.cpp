@@ -1,7 +1,7 @@
 /* Fichier : main.cpp
 Description : Fichier d'en-tête du main
 Date : 2024-02-22
-Auteur : Bakayoko Kanvali*/  
+Auteur : Olympus*/  
 
 #include <string>
 #include <fstream>

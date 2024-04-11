@@ -72,9 +72,6 @@ private:
     bool _coinCollect;
     bool _flashCollect;
     bool _foodCollect;
-    bool _checkmachine;
-    bool _choixfood;
-    bool _choixvies;
 
     int _lastpx;
     int _lastpy;
@@ -106,6 +103,8 @@ public:
     void libererDuMonstre();
     void checkLocker();
     void checkMachine();
+
+    void sprint();
 
     // Méthodes
     void deplacerJoueur();

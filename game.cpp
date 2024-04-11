@@ -15,9 +15,6 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
     _coinCollect = false;
     _flashCollect = false;
     _foodCollect = false;
-    _checkmachine = false;
-    _choixfood = false;
-    _choixvies = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
@@ -74,14 +71,6 @@ void game::setclavier()
         {
             checkMachine();
         }
-        if (touche == '1' && _checkmachine == true)
-        {
-            _choixvies = true;
-        }
-        if (touche == '2' && _checkmachine == true)
-        {
-            _choixfood = true;
-        }
 
         if (touche == 224) // Vérifier si la touche est une fleche
         {
@@ -132,7 +121,9 @@ void game::getBouton()
 {
 
     if (_a.lireboutonDroite())
-    {}
+    {
+        sprint();
+    }
     if (_a.lireboutonGauche())
     {
         checkLocker();
@@ -168,35 +159,22 @@ void game::checkLocker()
 }
 
 void game::checkMachine()
-{   /*
+{   
     if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
         || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
-        && _coinCollect == true)
+        && _coinCollect == true) 
     {
-        _checkmachine = true;
-        _p.setVitesseX(0);
-        _p.setVitesseY(0);
-        cout << "1 pour +1 vie, 2 pour barre d'énergie" << endl;
-        if (_vies < 3 && _choixvies == true && _coinCollect == true)
-        {
-            _inv.removeItem(2);
-            mettreAJourVies(+1);
-            _coinCollect = false;
-            _choixvies = false;
-        }
-        else if (_vies == 3 && _choixvies == true && _coinCollect == true)
-        {
-            cout << "Vous êtes au maximum de vies" << endl;
-            _choixvies = false;
-        }
-        else if (_choixfood == true && _coinCollect == true)
-        {
-            _inv.removeItem(3);
-            _inv.addFood(new item(_food));
-            _coinCollect = false;
-            _choixfood = false;
-        }
-    }*/
+        _foodCollect = true;
+    }
+}
+
+void game::sprint()
+{
+    if (_foodCollect == true)
+    {
+
+        _foodCollect = false;
+    }
 }
 
 void game::vibreur()
@@ -286,9 +264,9 @@ void game::deplacerJoueur()
 
     // Vérifier que le mouvement vers la gauche n'est pas une collision avec un mur
     if (!collision(_p.getX()-1, _p.getY()) && _p.getVitesseX() < 0)
-        {
-            _p.deplacementX();
-        }
+    {
+        _p.deplacementX();
+    }
 
     // Vérifier collection item
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
@@ -390,6 +368,7 @@ void game::deplacerMonster()
 
     // Afficher le monstre sur la fenêtre
     _f.setEcran(_monster,  _m.getX(), _m.getY());
+
 
     if ( _p.getX() == _m.getX() && _p.getY() == _m.getY())
     {
@@ -616,8 +595,6 @@ bool game::collision(int x, int y)
         return false;
     }
 
-    
-
 }
 
 bool game::getGameOver()
@@ -726,7 +703,27 @@ void game::updateGame()
         _w.setFood(false);
     }
 
+    if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
+        || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
+        && _coinCollect == true) 
+    {
+        _w.setMachine(true);
+    }
+    else
+    {
+        _w.setMachine(false);
+    }
 
+    if (_map.chercherLocker(_p.getX()+1, _p.getY()) || _map.chercherLocker(_p.getX()-1, _p.getY())
+        || _map.chercherLocker(_p.getX(), _p.getY()+1) || _map.chercherLocker(_p.getX(), _p.getY()-1))
+    {
+        _w.setLocker(true);
+    }
+    else
+    {
+        _w.setLocker(false);
+    }
+    
 
     // Check for game over condition and stop the game loop if true
     if (_gameOver) {

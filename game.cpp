@@ -742,3 +742,62 @@ void game::updateGame()
     // Update GUI
     afficher();
 }
+
+bool game::eventFilter(QObject *obj, QEvent *event)
+{
+    static bool lockerChecked = false; // Track if checkLocker() has been called
+    static QTimer delay; // Timer for cooldown period
+
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        switch (keyEvent->key()) {
+            case Qt::Key_Q:
+                qDebug() << "Quitter";
+                exit(0);
+                break;
+            case Qt::Key_Space:
+                if (!lockerChecked) {
+                    checkLocker();
+                    lockerChecked = true; // Mark checkLocker() as called
+                    delay.start(100); // Start timer for 1 second cooldown period
+                    connect(&delay, &QTimer::timeout, [&](){
+                        lockerChecked = false; // Reset lockerChecked after cooldown period
+                        delay.stop();
+                    });
+                }
+                break;
+            case Qt::Key_C:
+                checkMachine();
+                break;
+            case Qt::Key_1:
+                if (_checkmachine == true)
+                    _choixvies = true;
+                break;
+            case Qt::Key_2:
+                if (_checkmachine == true)
+                    _choixfood = true;
+                break;
+            case Qt::Key_Up:
+                _p.setVitesseY(-100);
+                _p.setVitesseX(0);
+                break;
+            case Qt::Key_Down:
+                _p.setVitesseY(100);
+                _p.setVitesseX(0);
+                break;
+            case Qt::Key_Right:
+                _p.setVitesseX(100);
+                _p.setVitesseY(0);
+                break;
+            case Qt::Key_Left:
+                _p.setVitesseX(-100);
+                _p.setVitesseY(0);
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Call the base class implementation for other events
+    return QApplication::eventFilter(obj, event);
+}

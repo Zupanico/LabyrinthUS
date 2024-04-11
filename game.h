@@ -24,6 +24,7 @@ class monster;
 #include "MainWindow.h"
 #include <QTimer>
 #include <QApplication>
+#include <QKeyEvent>
 
 // Nouvelle bibliothèque
 #include <chrono> // Pour le timing
@@ -81,8 +82,8 @@ private:
     string _mapNiveau[3]={"map1.txt", "map2.txt", "map3.txt"};
     MainWindow _w;
 
-
-
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 public:
     // Constructeur et destructeur
     game(int &argc, char **argv);

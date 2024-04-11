@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
-
+    _hidePlayer = false;
 }
 
 MainWindow::~MainWindow()
@@ -80,8 +80,17 @@ void MainWindow::afficherMap()
 
 void MainWindow::setPlayerPosition(int x, int y)
 {
-    _playerX = x;
-    _playerY = y;
+    if (x >= 0 && x < _labyrinthWidth && y >= 0 && y < _labyrinthHeight)
+    {
+        _playerX = x;
+        _playerY = y;
+        _hidePlayer = false;
+    }
+    else
+    {
+        _hidePlayer = true;
+    }
+        
 }
 
 void MainWindow::emptyMap()
@@ -149,7 +158,7 @@ void MainWindow::paintEvent(QPaintEvent *event) {
         }
     }
     // Draw the player
-    painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
+    if (!_hidePlayer) painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
 
 
     // Calculate the center position of the circle

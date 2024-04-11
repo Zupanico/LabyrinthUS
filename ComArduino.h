@@ -56,6 +56,7 @@ public:
     bool lireboutonHaut();
     bool lireboutonBas();
     bool lireboutonjoystick();
+    int lirerand();
 
     tuple<double, double, double> lireAccelerometre();
     tuple<double, double> lireJoystick();

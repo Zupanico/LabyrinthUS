@@ -53,4 +53,5 @@ private:
     QImage _floorImage;
 
     int _playerX, _playerY;
+    bool _hidePlayer;
 };

@@ -28,6 +28,7 @@ int main(int argc, char **argv)
     SetConsoleOutputCP(CP_UTF8);
 
     game g(argc, argv);
+    g.installEventFilter(&g); // Install the event filter on the application object
 
 
     g.loop();

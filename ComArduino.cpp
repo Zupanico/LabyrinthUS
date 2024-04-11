@@ -6,7 +6,7 @@ Auteur : Bakayoko Kanvali*/
 #include "ComArduino.h"
 
 // Constructeur de la classe ComArduino
-ComArduino::ComArduino() : arduino(), com("COM7"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0)
+ComArduino::ComArduino() : arduino(), com("COM5"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0)
 {
     _time = ((double) clock()) / CLOCKS_PER_SEC;
     connexion();
@@ -75,7 +75,7 @@ bool ComArduino::RcvFromSerial(SerialPort *arduino, string &msg)
 // Méthode pour recevoir des données de l'Arduino
 void ComArduino::setMessages()
 {
-    if ((((double) clock()) / CLOCKS_PER_SEC) - _time >= 0.05)
+    if ((((double) clock()) / CLOCKS_PER_SEC) - _time >= 0.06)
     {
         j_msg_send["led"] = led_state;
         j_msg_send["distance"] = distance_Monstre_Joueur;
@@ -210,7 +210,6 @@ bool ComArduino::lireboutonjoystick()
 // Méthode pour lire les valeurs de l'accéléromètre
 tuple<double, double, double> ComArduino::lireAccelerometre() 
 {
-    setMessages();
     double accelerationX = 0.0, accelerationY = 0.0, accelerationZ = 0.0;
     if (raw_msg.size() > 0)
     {
@@ -233,7 +232,6 @@ tuple<double, double, double> ComArduino::lireAccelerometre()
 // Méthode pour lire les valeurs du joystick
 tuple<double, double> ComArduino::lireJoystick() 
 {
-    setMessages();
     double joystickX = 0.0, joystickY = 0.0;
     if (raw_msg.size() > 0)
     {
@@ -250,6 +248,25 @@ tuple<double, double> ComArduino::lireJoystick()
         }
     }
     return make_tuple(joystickX, joystickY);
+}
+
+int ComArduino::lirerand()
+{
+    int rand = 0;
+    if (raw_msg.size() > 0)
+    {
+        // Convertir les données brutes en objet JSON
+        try // Gérer les erreurs de parsing JSON
+        {
+            json j_msg_rcv = json::parse(raw_msg); // Convertir les données brutes en objet JSON
+            rand = j_msg_rcv["r"];
+        }
+        catch (json::parse_error& e) // Gérer les erreurs de parsing JSON
+        {
+            cerr << "Erreur de parsing JSON: " << e.what() << '\n';
+        }
+    }
+    return rand;
 }
 
 //nbVies

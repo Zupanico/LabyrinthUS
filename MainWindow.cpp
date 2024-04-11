@@ -49,10 +49,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _floorImage = reader.read();
     reader.setFileName("shake.png");
     _shake = reader.read();
+    reader.setFileName("heart.png");
+    _coeur = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
     _hidePlayer = false;
+
+    _vies = 3;
 }
 
 MainWindow::~MainWindow()
@@ -254,14 +258,32 @@ void MainWindow::paintEvent(QPaintEvent *event) {
     if (_checkmachine == true)
     {
         painter.setBrush(QBrush(Qt::gray));
-        painter.drawEllipse(width()*0.85, height()*0.55, width()*0.005, width()*0.005);
-        painter.drawEllipse(width()*0.80, height()*0.50, width()*0.005, width()*0.005);
-        painter.drawEllipse(width()*0.90, height()*0.50, width()*0.005, width()*0.005);
+        painter.drawEllipse(width()*0.10, height()*0.55, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.07, height()*0.50, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.13, height()*0.50, width()*0.025, width()*0.025);
 
         painter.setBrush(QBrush(Qt::red));
-        painter.drawEllipse(width()*0.85, height()*0.45, width()*0.005, width()*0.005);
+        painter.drawEllipse(width()*0.10, height()*0.45, width()*0.025, width()*0.025);
     }
 
+    if (_checklocker == true)
+    {
+        painter.setBrush(QBrush(Qt::gray));
+        painter.drawEllipse(width()*0.10, height()*0.55, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.10, height()*0.45, width()*0.025, width()*0.025);
+        painter.drawEllipse(width()*0.13, height()*0.50, width()*0.025, width()*0.025);
+
+        painter.setBrush(QBrush(Qt::red));
+        painter.drawEllipse(width()*0.07, height()*0.50, width()*0.025, width()*0.025);
+    }
+
+    // Vies
+
+    for (int i = 0; i < _vies; i++)
+    {
+    }
+
+    
 }
 
 void MainWindow::setFlash(bool etat)
@@ -292,4 +314,14 @@ void MainWindow::setMachine(bool etat)
 void MainWindow::setLocker(bool etat)
 {
     _checklocker = etat;
+}
+
+void MainWindow::changerVies(int changement)
+{
+    _vies += changement;
+}
+
+void MainWindow::resetVies()
+{
+    _vies = 3;
 }

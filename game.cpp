@@ -189,12 +189,15 @@ void game::vibreur()
 
 void game::libererDuMonstre()
 {
+    _w.changerVies(-1);
+
     if (!_a.isConnected())
     {
         mettreAJourVies(-1);
         reinitialiserPositionJoueur();
         return;
     }
+
 
     cout << "                    !!!!!!! LE MONSTRE VOUS A ATTRAPÉ !!!!!!!" << endl;
     Sleep(2000); // Attendre 2 secondes
@@ -765,14 +768,6 @@ bool game::eventFilter(QObject *obj, QEvent *event)
                 break;
             case Qt::Key_C:
                 checkMachine();
-                break;
-            case Qt::Key_1:
-                if (_checkmachine == true)
-                    _choixvies = true;
-                break;
-            case Qt::Key_2:
-                if (_checkmachine == true)
-                    _choixfood = true;
                 break;
             case Qt::Key_Up:
                 _p.setVitesseY(-100);

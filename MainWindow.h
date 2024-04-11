@@ -21,6 +21,8 @@ class MainWindow : public QMainWindow
         bool _checkmachine;
         bool _checklocker;
 
+        int _vies;
+
     public:
         void addMap(char m, int x, int y);
         void emptyMap();
@@ -34,6 +36,8 @@ class MainWindow : public QMainWindow
         void setFood(bool etat);
         void setMachine(bool etat);
         void setLocker(bool etat);
+        void changerVies(int changement);
+        void resetVies();
 
 private:
     // Define your variables and methods here
@@ -56,6 +60,7 @@ private:
     QImage _machineImage;
     QImage _floorImage;
     QImage _shake;
+    QImage _coeur;
 
     int _playerX, _playerY;
     bool _hidePlayer;

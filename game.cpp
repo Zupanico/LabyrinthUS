@@ -172,6 +172,8 @@ void game::checkMachine()
         cout << "1 pour +1 vie, 2 pour barre d'énergie" << endl;
         if (_vies < 3 && _choixvies == true && _coinCollect == true)
         {
+            _son.playVendingMachine1();
+            _son.playEating1();
             _inv.removeItem(2);
             mettreAJourVies(+1);
             _coinCollect = false;
@@ -179,6 +181,7 @@ void game::checkMachine()
         }
         else if (_vies == 3 && _choixvies == true && _coinCollect == true)
         {
+            _son.playVendingMachine1();
             cout << "Vous êtes au maximum de vies" << endl;
             _choixvies = false;
         }
@@ -622,6 +625,7 @@ bool game::collision(int x, int y)
         }
         else
         {
+            _son.playDoorOpen1();
             // Désactive le monstre
             _m.setActif(false);
             return false;
@@ -736,6 +740,16 @@ void game::updateGame()
     else if (_flashCollect == false)
     {
         _w.setFlash(false);
+    }
+
+
+    // son de battement de coeur
+    bool soundPlayed = false;
+    if (_vies < 3 && !soundPlayed) {
+        _son.playHeartbeat1();
+        soundPlayed = true;
+    } else {
+        soundPlayed = false; // Reset the flag if the value is no longer 2
     }
 
 

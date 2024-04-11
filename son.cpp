@@ -21,7 +21,7 @@ son::son(QObject *parent) : QObject(parent)
     _sonCollect1->        setSource(QUrl::fromLocalFile("./sounds/collect1.wav"));
     _sonDoorClose1->      setSource(QUrl::fromLocalFile("./sounds/door_close1.wav"));
     _sonDoorClose2->      setSource(QUrl::fromLocalFile("./sounds/door_close2.wav"));
-    _sonDoorOpen1->       setSource(QUrl::fromLocalFile("./sounds/door_pen1.wav"));
+    _sonDoorOpen1->       setSource(QUrl::fromLocalFile("./sounds/door_open1.wav"));
     _sonDropKey1->        setSource(QUrl::fromLocalFile("./sounds/drop_key1.wav"));
     _sonEating1->         setSource(QUrl::fromLocalFile("./sounds/eating1.wav"));
     _sonBreathing1->      setSource(QUrl::fromLocalFile("./sounds/breathing1.wav"));
@@ -46,6 +46,8 @@ son::son(QObject *parent) : QObject(parent)
     _sonVendingMachine1-> setVolume(0.90);
     _sonWalk1->           setVolume(0.90);
     _sonWalk2->           setVolume(0.90);
+
+    _sonHeartbeat1->      setLoopCount(QSoundEffect::Infinite);
 }
 
 son::~son()

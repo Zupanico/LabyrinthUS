@@ -316,6 +316,7 @@ void game::deplacerJoueur()
     // Vérifier collection item
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
     {
+        _son.playCollect1();
         _inv.addCle(new item(_cle));
         _keyCollect = true;
         _m.setPoursuite(true);
@@ -324,6 +325,7 @@ void game::deplacerJoueur()
 
     if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
     {
+        _son.playCollect1();
         _inv.addCoin(new item(_coin));
         _coinCollect = true;
         _w.addMap(' ', _map.getCoin().x, _map.getCoin().y);
@@ -331,6 +333,7 @@ void game::deplacerJoueur()
 
     if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
     {
+        _son.playCollect1();
         _inv.addFlash(new item(_flash));
         _flashCollect = true;
         _w.addMap(' ', _map.getFlash().x, _map.getFlash().y);
@@ -703,7 +706,6 @@ void game::loop()
 
 void game::updateGame()
 {
-    _son.playClick1();
     // Update game state and perform game logic here
     setclavier();
     if (_a.isConnected())

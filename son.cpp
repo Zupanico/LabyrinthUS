@@ -17,20 +17,20 @@ son::son(QObject *parent) : QObject(parent)
     _sonWalk1            = new QSoundEffect(this);           
     _sonWalk2            = new QSoundEffect(this);    
 
-    _sonClick1->          setSource(QUrl::fromLocalFile(":/sounds/click1.wav"));
-    _sonCollect1->        setSource(QUrl::fromLocalFile(":/sounds/collect1.wav"));
-    _sonDoorClose1->      setSource(QUrl::fromLocalFile(":/sounds/door_close1.wav"));
-    _sonDoorClose2->      setSource(QUrl::fromLocalFile(":/sounds/door_close2.wav"));
-    _sonDoorOpen1->       setSource(QUrl::fromLocalFile(":/sounds/door_pen1.wav"));
-    _sonDropKey1->        setSource(QUrl::fromLocalFile(":/sounds/drop_key1.wav"));
-    _sonEating1->         setSource(QUrl::fromLocalFile(":/sounds/eating1.wav"));
-    _sonBreathing1->      setSource(QUrl::fromLocalFile(":/sounds/breathing1.wav"));
-    _sonHeartbeat1->      setSource(QUrl::fromLocalFile(":/sounds/heartbeat1.wav"));
-    _sonLockerClose1->    setSource(QUrl::fromLocalFile(":/sounds/locker_close1.wav"));
-    _sonLockerOpen1->     setSource(QUrl::fromLocalFile(":/sounds/locker_open1.wav"));
-    _sonVendingMachine1-> setSource(QUrl::fromLocalFile(":/sounds/vending_machine1.wav"));
-    _sonWalk1->           setSource(QUrl::fromLocalFile(":/sounds/walk1.wav"));
-    _sonWalk2->           setSource(QUrl::fromLocalFile(":/sounds/walk2.wav"));
+    _sonClick1->          setSource(QUrl::fromLocalFile("./sounds/click1.wav"));
+    _sonCollect1->        setSource(QUrl::fromLocalFile("./sounds/collect1.wav"));
+    _sonDoorClose1->      setSource(QUrl::fromLocalFile("./sounds/door_close1.wav"));
+    _sonDoorClose2->      setSource(QUrl::fromLocalFile("./sounds/door_close2.wav"));
+    _sonDoorOpen1->       setSource(QUrl::fromLocalFile("./sounds/door_pen1.wav"));
+    _sonDropKey1->        setSource(QUrl::fromLocalFile("./sounds/drop_key1.wav"));
+    _sonEating1->         setSource(QUrl::fromLocalFile("./sounds/eating1.wav"));
+    _sonBreathing1->      setSource(QUrl::fromLocalFile("./sounds/breathing1.wav"));
+    _sonHeartbeat1->      setSource(QUrl::fromLocalFile("./sounds/heartbeat1.wav"));
+    _sonLockerClose1->    setSource(QUrl::fromLocalFile("./sounds/locker_close1.wav"));
+    _sonLockerOpen1->     setSource(QUrl::fromLocalFile("./sounds/locker_open1.wav"));
+    _sonVendingMachine1-> setSource(QUrl::fromLocalFile("./sounds/vending_machine1.wav"));
+    _sonWalk1->           setSource(QUrl::fromLocalFile("./sounds/walk1.wav"));
+    _sonWalk2->           setSource(QUrl::fromLocalFile("./sounds/walk2.wav"));
 
     _sonClick1->          setVolume(0.90);
     _sonCollect1->        setVolume(0.90);

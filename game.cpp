@@ -744,7 +744,11 @@ void game::updateGame()
         } 
         else 
         {
-            _m.patrol();
+            if(_a.isConnected()){
+                _m.patrol(_a.lirerand());
+            } else {
+                _m.patrol(rand());
+            }
         }
         deplacerMonster();
     }

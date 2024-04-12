@@ -89,7 +89,7 @@ coordonnees monster::getTriggerPoint() const
     return _triggerPoints;
 }
 
-void monster::patrol()
+void monster::patrol(int random)
 {
     // choisi une direction aléatoire
     /*static QTimer delay;
@@ -97,7 +97,7 @@ void monster::patrol()
     connect(&delay, &QTimer::timeout, [&]() {
         _direction = rand() % 4 + 1;
         });*/
-    _direction = rand() % 4 + 1;
+    _direction = random % 4 + 1;
     
     switch (_direction)
 	{

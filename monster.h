@@ -62,6 +62,6 @@ public:
     void addTriggerPoint(int x, int y);
     coordonnees getTriggerPoint() const;
 
-    void patrol();
+    void patrol(int random);
 };
 #endif

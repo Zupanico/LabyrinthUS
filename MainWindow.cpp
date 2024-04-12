@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _shakeImage = reader.read();
     reader.setFileName("heart.png");
     _coeurImage = reader.read();
+    reader.setFileName("building.png");
+    _elevatorImage = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
@@ -163,6 +165,8 @@ void MainWindow::paintEvent(QPaintEvent *event) {
                     painter.drawImage(x+_imageWidth/4, y, _flashImage.scaled(_imageWidth/2, _imageWidth/2));
                 } else if (_labyrinth[i][j] == 'm') {
                     painter.drawImage(x, y, _machineImage.scaled(_imageWidth, _imageWidth));
+                } else if(_labyrinth[i][j] == 'n') {
+                    painter.drawImage(x, y, _elevatorImage.scaled(_imageWidth, _imageWidth));
                 }
             }
             else

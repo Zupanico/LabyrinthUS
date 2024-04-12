@@ -72,6 +72,7 @@ private:
     QImage _floorImage;
     QImage _shakeImage;
     QImage _coeurImage;
+    QImage _elevatorImage;
 
     int _playerX, _playerY;
     int _monsterX, _monsterY;

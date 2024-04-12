@@ -315,7 +315,8 @@ void game::deplacerJoueur()
         _inv.addCle(new item(_cle));
         _keyCollect = true;
         _w.addMap(' ', _map.getCle().x, _map.getCle().y);
-        _m.setX(_p.getX(),_p.getY()+5);
+        _m.setX(_p.getX());
+        _m.setY(_p.getY()-5);
         _m.setPoursuite(true);
     }
 
@@ -573,6 +574,11 @@ void game::actualiserMap(string fichier)
 {
     // Charger la carte à partir du fichier
     _map.actualiserMap(fichier);
+
+    for (int i = 0; i < _map.getSizeNiveau(); i++)
+    {
+        _w.addMap('n', _map.getNiveau(i).x, _map.getNiveau(i).y);
+    }
 
     for (int i = 0; i < _map.getSizeMurs(); i++)
     {

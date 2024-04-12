@@ -8,7 +8,7 @@ Auteur : Bakayoko Kanvali*/
 game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30), _son(new son(this))
 {
     _clavier = 0;
-    _vies = 3;
+    _vies = 1;
     _gameOver = false;
 
     _keyCollect = false;
@@ -740,6 +740,27 @@ void game::updateGame()
     {
         _w.setFlash(false);
     }
+
+    // Variable to represent "vies"
+
+    // Create a QTimer object
+    QTimer timer;
+
+    // Set up the timer to control the loop
+    int interval = 1000; // Adjust this value as needed (in milliseconds)
+    QObject::connect(&timer, &QTimer::timeout, [&](){
+        // Check if "vies" is below 3
+        if (_vies < 3){
+            _son.playHeartbeat1();
+        } else {
+            timer.stop(); // Stop the timer if the condition is no longer met
+        }
+    });
+    timer.start(interval); // Start the timer with the specified interval
+
+
+    // Start playing the sound effect
+
 
     // Check for game over condition and stop the game loop if true
     if (_gameOver) {

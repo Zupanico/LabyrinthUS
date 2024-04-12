@@ -315,6 +315,8 @@ void game::deplacerJoueur()
         _inv.addCle(new item(_cle));
         _keyCollect = true;
         _w.addMap(' ', _map.getCle().x, _map.getCle().y);
+        _m.setX(_p.getX(),_p.getY()+5);
+        _m.setPoursuite(true);
     }
 
     if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)

@@ -89,8 +89,13 @@ coordonnees monster::getTriggerPoint() const
 void monster::patrol()
 {
     // choisi une direction aléatoire
-     _direction = rand() % 4 + 1;
+    static QTimer delay;
+    delay.start(2000);
+    connect(&delay, &QTimer::timeout, [&]() {
+        _direction = rand() % 4 + 1;
+        });
 
+    
     switch (_direction)
 	{
 		case 1: // Gauche

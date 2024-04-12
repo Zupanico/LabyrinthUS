@@ -19,6 +19,9 @@ class personnage;
 #include <vector>
 #include <cstdlib> // for rand() and srand()
 #include <ctime>   // for time()
+#include <QTimer>
+#include <QApplication>
+#include <QKeyEvent>
 
 #define GAUCHE 1
 #define DROITE 2

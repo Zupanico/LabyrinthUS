@@ -36,6 +36,7 @@ void monster::setActif(bool actif)
 
 void monster::poursuivreJoueur(int direction)
 {
+    
     int vitesse = 80;
 
     switch (direction)

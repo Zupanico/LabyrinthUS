@@ -324,9 +324,8 @@ void game::deplacerJoueur()
         _inv.addCle(new item(_cle));
         _keyCollect = true;
         _w.addMap(' ', _map.getCle().x, _map.getCle().y);
-        _m.setX(_p.getX());
-        _m.setY(_p.getY()-5);
-        _m.setPoursuite(true);
+        /*_m.setX(_p.getX());
+        _m.setY(_p.getY()-5);*/
     }
 
     if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
@@ -492,6 +491,7 @@ void game::patrouillageMonster()
     else if (distanceY > range || distanceX > range)
     {
         _m.setPoursuite(false);
+        _m.setActif(true);
     }
 
 }
@@ -551,6 +551,8 @@ void game::prochainNiveau()
         _foodCollect = false;
         _sprint = false;
         _vies = 3;
+
+        _m.setActif(true);
 
         _w.setSpeed(false);
 

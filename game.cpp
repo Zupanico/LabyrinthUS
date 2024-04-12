@@ -448,7 +448,7 @@ void game::patrouillageMonster()
     int distanceY = abs(mY - pY);
 
     // Si le monstre est à portée du joueur en X
-    if (distanceX < range){
+    if (distanceX < range && mY == pY){
         for (int i = 0; i < distanceX; i++)
         {
             if (mX < pX && !collision(mX + i, mY))
@@ -465,7 +465,7 @@ void game::patrouillageMonster()
     }
 
     // Si le monstre est à portée du joueur en Y
-    if (distanceY < range){
+    if (distanceY < range && mX == pX){
         for (int i = 0; i < distanceY; i++)
         {
             if (mY < pY && !collision(mX, mY + i))
@@ -527,7 +527,7 @@ void game::prochainNiveau()
         cout << "PROCHAIN NIVEAU" << endl;
         _p.setX(0);
         _p.setY(0);
-        _niveau ++;
+        _niveau++;
         _f.resetEcran();
         _w.emptyMap();
         _f.setEcran(_player, _p.getX(), _p.getY());
@@ -715,7 +715,7 @@ void game::updateGame()
     if (_m.getActif())
     {
         patrouillageMonster();
-        if (_m.getPoursuite())
+        if (_m.getPoursuite()==true)
         {
             poursuiteJoueur();
         } 

@@ -112,7 +112,7 @@ void Info::MenuInfo()
 void Info::saveData()
 {
     // Chemin du fichier de sauvegarde
-    QString filePath = "./Interface_Graphique/Informations.txt";
+    QString filePath = "./Informations.txt";
 
     // Ouvrir le fichier en mode écriture (créer s'il n'existe pas)
     QFile file(filePath);
@@ -126,20 +126,22 @@ void Info::saveData()
     QTextStream out(&file);
 
     // Écrire les données dans le fichier
-    out << "Informations importantes\n";
-    out << "Ligne 1 : Données importantes\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    out << "Ligne 2 : Autres informations\n";
-    // Ajoutez autant de lignes que nécessaire
+    out << "Titre : LabyrinthUS \n\n";
+
+    out << "Description :\n";
+    out << "\n";
+    out << "    Plongez dans une aventure palpitante a travers des labyrinthes mysterieux ou chaque tournant revele de nouveaux defis et dangers. \n Dans ce jeu captivant, votre objectif est de naviguer a travers les labyrinthes, de collecter la cle pour ouvrir la porte vers le niveau suivant,\n tout en evitant d'etre capture par le redoutable monstre qui rode dans les couloirs.\n\n";
+
+    out << "Fonctionnalies :\n\n";
+
+    out << "Exploration de Labyrinthes : Parcourez une variete de labyrinthes aux designs uniques et intrigants.\n";
+    out << "Collecte de Cles : Trouvez la cle cachee dans chaque niveau pour deverrouiller la sortie vers le prochain defi.\n";
+    out << "Eviter le Monstre : Faites preuve de discrétion et de strategie pour eviter les pieges du monstre qui patrouille sans relache.\n";
+    out << "Ramassage de Gadgets : Decouvrez des gadgets speciaux disperses dans les labyrinthes pour vous aider dans votre quete.\n";
+    out << "Niveaux Progressifs : Affrontez des defis de plus en plus complexes a mesure que vous progressez a travers les niveaux.\n";
+    out << "Graphismes Captivants : Plongez dans des decors immersifs et des visuels epoustouflants qui ajoutent a l'ambiance envoutante du jeu.\n\n";
+
+    out << "Plongez dans l'aventure des maintenant et voyez si vous avez ce qu'il faut pour echapper aux dangers du Labyrinthe Aventure !\n";
 
     // Fermer le fichier après avoir écrit les données
     file.close();

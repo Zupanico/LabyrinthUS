@@ -28,5 +28,8 @@
 	<file>cerclevision2.png</file>   
 	<file>floor.png</file>
     </qresource>
+    <qresource prefix="/texte">
+        <file>Informations.txt</file>
+    </qresource>
 </RCC>
 

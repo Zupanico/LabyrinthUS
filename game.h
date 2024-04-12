@@ -36,7 +36,7 @@ private:
     int _niveau = 0;
 
     const float     _seuilDistance = 8;
-    const double    _seuilAccel = 4;
+    const double    _seuilAccel = 0.5;
 
     fenetre         _f;
     personnage      _p;
@@ -67,6 +67,7 @@ private:
     bool _flashCollect;
     bool _foodCollect;
     bool _sprint;
+    bool _accelon;
 
     int _lastpx;
     int _lastpy;

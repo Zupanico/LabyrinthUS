@@ -1,5 +1,23 @@
-﻿  game.cpp
-game.cpp(486,9): warning C4189: 'distanceY' : variable locale initialisée mais non référencée
-game.cpp(483,9): warning C4189: 'range' : variable locale initialisée mais non référencée
-game.cpp(485,9): warning C4189: 'distanceX' : variable locale initialisée mais non référencée
+﻿  MOC game.h
+  Authentification.cpp
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1cc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1d6 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1dc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xa27 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xc32 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1087 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x108b et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x10f7 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1225 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x12ae et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x12cc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1310 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1400 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Authentification.cpp(11,48): warning C4100: 'event' : paramètre formel non référencé
+  moc_game.cpp
+  game.cpp
+game.cpp(491,9): warning C4189: 'distanceY' : variable locale initialisée mais non référencée
+game.cpp(488,9): warning C4189: 'range' : variable locale initialisée mais non référencée
+game.cpp(490,9): warning C4189: 'distanceX' : variable locale initialisée mais non référencée
+  Génération de code en cours...
   Interface_Graphique.vcxproj -> C:\Users\École\OneDrive - USherbrooke\Bureau\LabyrinthUS\debug\Interface_Graphique.exe

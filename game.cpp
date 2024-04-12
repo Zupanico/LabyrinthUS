@@ -20,6 +20,7 @@ game::game(QObject* parent) : QObject(parent), _f(30, 30)
     _flashCollect = false;
     _foodCollect = false;
     _sprint = false;
+    _accelon = false;
     
     _w->installEventFilter(this);
     _w->setFocusPolicy(Qt::StrongFocus);
@@ -54,6 +55,8 @@ void game::mettreAJourVies(int changement)
     {
         _a.setMessagesVies(_vies);
     }
+
+    _w->changerVies(changement);
 }
 
 void game::setclavier()
@@ -227,7 +230,7 @@ void game::vibreur()
 
 void game::libererDuMonstre()
 {
-    _w->setShake(true);
+    
 
     if (!_a.isConnected())
     {
@@ -235,44 +238,46 @@ void game::libererDuMonstre()
         reinitialiserPositionJoueur();
         return;
     }
+    else if (!_accelon)
+    {
+        _timer.stop();
 
-    auto start = chrono::steady_clock::now();
+        _accelon = true;
 
-    static QTimer accel;
-    accel.start(2000);
-    _timer.stop();
+        _w->setShake(true);
 
-    connect(&accel, &QTimer::timeout, [&]() {
-        vibreur();
+        float start = (((double)clock()) / CLOCKS_PER_SEC);
 
-        auto valeursAccelerometre = _a.lireAccelerometre();
-        double normeAccel = sqrt(pow(std::get<0>(valeursAccelerometre), 2) + pow(std::get<1>(valeursAccelerometre), 2) + pow(std::get<2>(valeursAccelerometre), 2));
+        static QTimer accel;
+        accel.start(2000);
 
-        if (normeAccel > _seuilAccel)
-        {
-            mettreAJourVies(-1);
-            reinitialiserPositionJoueur();
-            cout << "Vous vous êtes libéré du monstre mais vous avez perdu une vie !" << endl;
-            system("cls");
-            accel.stop();
-            _timer.start();
 
-        }
+        connect(&accel, &QTimer::timeout, [&]() {
+            vibreur();
 
-        auto end = chrono::steady_clock::now();
-        if (chrono::duration_cast<chrono::seconds>(end - start).count() >= 10) // Si le temps dépasse 10 secondes
-        {
-            _vies = 0;
-            GameOver();
-            cout << "Vous n'avez pas réussi à vous libérer à temps. Vous avez perdu toutes vos vies !" << endl;
-            system("cls");
-            accel.stop();
-        }
+            tuple valeursAccelerometre = _a.lireAccelerometre();
+            double normeAccel = sqrt(pow(std::get<0>(valeursAccelerometre), 2) + pow(std::get<1>(valeursAccelerometre), 2) + pow(std::get<2>(valeursAccelerometre), 2));
 
-    });
+            if (normeAccel > _seuilAccel)
+            {
+                mettreAJourVies(-1);
+                reinitialiserPositionJoueur();
+                cout << "Vous vous êtes libéré du monstre mais vous avez perdu une vie !" << endl;
+                system("cls");
+                accel.stop();
+                _timer.start();
+                _w->setShake(false);
+                _son.playHeartbeat1();
 
-    _w->setShake(false);
-    _son.playHeartbeat1();
+            }
+            else if ((((double)clock()) / CLOCKS_PER_SEC) - start >= 10.0)
+            {
+                mettreAJourVies(-_vies);
+                GameOver();
+                accel.stop();
+            }
+         });
+    }
 }
 
 
@@ -642,6 +647,13 @@ void game::GameOver()
 {
     _gameOver = true;
     _timer.stop();
+    if (_a.isConnected())
+    {
+        _a.setMessagesDistance(40);
+        _a.setMessages();
+        _a.disconnect();
+    }
+    _w->hide();
 }
 
 bool game::getGameOver()
@@ -782,8 +794,7 @@ bool game::eventFilter(QObject* obj, QEvent* event)
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         switch (keyEvent->key()) {
         case Qt::Key_Q:
-            qDebug() << "Quitter";
-            exit(0);
+            GameOver();
             break;
         case Qt::Key_Space:
             if (!lockerChecked) {

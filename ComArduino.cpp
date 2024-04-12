@@ -31,6 +31,12 @@ void ComArduino::connexion()
     {
         cout << "Connexion au port " << string(com) << " reussie." << endl;
     }
+
+}
+
+void ComArduino::disconnect()
+{
+    arduino->closeSerial();
 }
 
 bool ComArduino::isConnected()

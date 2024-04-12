@@ -119,11 +119,9 @@ void Authentification::startGame()
 
     g->loop();
 
-    // Actualiser la map pour commencer le jeu
-    g->actualiserMap("map1.txt");
-
     // Sauvegarder le nom du joueur dans le fichier joueurs.txt
     saveName(nomJoueur);
+    this->hide();
 }
 
 void Authentification::saveName(const QString& playerName)

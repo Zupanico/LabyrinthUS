@@ -44,6 +44,7 @@ public:
 
     void connexion();
     bool isConnected();
+    void disconnect();
     void setMessages();
     void setMessagesDistance(float distance);
     void setMessagesVies(int vies);

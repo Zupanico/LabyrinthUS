@@ -150,6 +150,7 @@ void game::checkLocker()
 {
     if (_p.getX() == -2 && _p.getY() == -2)
     {
+        _son.playLockerOpen1();
         _p.setX(_lastpx);
         _p.setY(_lastpy);
     }
@@ -157,6 +158,7 @@ void game::checkLocker()
         if (_map.chercherLocker(_p.getX()+1, _p.getY()) || _map.chercherLocker(_p.getX()-1, _p.getY())
             || _map.chercherLocker(_p.getX(), _p.getY()+1) || _map.chercherLocker(_p.getX(), _p.getY()-1))
         {
+            _son.playLockerClose1();
             _f.setEcran("  ", _p.getX(), _p.getY());
             _lastpx = _p.getX();
             _lastpy = _p.getY();
@@ -202,8 +204,7 @@ void game::sprint()
             powerUp.stop();
             emitTimer.stop();
             });
-            
-        
+
     }
 }
 
@@ -273,6 +274,7 @@ void game::libererDuMonstre()
 
     _w.setShake(false);
     _w.changerVies(-1);
+    _son.playHeartbeat1();
 }
 
 
@@ -338,6 +340,7 @@ void game::deplacerJoueur()
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player, _p.getX(), _p.getY());
     _w.setPlayerPosition(_p.getX(), _p.getY());
+
 
     // Afficher le jeu complet
     afficher();

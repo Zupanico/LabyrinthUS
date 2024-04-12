@@ -33,6 +33,7 @@ class MainWindow : public QMainWindow
         void emptyMap();
         void afficherMap();
         void setPlayerPosition(int x, int y);
+        void setMonsterPosition(int x, int y);
 
         // Items
         void setFlash(bool etat);
@@ -73,5 +74,6 @@ private:
     QImage _coeurImage;
 
     int _playerX, _playerY;
+    int _monsterX, _monsterY;
     bool _hidePlayer;
 };

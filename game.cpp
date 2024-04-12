@@ -5,11 +5,10 @@ Auteur : Olympus*/
 
 #include "game.h"
 
-game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
+game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30), _son(new son(this))
 {
     _clavier = 0;
-    _vies = 3;
-
+    _vies = 1;
     _gameOver = false;
     _keyCollect = false;
     _coinCollect = false;
@@ -21,8 +20,8 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
 
     _w.show();
     actualiserMap(_mapNiveau[getNiveau()]);
-
 }
+
 
 game::~game()
 {
@@ -287,6 +286,7 @@ void game::deplacerJoueur()
     // Vérifier collection item
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
     {
+        _son.playCollect1();
         _inv.addCle(new item(_cle));
         _keyCollect = true;
         _w.addMap(' ', _map.getCle().x, _map.getCle().y);
@@ -294,6 +294,7 @@ void game::deplacerJoueur()
 
     if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
     {
+        _son.playCollect1();
         _inv.addCoin(new item(_coin));
         _coinCollect = true;
         _w.addMap(' ', _map.getCoin().x, _map.getCoin().y);
@@ -302,6 +303,7 @@ void game::deplacerJoueur()
 
     if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
     {
+        _son.playCollect1();
         _inv.addFlash(new item(_flash));
         _flashCollect = true;
         _w.addMap(' ', _map.getFlash().x, _map.getFlash().y);

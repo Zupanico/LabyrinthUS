@@ -2,6 +2,8 @@
 #include <QPainter>
 #include <QImage>
 #include <QImageReader>
+#include <QWidget>
+#include <QTimer>
 
 class MainWindow : public QMainWindow
 {
@@ -21,8 +23,10 @@ class MainWindow : public QMainWindow
         bool _checkmachine;
         bool _checklocker;
         bool _shake;
+        bool _speed;
 
         int _vies;
+        int _sizeBar;
 
     public:
         void addMap(char m, int x, int y);
@@ -35,11 +39,15 @@ class MainWindow : public QMainWindow
         void setKey(bool etat);
         void setCoin(bool etat);
         void setFood(bool etat);
+
+        // Indications
         void setMachine(bool etat);
         void setLocker(bool etat);
         void changerVies(int changement);
         void resetVies();
         void setShake(bool etat);
+        void changerSizeBar();
+        void setSpeed(bool etat);
 
 private:
     // Define your variables and methods here

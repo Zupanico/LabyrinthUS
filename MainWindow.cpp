@@ -56,7 +56,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     _viewOffsetY = 0;
     _hidePlayer = false;
 
+    _speed = false;
+
     _vies = 3;
+
+    _sizeBar = width();
 }
 
 MainWindow::~MainWindow()
@@ -278,10 +282,18 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
     painter.drawImage(width()*0.85, height()*0.5, _shakeImage.scaled(_imageWidth*1.8, _imageWidth*1.8));
 
-    QFont font("Arial", 12);
+    QFont font("Arial", 20);
     painter.setFont(font);
-    painter.setPen(Qt::red);
+    painter.setPen(Qt::white);
     painter.drawText(width()*0.85, height()*0.5, "SHAKE");
+
+    if (_speed == true)
+    {
+        painter.setBrush(QBrush(Qt::green));
+        painter.setPen(Qt::NoPen);
+
+        painter.drawRect(width()*0.04, height()*0.02, _sizeBar, width()*0.015);
+    }
 
     // Vies
 
@@ -335,4 +347,14 @@ void MainWindow::resetVies()
 void MainWindow::setShake(bool etat)
 {
     _shake = etat;
+}
+
+void MainWindow::changerSizeBar()
+{
+    _sizeBar -= width()/200;
+}
+
+void MainWindow::setSpeed(bool etat)
+{
+    _speed = etat;
 }

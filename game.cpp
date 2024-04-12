@@ -172,6 +172,7 @@ void game::checkMachine()
         || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
         && _coinCollect == true) 
     {
+        _son.playVendingMachine1();
         _foodCollect = true;
         _coinCollect = false;
     }
@@ -181,8 +182,28 @@ void game::sprint()
 {
     if (_foodCollect == true)
     {
+        _son.playEating1();
         _foodCollect = false;
         _sprint = true;
+        _w.setSpeed(true);
+
+        static QTimer powerUp;
+        static QTimer emitTimer;
+        powerUp.start(10000); // Start timer for 10 second cooldown period
+        emitTimer.start(100);
+
+        connect(&emitTimer, &QTimer::timeout, [&]() {
+        _w.changerSizeBar();
+        });
+
+        connect(&powerUp, &QTimer::timeout, [&](){
+            _sprint = false;
+            _w.setSpeed(false);
+            powerUp.stop();
+            emitTimer.stop();
+            });
+            
+        
     }
 }
 
@@ -775,7 +796,7 @@ bool game::eventFilter(QObject *obj, QEvent *event)
                 if (!lockerChecked) {
                     checkLocker();
                     lockerChecked = true; // Mark checkLocker() as called
-                    delay.start(100); // Start timer for 1 second cooldown period
+                    delay.start(100); // Start timer for 0.1 second cooldown period
                     connect(&delay, &QTimer::timeout, [&](){
                         lockerChecked = false; // Reset lockerChecked after cooldown period
                         delay.stop();

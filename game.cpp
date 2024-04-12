@@ -462,12 +462,12 @@ void game::patrouillageMonster()
     if (distanceX < range && mY == pY){
         for (int i = 0; i < distanceX; i++)
         {
-            if (mX < pX && !collision(mX + i, mY))
+            if (mX < pX && (collision(mX + i, mY)==false))
             {
                 _m.setPoursuite(true);
             }
 
-            if (mX > pX && !collision(mX - i, mY))
+            if (mX > pX && (collision(mX - i, mY)==false))
             {
                 _m.setPoursuite(true);
             }
@@ -479,12 +479,12 @@ void game::patrouillageMonster()
     if (distanceY < range && mX == pX){
         for (int i = 0; i < distanceY; i++)
         {
-            if (mY < pY && !collision(mX, mY + i))
+            if (mY < pY && (collision(mX, mY + i)==false))
             {
                 _m.setPoursuite(true);
             }
 
-            if (mY > pY && !collision(mX, mY - i)){
+            if (mY > pY && (collision(mX, mY - i)==false)){
                 _m.setPoursuite(true);
             }
         }

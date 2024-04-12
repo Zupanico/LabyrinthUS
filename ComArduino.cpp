@@ -6,7 +6,7 @@ Auteur : Bakayoko Kanvali*/
 #include "ComArduino.h"
 
 // Constructeur de la classe ComArduino
-ComArduino::ComArduino() : arduino(), com("COM5"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0)
+ComArduino::ComArduino() : arduino(), com("COM3"), raw_msg(""), j_msg_send(), j_msg_rcv(), led_state(1), _time(0.0), distance_Monstre_Joueur(0.0)
 {
     _time = ((double) clock()) / CLOCKS_PER_SEC;
     connexion();

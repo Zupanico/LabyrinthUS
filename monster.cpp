@@ -101,22 +101,22 @@ void monster::patrol()
     switch (_direction)
 	{
 		case 1: // Gauche
-			_vitesse_x = -70;
+			_vitesse_x = -50;
 			_vitesse_y = 0;
             break;
 
 		case 2: // Bas
 			_vitesse_x = 0;
-			_vitesse_y = 70;
+			_vitesse_y = 50;
             break;
 
         case 3: // Haut
 			_vitesse_x = 0;
-			_vitesse_y = -70;
+			_vitesse_y = -50;
             break;
 
         case 4: // Droite
-            _vitesse_x = 70;
+            _vitesse_x = 50;
             _vitesse_y = 0;
             break;
 

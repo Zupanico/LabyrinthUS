@@ -78,10 +78,10 @@ bool monster::getPoursuite() const
     return _poursuite;
 }
 
-void monster::patrol()
+void monster::patrol(int random)
 {
     // choisi une direction aléatoire
-     _direction = rand() % 4 + 1;
+    _direction = random % 4 + 1;
 
     switch (_direction)
 	{

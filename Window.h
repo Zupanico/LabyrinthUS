@@ -75,6 +75,7 @@ private:
     QImage _floorImage;
     QImage _shakeImage;
     QImage _coeurImage;
+    QImage _niveauImage;
 
     QWidget* centralWidget;
     QPushButton* pauseButton;

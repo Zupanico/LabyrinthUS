@@ -1,20 +1,20 @@
-﻿  MOC game.h
-  Authentification.cpp
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1cc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1d6 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1dc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xa27 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xc32 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1087 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x108b et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x10f7 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1225 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x12ae et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x12cc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1310 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x1400 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
-Authentification.cpp(11,48): warning C4100: 'event' : paramètre formel non référencé
-  moc_game.cpp
+﻿  MOC Window.h
+  Window.cpp
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x955 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x979 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x9bc et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0x9db et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xa2c et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xa54 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xb2d et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xbe5 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xbeb et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xc78 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xcf9 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xd05 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xe08 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+Window.cpp(1,1): warning C4828: Le fichier contient un caractère qui débute à l'offset 0xe10 et qui est non conforme dans le jeu de caractères source actuel (page de codes 65001).
+  moc_Window.cpp
   game.cpp
 game.cpp(491,9): warning C4189: 'distanceY' : variable locale initialisée mais non référencée
 game.cpp(488,9): warning C4189: 'range' : variable locale initialisée mais non référencée

@@ -524,7 +524,9 @@ void game::prochainNiveau()
         _coinCollect = false;
         _flashCollect = false;
         _foodCollect = false;
-
+        _p.setX(0);
+        _p.setY(0);
+        
         for (int i = 0; i < 4; i++)
         {
             _inv.removeItem(i);
@@ -572,6 +574,10 @@ void game::actualiserMap(string fichier)
     {
         _f.setEcran(_locker, _map.getLocker(i).x, _map.getLocker(i).y);
         _w->addMap('l', _map.getLocker(i).x, _map.getLocker(i).y);
+    }
+    for (int i = 0; i < _map.getSizeNiveau(); i++)
+    {
+        _w->addMap('n', _map.getNiveau(i).x, _map.getNiveau(i).y);
     }
 
     _m.setX(_map.getM1().x);
@@ -713,9 +719,19 @@ void game::updateGame()
         } 
         else 
         {
-            _m.patrol();
+            if (_a.isConnected()) {
+                _m.patrol(_a.lirerand());
+            }
+            else {
+                _m.patrol(rand());
+            }
         }
         deplacerMonster();
+    }
+
+    if (checkNiveau(_p.getX(), _p.getY()))
+    {
+        prochainNiveau();
     }
 
     if (_flashCollect == true)

@@ -69,6 +69,8 @@ void Window::MenuJeu()
     _shakeImage = reader.read();
     reader.setFileName("heart.png");
     _coeurImage = reader.read();
+    reader.setFileName("building.png");
+    _niveauImage = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
@@ -240,6 +242,8 @@ void Window::paintEvent(QPaintEvent* event)
                 else if (_labyrinth[i][j] == 'm') {
                     painter.drawImage(x, y, _machineImage.scaled(_imageWidth, _imageWidth));
                 }
+                else if (_labyrinth[i][j] == 'n')
+                    painter.drawImage(x, y, _niveauImage.scaled(_imageWidth, _imageWidth));
             }
             else
             {

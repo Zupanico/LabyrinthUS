@@ -51,6 +51,6 @@ public:
     void setPoursuite(bool poursuite);
     bool getPoursuite() const;
 
-    void patrol();
+    void patrol(int random);
 };
 #endif

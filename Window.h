@@ -29,6 +29,8 @@ public:
     void emptyMap();
     void afficherMap();
     void setPlayerPosition(int x, int y);
+    void setMonsterPosition(int x, int y);
+
     
     // Items
     void setFlash(bool etat);
@@ -53,6 +55,7 @@ private:
     char** _labyrinth;
     int _labyrinthWidth, _labyrinthHeight;
     int _playerX, _playerY;
+    int _monsterX, _monsterY;
     bool _hidePlayer;
 
     QImage _wallImage;

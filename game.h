@@ -46,6 +46,7 @@ private:
     son             _son;
     maps            _map;
     Window*         _w;
+    QTimer          _timer;
 
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
@@ -119,11 +120,13 @@ public:
     // Jeu
     void afficher();
 
+    void GameOver();
     bool getGameOver();
 
 
 public slots:
     void updateGame();
+    void loop();
 };
 
 #endif

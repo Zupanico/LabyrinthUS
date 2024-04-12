@@ -7,10 +7,12 @@ Auteur : Bakayoko Kanvali*/
 
 monster::monster()
 {
-    _actif = false;
+    _actif = true;
     _direction = 0;
     _poursuite = false;
     _range = 6;
+    _x = -1;
+    _y = -1;
 }
 
 monster::~monster()
@@ -35,7 +37,7 @@ void monster::setActif(bool actif)
 
 void monster::poursuivreJoueur(int direction)
 {
-    int vitesse = 110;
+    int vitesse = 80;
 
     switch (direction)
     {
@@ -74,17 +76,6 @@ void monster::setPoursuite(bool poursuite)
 bool monster::getPoursuite() const
 {
     return _poursuite;
-}
-
-void monster::addTriggerPoint(int x, int y)
-{
-    _triggerPoints.x = x;
-    _triggerPoints.y = y;
-}
-
-coordonnees monster::getTriggerPoint() const
-{
-    return _triggerPoints;
 }
 
 void monster::patrol()

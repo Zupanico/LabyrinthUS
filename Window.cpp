@@ -73,6 +73,8 @@ void Window::MenuJeu()
     _viewOffsetX = 0;
     _viewOffsetY = 0;
     _hidePlayer = false;
+    _shake = false;
+
 
     _speed = false;
 
@@ -170,6 +172,12 @@ void Window::setPlayerPosition(int x, int y)
     }
 }
 
+void Window::setMonsterPosition(int x, int y)
+{
+    _monsterX = x;
+    _monsterY = y;
+}
+
 void Window::emptyMap()
 {
     // Clear the labyrinth
@@ -221,13 +229,13 @@ void Window::paintEvent(QPaintEvent* event)
                     painter.drawImage(x, y, _doorImage.scaled(_imageWidth, _imageWidth));
                 }
                 else if (_labyrinth[i][j] == 'k') {
-                    painter.drawImage(x, y, _keyImage.scaled(_imageWidth / 2, _imageWidth / 2));
+                    painter.drawImage(x + _imageWidth / 4, y, _keyImage.scaled(_imageWidth / 2, _imageWidth / 2));
                 }
                 else if (_labyrinth[i][j] == 'c') {
-                    painter.drawImage(x, y, _coinImage.scaled(_imageWidth / 2, _imageWidth / 2));
+                    painter.drawImage(x + _imageWidth / 4, y, _coinImage.scaled(_imageWidth / 2, _imageWidth / 2));
                 }
                 else if (_labyrinth[i][j] == 'f') {
-                    painter.drawImage(x, y, _flashImage.scaled(_imageWidth / 2, _imageWidth / 2));
+                    painter.drawImage(x + _imageWidth / 4, y, _flashImage.scaled(_imageWidth / 2, _imageWidth / 2));
                 }
                 else if (_labyrinth[i][j] == 'm') {
                     painter.drawImage(x, y, _machineImage.scaled(_imageWidth, _imageWidth));
@@ -243,6 +251,8 @@ void Window::paintEvent(QPaintEvent* event)
     }
     // Draw the player
     if (!_hidePlayer) painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
+
+    painter.drawImage(_monsterX * _imageWidth - _viewOffsetX, _monsterY * _imageWidth - _viewOffsetY, _monsterImage.scaled(_imageWidth, _imageWidth));
 
 
     // Calculate the center position of the circle
@@ -355,12 +365,15 @@ void Window::paintEvent(QPaintEvent* event)
         painter.drawEllipse(width() * 0.05, height() * 0.50, width() * 0.025, width() * 0.025);
     }
 
-    painter.drawImage(width() * 0.85, height() * 0.5, _shakeImage.scaled(_imageWidth * 1.8, _imageWidth * 1.8));
+    if (_shake == true)
+    {
+        painter.drawImage(width() * 0.85, height() * 0.5, _shakeImage.scaled(_imageWidth * 1.8, _imageWidth * 1.8));
 
-    QFont font("Arial", 20);
-    painter.setFont(font);
-    painter.setPen(Qt::white);
-    painter.drawText(width() * 0.85, height() * 0.5, "SHAKE");
+        QFont font("Arial", 20);
+        painter.setFont(font);
+        painter.setPen(Qt::white);
+        painter.drawText(width() * 0.86, height() * 0.5, "SHAKE");
+    }
 
     if (_speed == true)
     {

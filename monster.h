@@ -27,17 +27,12 @@ class personnage;
 
 using namespace std;
 
-struct coordonnees
-{
-    int x;
-    int y;
-};
+
 
 class monster : public personnage
 {
 private:
     bool _actif;
-    coordonnees _triggerPoints;
 
     int _direction; // Direction de déplacement
     int _range;     // Range de vision
@@ -55,9 +50,6 @@ public:
     void poursuivreJoueur(int direction);
     void setPoursuite(bool poursuite);
     bool getPoursuite() const;
-
-    void addTriggerPoint(int x, int y);
-    coordonnees getTriggerPoint() const;
 
     void patrol();
 };

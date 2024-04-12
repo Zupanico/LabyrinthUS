@@ -117,15 +117,7 @@ void Authentification::startGame()
     // Créer une nouvelle instance du jeu
     g = new game(this);
 
-    // Créer un timer pour mettre à jour le jeu à intervalles réguliers
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, g, &game::updateGame);
-    timer->start(1000 / 30);
-
-    // Connecter le signal GameOver au slot pour arrêter le timer
-    connect(g, &game::getGameOver, [&]() {
-        timer->stop();
-        });
+    g->loop();
 
     // Actualiser la map pour commencer le jeu
     g->actualiserMap("map1.txt");

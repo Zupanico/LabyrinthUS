@@ -2,6 +2,8 @@
 
 maps::maps()
 {
+    _m1.x = -1;
+    _m1.y = -1;
 }
 
 maps::~maps()
@@ -71,10 +73,10 @@ void maps::actualiserMap(string fichier)
     _door.clear();
     _locker.clear();
     _niveau.clear();
-    _cle.x = 0;
-    _cle.y = 0;
-    _m1.x = 0;
-    _m1.y = 0;
+    _cle.x = -1;
+    _cle.y = -1;
+    _m1.x = -1;
+    _m1.y = -1;
 
     ifstream fichierMur;
     int x = 0;

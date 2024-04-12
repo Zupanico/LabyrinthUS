@@ -47,21 +47,38 @@ void Window::MenuJeu()
     _doorImage = reader.read();
     reader.setFileName(":/images/dollar.png");
     _coinImage = reader.read();
+    reader.setFileName("shadow_coin.png");
+    _shadowCoinImage = reader.read();
     reader.setFileName(":/images/torch.png");
     _flashImage = reader.read();
+    reader.setFileName("shadow_torch.png");
+    _shadowFlashImage = reader.read();
     reader.setFileName(":/images/key.png");
     _keyImage = reader.read();
+    reader.setFileName("shadow_key.png");
+    _shadowKeyImage = reader.read();
     reader.setFileName(":/images/vending-machine.png");
     _machineImage = reader.read();
-    reader.setFileName(":/images/cerclevision1.png");
-    _cerclevision1 = reader.read();
-    reader.setFileName(":/images/cerclevision2.png");
-    _cerclevision2 = reader.read();
+    reader.setFileName("chocolate.png");
+    _foodImage = reader.read();
+    reader.setFileName("shadow_chocolate.png");
+    _shadowFoodImage = reader.read();
     reader.setFileName("floor.png");
     _floorImage = reader.read();
+    reader.setFileName("shake.png");
+    _shakeImage = reader.read();
+    reader.setFileName("heart.png");
+    _coeurImage = reader.read();
 
     _viewOffsetX = 0;
     _viewOffsetY = 0;
+    _hidePlayer = false;
+
+    _speed = false;
+
+    _vies = 3;
+
+    _sizeBar = width();
 
     // Création du layout principal de la fenêtre
     QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -141,8 +158,16 @@ void Window::afficherMap()
 
 void Window::setPlayerPosition(int x, int y)
 {
-    _playerX = x;
-    _playerY = y;
+    if (x >= 0 && x < _labyrinthWidth && y >= 0 && y < _labyrinthHeight)
+    {
+        _playerX = x;
+        _playerY = y;
+        _hidePlayer = false;
+    }
+    else
+    {
+        _hidePlayer = true;
+    }
 }
 
 void Window::emptyMap()
@@ -196,13 +221,13 @@ void Window::paintEvent(QPaintEvent* event)
                     painter.drawImage(x, y, _doorImage.scaled(_imageWidth, _imageWidth));
                 }
                 else if (_labyrinth[i][j] == 'k') {
-                    painter.drawImage(x, y, _keyImage.scaled(_imageWidth, _imageWidth));
+                    painter.drawImage(x, y, _keyImage.scaled(_imageWidth / 2, _imageWidth / 2));
                 }
                 else if (_labyrinth[i][j] == 'c') {
-                    painter.drawImage(x, y, _coinImage.scaled(_imageWidth, _imageWidth));
+                    painter.drawImage(x, y, _coinImage.scaled(_imageWidth / 2, _imageWidth / 2));
                 }
                 else if (_labyrinth[i][j] == 'f') {
-                    painter.drawImage(x, y, _flashImage.scaled(_imageWidth, _imageWidth));
+                    painter.drawImage(x, y, _flashImage.scaled(_imageWidth / 2, _imageWidth / 2));
                 }
                 else if (_labyrinth[i][j] == 'm') {
                     painter.drawImage(x, y, _machineImage.scaled(_imageWidth, _imageWidth));
@@ -217,7 +242,8 @@ void Window::paintEvent(QPaintEvent* event)
         }
     }
     // Draw the player
-    painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
+    if (!_hidePlayer) painter.drawImage(width() / 2, height() / 2, _playerImage.scaled(_imageWidth, _imageWidth));
+
 
     // Calculate the center position of the circle
     int centerX = (width() + _imageWidth) / 2;
@@ -226,6 +252,7 @@ void Window::paintEvent(QPaintEvent* event)
     // Calculate the radius of the circle
     int radius = qMax(width(), height()) / 2;
 
+    // Cercle de vision
     if (_flashlight == false)
     {
         radius *= 1.5;
@@ -260,9 +287,149 @@ void Window::paintEvent(QPaintEvent* event)
 
         painter.drawEllipse(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
     }
+
+    // Inventaire
+    painter.setPen(QPen(Qt::darkGray, width() * 0.002));
+
+    painter.drawRect(width() * 0.41, height() * 0.07, width() * 0.035, width() * 0.035);
+    painter.drawRect(width() * 0.47, height() * 0.07, width() * 0.035, width() * 0.035);
+    painter.drawRect(width() * 0.53, height() * 0.07, width() * 0.035, width() * 0.035);
+    painter.drawRect(width() * 0.59, height() * 0.07, width() * 0.035, width() * 0.035);
+
+    if (_key == true)
+    {
+        painter.drawImage(width() * 0.415, height() * 0.08, _keyImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    else if (_key == false)
+    {
+        painter.drawImage(width() * 0.415, height() * 0.08, _shadowKeyImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    if (_flashlight == true)
+    {
+        painter.drawImage(width() * 0.475, height() * 0.08, _flashImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    else if (_flashlight == false)
+    {
+        painter.drawImage(width() * 0.475, height() * 0.08, _shadowFlashImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    if (_coin == true)
+    {
+        painter.drawImage(width() * 0.535, height() * 0.08, _coinImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    else if (_coin == false)
+    {
+        painter.drawImage(width() * 0.535, height() * 0.08, _shadowCoinImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    if (_food == true)
+    {
+        painter.drawImage(width() * 0.595, height() * 0.08, _foodImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+    else if (_food == false)
+    {
+        painter.drawImage(width() * 0.595, height() * 0.08, _shadowFoodImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+
+    // Indications
+    QPen pen(Qt::NoPen);
+    painter.setPen(pen);
+
+    if (_checkmachine == true)
+    {
+        painter.setBrush(QBrush(Qt::gray));
+        painter.drawEllipse(width() * 0.08, height() * 0.55, width() * 0.025, width() * 0.025);
+        painter.drawEllipse(width() * 0.05, height() * 0.50, width() * 0.025, width() * 0.025);
+        painter.drawEllipse(width() * 0.11, height() * 0.50, width() * 0.025, width() * 0.025);
+
+        painter.setBrush(QBrush(Qt::red));
+        painter.drawEllipse(width() * 0.08, height() * 0.45, width() * 0.025, width() * 0.025);
+    }
+
+    if (_checklocker == true)
+    {
+        painter.setBrush(QBrush(Qt::gray));
+        painter.drawEllipse(width() * 0.08, height() * 0.55, width() * 0.025, width() * 0.025);
+        painter.drawEllipse(width() * 0.08, height() * 0.45, width() * 0.025, width() * 0.025);
+        painter.drawEllipse(width() * 0.11, height() * 0.50, width() * 0.025, width() * 0.025);
+
+        painter.setBrush(QBrush(Qt::red));
+        painter.drawEllipse(width() * 0.05, height() * 0.50, width() * 0.025, width() * 0.025);
+    }
+
+    painter.drawImage(width() * 0.85, height() * 0.5, _shakeImage.scaled(_imageWidth * 1.8, _imageWidth * 1.8));
+
+    QFont font("Arial", 20);
+    painter.setFont(font);
+    painter.setPen(Qt::white);
+    painter.drawText(width() * 0.85, height() * 0.5, "SHAKE");
+
+    if (_speed == true)
+    {
+        painter.setBrush(QBrush(Qt::green));
+        painter.setPen(Qt::NoPen);
+
+        painter.drawRect(width() * 0.04, height() * 0.02, _sizeBar, width() * 0.015);
+    }
+
+    // Vies
+
+    for (int i = 0; i < _vies; i++)
+    {
+        painter.drawImage(width() * (0.04 + (i * 0.045)), height() * 0.07, _coeurImage.scaled(_imageWidth / 2.2, _imageWidth / 2.2));
+    }
+
 }
 
 void Window::setFlash(bool etat)
 {
     _flashlight = etat;
+}
+
+void Window::setKey(bool etat)
+{
+    _key = etat;
+}
+
+void Window::setCoin(bool etat)
+{
+    _coin = etat;
+}
+
+void Window::setFood(bool etat)
+{
+    _food = etat;
+}
+
+void Window::setMachine(bool etat)
+{
+    _checkmachine = etat;
+}
+
+void Window::setLocker(bool etat)
+{
+    _checklocker = etat;
+}
+
+void Window::changerVies(int changement)
+{
+    _vies += changement;
+}
+
+void Window::resetVies()
+{
+    _vies = 3;
+}
+
+void Window::setShake(bool etat)
+{
+    _shake = etat;
+}
+
+void Window::changerSizeBar()
+{
+    _sizeBar -= width() / 200;
+}
+
+void Window::setSpeed(bool etat)
+{
+    _speed = etat;
 }

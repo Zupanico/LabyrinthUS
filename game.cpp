@@ -19,11 +19,11 @@ game::game(QObject* parent) : QObject(parent), _f(30, 30)
     _coinCollect = false;
     _flashCollect = false;
     _foodCollect = false;
-    _checkmachine = false;
-    _choixfood = false;
-    _choixvies = false;
+    _sprint = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
+    _w->installEventFilter(this);
+    _w->setFocusPolicy(Qt::StrongFocus);
 
     _w->show();
     actualiserMap(_mapNiveau[getNiveau()]);
@@ -48,7 +48,12 @@ void game::mettreAJourVies(int changement)
     if (_vies <= 0)
     {
         // Game over
+        _a.setMessagesVies(0);
         _gameOver = true;
+    }
+    else
+    {
+        _a.setMessagesVies(_vies);
     }
 }
 
@@ -71,14 +76,6 @@ void game::setclavier()
         if (touche == 'c' || touche == 'C')
         {
             checkMachine();
-        }
-        if (touche == '1' && _checkmachine == true)
-        {
-            _choixvies = true;
-        }
-        if (touche == '2' && _checkmachine == true)
-        {
-            _choixfood = true;
         }
 
         if (touche == 224) // Vérifier si la touche est une fleche
@@ -122,15 +119,20 @@ void game::setJoystick()
     tie(joystickX, joystickY) = joystickValues;
 
     // Déterminez la direction de déplacement en fonction des valeurs du joystick
-    _p.setVitesseX(joystickX);
-    _p.setVitesseY(joystickY);
+    if (_sprint == false)
+    {
+        _p.setVitesseX(joystickX);
+        _p.setVitesseY(joystickY);
+    }
 }
 
 void game::getBouton()
 {
 
     if (_a.lireboutonDroite())
-    {}
+    {
+        sprint();
+    }
     if (_a.lireboutonGauche())
     {
         checkLocker();
@@ -167,35 +169,55 @@ void game::checkLocker()
 
 void game::checkMachine()
 {
-    if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
-        || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
+    if (_map.chercherMachine(_p.getX() + 1, _p.getY()) || _map.chercherMachine(_p.getX() - 1, _p.getY())
+        || _map.chercherMachine(_p.getX(), _p.getY() + 1) || _map.chercherMachine(_p.getX(), _p.getY() - 1)
         && _coinCollect == true)
     {
-        _checkmachine = true;
-        _p.setVitesseX(0);
-        _p.setVitesseY(0);
-        cout << "1 pour +1 vie, 2 pour barre d'énergie" << endl;
-        if (_vies < 3 && _choixvies == true && _coinCollect == true)
-        {
-            _inv.removeItem(2);
-            mettreAJourVies(+1);
-            _coinCollect = false;
-            _choixvies = false;
-        }
-        else if (_vies == 3 && _choixvies == true && _coinCollect == true)
-        {
-            cout << "Vous êtes au maximum de vies" << endl;
-            _choixvies = false;
-        }
-        else if (_choixfood == true && _coinCollect == true)
-        {
-            _inv.removeItem(3);
-            _inv.addFood(new item(_food));
-            _coinCollect = false;
-            _choixfood = false;
-        }
+        _son.playVendingMachine1();
+        _foodCollect = true;
+        _coinCollect = false;
     }
 }
+
+void game::sprint()
+{
+    if (_foodCollect == true)
+    {
+        _son.playEating1();
+        _foodCollect = false;
+        _sprint = true;
+        _w->setSpeed(true);
+
+        static QTimer powerUp;
+        static QTimer emitTimer;
+        powerUp.start(10000); // Start timer for 10 second cooldown period
+        emitTimer.start(100);
+
+        connect(&emitTimer, &QTimer::timeout, [&]() {
+            _w->changerSizeBar();
+            });
+
+        connect(&powerUp, &QTimer::timeout, [&]() {
+            _sprint = false;
+            _w->setSpeed(false);
+            powerUp.stop();
+            emitTimer.stop();
+            });
+
+
+    }
+}
+
+void game::vibreur()
+{
+    if (_a.isConnected())
+    {
+        float distance = sqrt(pow(_p.getX() - _m.getX(), 2) + pow(_p.getY() - _m.getY(), 2));
+        // Activer ou désactiver la vibration basée sur la distance
+        _a.setMessagesDistance(distance <= _seuilDistance ? distance : 0.0);
+    }
+}
+
 
 void game::libererDuMonstre()
 {
@@ -321,21 +343,24 @@ void game::deplacerJoueur()
     // Vérifier collection item
     if ((_p.getX() == _map.getCle().x && _p.getY() == _map.getCle().y && _keyCollect == false))
     {
+        _son.playCollect1();
         _inv.addCle(new item(_cle));
         _keyCollect = true;
-        _m.setPoursuite(true);
         _w->addMap(' ', _map.getCle().x, _map.getCle().y);
     }
 
     if (_p.getX() == _map.getCoin().x && _p.getY() == _map.getCoin().y && _coinCollect == false)
     {
+        _son.playCollect1();
         _inv.addCoin(new item(_coin));
         _coinCollect = true;
         _w->addMap(' ', _map.getCoin().x, _map.getCoin().y);
+        _map.afficherCoin(-1, -1);
     }
 
     if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
     {
+        _son.playCollect1();
         _inv.addFlash(new item(_flash));
         _flashCollect = true;
         _w->addMap(' ', _map.getFlash().x, _map.getFlash().y);
@@ -356,10 +381,10 @@ void game::deplacerJoueur()
 
 void game::reinitialiserPositionJoueur()
 {
-    int distanceMax = 10; // Définir la distance maximale de réinitialisation
+    int distanceMax = 15; // Définir la distance maximale de réinitialisation
     int newX, newY;
     int maxTentatives = 100; // Limite le nombre de tentatives pour éviter une boucle infinie
-    bool positionValide;
+    bool positionValide = false;
 
     do {
         // Générer une nouvelle position aléatoire à proximité du joueur
@@ -647,11 +672,6 @@ bool game::collision(int x, int y)
 
 }
 
-void game::GameOver()
-{
-    getGameOver();
-}
-
 bool game::getGameOver()
 {
     return _gameOver;
@@ -679,22 +699,7 @@ void game::afficher()
 
     // Afficher la vie du joueur
     cout << "Vies du joueur : " << _vies << endl;
-    /*if (_vies == 3)
-    {
-        cout << _heart << " "<< _heart << " "<< _heart << endl;
-    }
-    if (_vies == 2)
-    {
-        cout << _heart << " "<< _heart << endl;
-    }
-    if (_vies == 1)
-    {
-        cout << _heart << endl;
-    }
-    if (_vies == 0)
-    {
-        cout << endl;
-    }*/
+
     
     // Afficher l'inventaire du joueur
     _inv.afficherInventaire();
@@ -707,8 +712,11 @@ void game::updateGame()
     setclavier();
     if (_a.isConnected())
     {
+        _a.setMessagesVies(_vies);
+        _a.setMessages();
         setJoystick();
         getBouton();
+        vibreur();
     }
     
     deplacerJoueur();
@@ -734,7 +742,140 @@ void game::updateGame()
     {
         _w->setFlash(false);
     }
+    if (_keyCollect == true)
+    {
+        _w->setKey(true);
+    }
+    else if (_keyCollect == false)
+    {
+        _w->setKey(false);
+    }
+
+    if (_coinCollect == true)
+    {
+        _w->setCoin(true);
+    }
+    else if (_coinCollect == false)
+    {
+        _w->setCoin(false);
+    }
+
+    if (_foodCollect == true)
+    {
+        _w->setFood(true);
+    }
+    else if (_foodCollect == false)
+    {
+        _w->setFood(false);
+    }
+    if (_map.chercherMachine(_p.getX() + 1, _p.getY()) || _map.chercherMachine(_p.getX() - 1, _p.getY())
+        || _map.chercherMachine(_p.getX(), _p.getY() + 1) || _map.chercherMachine(_p.getX(), _p.getY() - 1)
+        && _coinCollect == true)
+    {
+        _w->setMachine(true);
+    }
+    else
+    {
+        _w->setMachine(false);
+    }
+
+    if (_map.chercherLocker(_p.getX() + 1, _p.getY()) || _map.chercherLocker(_p.getX() - 1, _p.getY())
+        || _map.chercherLocker(_p.getX(), _p.getY() + 1) || _map.chercherLocker(_p.getX(), _p.getY() - 1))
+    {
+        _w->setLocker(true);
+    }
+    else
+    {
+        _w->setLocker(false);
+    }
 
     // Update GUI
     afficher();
 }
+
+bool game::eventFilter(QObject* obj, QEvent* event)
+{
+    static bool lockerChecked = false; // Track if checkLocker() has been called
+    static QTimer delay; // Timer for cooldown period
+
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        switch (keyEvent->key()) {
+        case Qt::Key_Q:
+            qDebug() << "Quitter";
+            exit(0);
+            break;
+        case Qt::Key_Space:
+            if (!lockerChecked) {
+                checkLocker();
+                lockerChecked = true; // Mark checkLocker() as called
+                delay.start(100); // Start timer for 0.1 second cooldown period
+                connect(&delay, &QTimer::timeout, [&]() {
+                    lockerChecked = false; // Reset lockerChecked after cooldown period
+                    delay.stop();
+                    });
+            }
+            break;
+        case Qt::Key_C:
+            checkMachine();
+            break;
+        case Qt::Key_V:
+            sprint();
+            break;
+        case Qt::Key_Up:
+            if (_sprint == false)
+            {
+                _p.setVitesseY(-100);
+                _p.setVitesseX(0);
+            }
+            else if (_sprint == true)
+            {
+                _p.setVitesseY(-180);
+                _p.setVitesseX(0);
+            }
+            break;
+        case Qt::Key_Down:
+            if (_sprint == false)
+            {
+                _p.setVitesseY(100);
+                _p.setVitesseX(0);
+            }
+            else if (_sprint == true)
+            {
+                _p.setVitesseY(180);
+                _p.setVitesseX(0);
+            }
+            break;
+        case Qt::Key_Right:
+            if (_sprint == false)
+            {
+                _p.setVitesseX(100);
+                _p.setVitesseY(0);
+            }
+            else if (_sprint == true)
+            {
+                _p.setVitesseX(180);
+                _p.setVitesseY(0);
+            }
+            break;
+        case Qt::Key_Left:
+            if (_sprint == false)
+            {
+                _p.setVitesseX(-100);
+                _p.setVitesseY(0);
+            }
+            else if (_sprint == true)
+            {
+                _p.setVitesseX(-180);
+                _p.setVitesseY(0);
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    // Call the base class implementation for other events
+    return QObject::eventFilter(obj, event);
+}
+

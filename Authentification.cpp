@@ -123,7 +123,7 @@ void Authentification::startGame()
     timer->start(1000 / 30);
 
     // Connecter le signal GameOver au slot pour arrêter le timer
-    connect(g, &game::GameOver, [&]() {
+    connect(g, &game::getGameOver, [&]() {
         timer->stop();
         });
 

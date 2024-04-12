@@ -14,6 +14,9 @@ Auteur : Bakayoko Kanvali*/
 #include <string>
 #include "include/serial/SerialPort.hpp"
 #include "include/json.hpp"
+#include <thread>
+#include <atomic>
+#include <chrono>
 
 using namespace std;
 using json = nlohmann::json;
@@ -26,12 +29,14 @@ class ComArduino
 private:
     int led_state;
 
-    SerialPort *arduino;
+    float distance_Monstre_Joueur;
+    int nbVies;
+    float _time;
+
+    SerialPort* arduino;
     string com;
     string raw_msg;
     json j_msg_send, j_msg_rcv;
-
-    float _time;
 
 public:
     ComArduino();
@@ -39,17 +44,19 @@ public:
 
     void connexion();
     bool isConnected();
-
     void setMessages();
+    void setMessagesDistance(float distance);
+    void setMessagesVies(int vies);
 
-    bool SendToSerial(SerialPort *arduino, json j_msg);
-    bool RcvFromSerial(SerialPort *arduino, string &msg);
+    bool SendToSerial(SerialPort* arduino, json j_msg);
+    bool RcvFromSerial(SerialPort* arduino, string& msg);
 
     bool lireboutonDroite();
     bool lireboutonGauche();
     bool lireboutonHaut();
     bool lireboutonBas();
     bool lireboutonjoystick();
+    int lirerand();
 
     tuple<double, double, double> lireAccelerometre();
     tuple<double, double> lireJoystick();

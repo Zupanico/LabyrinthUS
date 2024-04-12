@@ -20,11 +20,8 @@
 #include <chrono>
 #include <thread>
 #include <cmath>
+#include "son.h"
 
-class personnage;
-class monster;
-class Authentification;
-class MainWindow;
 class Window;
 
 // Définition de la classe game
@@ -38,13 +35,18 @@ private:
 
     int _niveau = 0;
 
+    const float     _seuilDistance = 8;
+    const double    _seuilAccel = 4;
+
     fenetre         _f;
     personnage      _p;
     monster         _m;
     inventaire      _inv;
     ComArduino      _a;
+    son             _son;
     maps            _map;
     Window*         _w;
+
     const char* _cle = "\U0001F511";
     const char* _cr = "\u25A0 ";
     const char* _player = "\U0001F468";
@@ -63,15 +65,15 @@ private:
     bool _coinCollect;
     bool _flashCollect;
     bool _foodCollect;
-    bool _checkmachine;
-    bool _choixfood;
-    bool _choixvies;
+    bool _sprint;
 
     int _lastpx;
     int _lastpy;
 
     string _mapNiveau[3] = { "map1.txt", "map2.txt", "map3.txt" };
-    
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 public:
     // Constructeur et destructeur
@@ -79,6 +81,7 @@ public:
     ~game();
 
     // Clavier
+    float distance;
     int getclavier() const;
     void setclavier();
     void setJoystick();
@@ -89,11 +92,13 @@ public:
     // Joueur
     void reinitialiserPositionJoueur();
     void mettreAJourVies(int changement);
+
+    void vibreur();
     void libererDuMonstre();
     void checkLocker();
     void checkMachine();
 
-    bool getGameOver();
+    void sprint();
 
     // Méthodes
     void deplacerJoueur();
@@ -114,9 +119,11 @@ public:
     // Jeu
     void afficher();
 
+    bool getGameOver();
+
+
 public slots:
     void updateGame();
-    void GameOver();
 };
 
 #endif

@@ -35,6 +35,7 @@ HEADERS += \
     Item.h \
     map.h \
     monster.h \
+	son.h \
     personnage.h \
     Window.h \
     ./include/json.hpp \
@@ -55,6 +56,7 @@ SOURCES += \
     Item.cpp \
     map.cpp \
     monster.cpp \
+	son.cpp \
     personnage.cpp \
     Window.cpp \
     ./include/serial/SerialPort.cpp

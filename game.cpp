@@ -15,7 +15,7 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30)
     _coinCollect = false;
     _flashCollect = false;
     _foodCollect = false;
-    _sprint = true;
+    _sprint = false;
     
     _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
@@ -72,6 +72,10 @@ void game::setclavier()
         {
             checkMachine();
         }
+        if (touche == 'v' || touche == 'V')
+        {
+            sprint();
+        }
 
         if (touche == 224) // Vérifier si la touche est une fleche
         {
@@ -79,54 +83,28 @@ void game::setclavier()
         }
         else if (k == 1) // Vérifier si nous sommes dans la deuxieme étape
         {
-            if (_sprint == false)
+            switch (touche)
             {
-                switch (touche)
-                {
-                case 72:    // fleche haut
-                    _p.setVitesseY(-100);
-                    _p.setVitesseX(0);
-                    break;
-                case 80:    //fleche bas
-                    _p.setVitesseY(100);
-                    _p.setVitesseX(0);
-                    break;
-                case 77:    // fleche droite
-                    _p.setVitesseX(100);
-                    _p.setVitesseY(0);
-                    break;
-                case 75:    // fleche gauche
-                    _p.setVitesseX(-100);
-                    _p.setVitesseY(0);
-                    break;
-                default:
-                    break;
-                }
+            case 72:    // fleche haut
+                _p.setVitesseY(-100);
+                _p.setVitesseX(0);
+                break;
+            case 80:    //fleche bas
+                _p.setVitesseY(100);
+                _p.setVitesseX(0);
+                break;
+            case 77:    // fleche droite
+                _p.setVitesseX(100);
+                _p.setVitesseY(0);
+                break;
+            case 75:    // fleche gauche
+                _p.setVitesseX(-100);
+                _p.setVitesseY(0);
+                break;
+            default:
+                break;
             }
-            else if (_sprint == true)
-            {
-                switch (touche)
-                {
-                case 72:    // fleche haut
-                    _p.setVitesseY(-180);
-                    _p.setVitesseX(0);
-                    break;
-                case 80:    //fleche bas
-                    _p.setVitesseY(180);
-                    _p.setVitesseX(0);
-                    break;
-                case 77:    // fleche droite
-                    _p.setVitesseX(180);
-                    _p.setVitesseY(0);
-                    break;
-                case 75:    // fleche gauche
-                    _p.setVitesseX(-180);
-                    _p.setVitesseY(0);
-                    break;
-                default:
-                    break;
-                }
-            }
+        
             k = 0; // Réinitialiser k après avoir traité la touche fléchée
         }
     }
@@ -143,8 +121,8 @@ void game::setJoystick()
     // Déterminez la direction de déplacement en fonction des valeurs du joystick
     if (_sprint == false)
     {
-        _p.setVitesseX(joystickX*1.8);
-        _p.setVitesseY(joystickY*1.8);
+        _p.setVitesseX(joystickX);
+        _p.setVitesseY(joystickY);
     }
 }
 
@@ -319,6 +297,7 @@ void game::deplacerJoueur()
         _inv.addCoin(new item(_coin));
         _coinCollect = true;
         _w.addMap(' ', _map.getCoin().x, _map.getCoin().y);
+        _map.afficherCoin(-1, -1);
     }
 
     if (_p.getX() == _map.getFlash().x && _p.getY() == _map.getFlash().y && _flashCollect == false)
@@ -804,21 +783,56 @@ bool game::eventFilter(QObject *obj, QEvent *event)
             case Qt::Key_C:
                 checkMachine();
                 break;
+            case Qt::Key_V:
+                sprint();
+                break;
             case Qt::Key_Up:
-                _p.setVitesseY(-100);
-                _p.setVitesseX(0);
+                if (_sprint == false)
+                {
+                    _p.setVitesseY(-100);
+                    _p.setVitesseX(0);
+                }
+                else if (_sprint == true)
+                {
+                    _p.setVitesseY(-180);
+                    _p.setVitesseX(0); 
+                }
                 break;
             case Qt::Key_Down:
-                _p.setVitesseY(100);
-                _p.setVitesseX(0);
+                if (_sprint == false)
+                {
+                    _p.setVitesseY(100);
+                    _p.setVitesseX(0);
+                }
+                else if (_sprint == true)
+                {
+                    _p.setVitesseY(180);
+                    _p.setVitesseX(0);
+                }
                 break;
             case Qt::Key_Right:
-                _p.setVitesseX(100);
-                _p.setVitesseY(0);
+                if (_sprint == false)
+                {
+                    _p.setVitesseX(100);
+                    _p.setVitesseY(0);
+                }
+                else if (_sprint == true)
+                {
+                    _p.setVitesseX(180);
+                    _p.setVitesseY(0);
+                }
                 break;
             case Qt::Key_Left:
-                _p.setVitesseX(-100);
-                _p.setVitesseY(0);
+                if (_sprint == false)
+                {
+                    _p.setVitesseX(-100);
+                    _p.setVitesseY(0);
+                }
+                else if (_sprint == true)
+                {
+                    _p.setVitesseX(-180);
+                    _p.setVitesseY(0);
+                }
                 break;
             default:
                 break;

@@ -12,6 +12,9 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QDebug>
+#include <QList>
+#include <QString>
+#include <QFile>
 
 class MainWindow;
 class game;
@@ -23,6 +26,7 @@ class Authentification : public QMainWindow
 public:
     explicit Authentification(QWidget* parent = nullptr);
     void startGame();
+    void saveName(const QString& playerName);
     void restartGame();
     void continueGame();
 protected:
@@ -34,6 +38,8 @@ private slots:
 
 private:
     void MenuAuthentification();
+    QString nomJoueur; // Variable membre pour stocker le nom du joueur
+
     
 
     QWidget* centralWidget;

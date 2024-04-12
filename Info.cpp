@@ -32,7 +32,7 @@ void Info::MenuInfo()
     QGridLayout* mainLayout = new QGridLayout(centralWidget);
 
     textEdit = new QTextEdit;
-    textEdit->setFixedSize(1000, 400);
+    textEdit->setFixedSize(1100, 500);
     textEdit->setReadOnly(true);
 
     // Configuration des groupes Info Label
@@ -60,6 +60,21 @@ void Info::MenuInfo()
         font1 = QFont("Arial", 50, QFont::Bold);
     }
     LabelLaodGameInfo->setFont(font1);
+
+    // Utiliser la police pour le reste des éléments
+    QFont font2;
+    int fontId2 = QFontDatabase::addApplicationFont(":/fonts/BadBoys1.ttf");
+    if (fontId2 != -1) {
+        QString fontFamily2 = QFontDatabase::applicationFontFamilies(fontId2).at(0);
+        font2 = QFont(fontFamily2, 11, QFont::Bold);
+    }
+    else {
+        qDebug() << "Échec du chargement de la police BadBoys.";
+        font2 = QFont("Arial", 11, QFont::Bold); // Utiliser une police de secours en cas d'échec de chargement de la police BadBoys
+    }
+
+    // Appliquer la police aux widgets nécessaires
+    textEdit->setFont(font2);
 
     // Chargement et application des polices sur tous le restes
     QFont font;
@@ -130,16 +145,22 @@ void Info::saveData()
 
     out << "Description :\n";
     out << "\n";
-    out << "    Plongez dans une aventure palpitante a travers des labyrinthes mysterieux ou chaque tournant revele de nouveaux defis et dangers. \n Dans ce jeu captivant, votre objectif est de naviguer a travers les labyrinthes, de collecter la cle pour ouvrir la porte vers le niveau suivant,\n tout en evitant d'etre capture par le redoutable monstre qui rode dans les couloirs.\n\n";
+    out << "         Plongez dans une aventure palpitante a travers des labyrinthes mysterieux ou chaque tournant revele de nouveaux defis et dangers. \n Dans ce jeu captivant, votre objectif est de naviguer a travers les labyrinthes, de collecter la cle pour ouvrir la porte vers le niveau suivant, tout                        en evitant d'etre capture par le redoutable monstre qui rode dans les couloirs.\n\n";
 
     out << "Fonctionnalies :\n\n";
 
-    out << "Exploration de Labyrinthes : Parcourez une variete de labyrinthes aux designs uniques et intrigants.\n";
-    out << "Collecte de Cles : Trouvez la cle cachee dans chaque niveau pour deverrouiller la sortie vers le prochain defi.\n";
-    out << "Eviter le Monstre : Faites preuve de discrétion et de strategie pour eviter les pieges du monstre qui patrouille sans relache.\n";
-    out << "Ramassage de Gadgets : Decouvrez des gadgets speciaux disperses dans les labyrinthes pour vous aider dans votre quete.\n";
-    out << "Niveaux Progressifs : Affrontez des defis de plus en plus complexes a mesure que vous progressez a travers les niveaux.\n";
-    out << "Graphismes Captivants : Plongez dans des decors immersifs et des visuels epoustouflants qui ajoutent a l'ambiance envoutante du jeu.\n\n";
+    out << "        Exploration de Labyrinthes : Parcourez une variete de labyrinthes aux designs uniques et intrigants.\n";
+    out << "\n";
+    out << "        Collecte de Cles : Trouvez la cle cachee dans chaque niveau pour deverrouiller la sortie vers le prochain defi.\n";
+    out << "\n";
+    out << "        Eviter le Monstre : Faites preuve de discretion et de strategie pour eviter les pieges du monstre qui patrouille sans relache.\n";
+    out << "\n";
+    out << "        Ramassage de Gadgets : Decouvrez des gadgets speciaux disperses dans les labyrinthes pour vous aider dans votre quete.\n";
+    out << "\n";
+    out << "        Niveaux Progressifs : Affrontez des defis de plus en plus complexes a mesure que vous progressez a travers les niveaux.\n";
+    out << "\n";
+    out << "        Graphismes Captivants : Plongez dans des decors immersifs et des visuels epoustouflants qui ajoutent a l'ambiance envoutante du jeu.\n\n";
+    out << "\n";
 
     out << "Plongez dans l'aventure des maintenant et voyez si vous avez ce qu'il faut pour echapper aux dangers du Labyrinthe Aventure !\n";
 

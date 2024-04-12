@@ -5,6 +5,10 @@ LoadGame::LoadGame(QWidget* parent) :QMainWindow(parent)
 {
     mainWindow = qobject_cast<MainWindow*>(parent);
     MenuLoadGame();
+    show();
+}
+void LoadGame::setNomJoueur(const QString& nom) {
+    nomJoueur = nom;
 }
 
 void LoadGame::paintEvent(QPaintEvent* event)
@@ -29,6 +33,8 @@ void LoadGame::MenuLoadGame()
     qDeleteAll(this->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
 
     centralWidget = new QWidget(this);
+
+    afficherTop5(nomJoueur); // Appel de afficherTop5 avec le nom du joueur
 
     // Configuration des groupes score en Classement
     QGroupBox* ClassementGroupBox = new QGroupBox(tr(""), this);
@@ -121,8 +127,6 @@ void LoadGame::MenuLoadGame()
     // Ajouter l'icône Précédent dans le grid layout
     connect(boutonPrecedent, &QPushButton::clicked, this, &LoadGame::playClickSound);
 
-
-
     // Layout principal
     QGridLayout* mainLayout = new QGridLayout(centralWidget);
 
@@ -149,6 +153,53 @@ void LoadGame::MenuLoadGame()
     setFixedSize(1525, 785);
     setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
 }
+
+void LoadGame::afficherTop5(const QString& nomJoueur) 
+{
+    // Effacer les joueurs précédemment stockés
+    joueurs.clear();
+
+    // Lire les joueurs à partir du fichier
+    QFile file("joueurs.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) 
+    {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString ligne = in.readLine();
+            QStringList elements = ligne.split(" ");
+            if (elements.size() == 3) {
+                Joueur joueur;
+                joueur.nom = elements[0];
+                joueur.niveau = elements[1].toInt();
+                joueurs.append(joueur);
+            }
+        }
+        file.close();
+    }
+
+    // Trier les joueurs en fonction du niveau à l'aide de std::sort
+    std::sort(joueurs.begin(), joueurs.end());
+
+    // Créer le layout pour afficher les joueurs
+    QVBoxLayout* layoutJoueurs = new QVBoxLayout;
+
+    // Ajouter les informations des joueurs dans le layout
+    qDebug() << "Top 5 joueurs en fonction du niveau atteint pour" << nomJoueur << ":";
+    for (int i = 0; i < qMin(5, joueurs.size()); ++i) {
+        QLabel* labelJoueur = new QLabel(this);
+        labelJoueur->setText(QString("Classement: %1, Nom: %2, Niveau: %3")
+            .arg(i + 1)
+            .arg(joueurs[i].nom)
+            .arg(joueurs[i].niveau));
+        layoutJoueurs->addWidget(labelJoueur);
+    }
+
+    // Ajouter le layout des joueurs à la fenêtre d'authentification
+    QWidget* widgetPrincipal = new QWidget;
+    widgetPrincipal->setLayout(layoutJoueurs);
+    setCentralWidget(widgetPrincipal);
+}
+
 
 void LoadGame::playClickSound()
 {

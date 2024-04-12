@@ -111,6 +111,9 @@ void Authentification::MenuAuthentification()
 
 void Authentification::startGame()
 {
+    // Récupérer le nom du joueur depuis le champ de saisie
+    QString nomJoueur = EditNomJoueur->text();
+
     // Créer une nouvelle instance du jeu
     g = new game(this);
 
@@ -126,8 +129,27 @@ void Authentification::startGame()
 
     // Actualiser la map pour commencer le jeu
     g->actualiserMap("map1.txt");
+
+    // Sauvegarder le nom du joueur dans le fichier joueurs.txt
+    saveName(nomJoueur);
 }
 
+void Authentification::saveName(const QString& playerName)
+{
+    // Ouvrir le fichier joueurs.txt en mode écriture
+    QFile file("joueurs.txt");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+        // Créer un objet QTextStream pour écrire dans le fichier
+        QTextStream out(&file);
+        // Écrire le nom du joueur suivi d'un espace dans le fichier
+        out << playerName << " ";
+        // Fermer le fichier
+        file.close();
+    }
+    else {
+        qDebug() << "Erreur lors de l'ouverture du fichier joueurs.txt en écriture.";
+    }
+}
 void Authentification::restartGame()
 {
 

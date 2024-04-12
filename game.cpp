@@ -8,20 +8,18 @@ Auteur : Olympus*/
 game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30), _son(new son(this))
 {
     _clavier = 0;
-    _vies = 1;
+    _vies = 3;
     _gameOver = false;
     _keyCollect = false;
     _coinCollect = false;
     _flashCollect = false;
     _foodCollect = false;
     _sprint = false;
-    
-    //_m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
+    _w.resetVies();
     _w.show();
     actualiserMap(_mapNiveau[getNiveau()]);
 
-    //_w.setMonsterPosition(20, -2);
 }
 
 
@@ -41,15 +39,22 @@ void game::mettreAJourVies(int changement)
 {
     _vies += changement;
     
+
     if (_vies <= 0) 
     {
         // Game over
-        _a.setMessagesVies(0);
+        if (_a.isConnected())
+        {
+            _a.setMessagesVies(0);
+        }
         _gameOver = true;
     }
     else
     {
-        _a.setMessagesVies(_vies);
+        if (_a.isConnected())
+        {
+            _a.setMessagesVies(_vies);
+        }
     }
 }
 
@@ -124,6 +129,11 @@ void game::setJoystick()
     {
         _p.setVitesseX(joystickX);
         _p.setVitesseY(joystickY);
+    }
+    else if (_sprint == true)
+    {
+        _p.setVitesseX(joystickX*1.8);
+        _p.setVitesseY(joystickY*1.8);
     }
 }
 
@@ -222,12 +232,11 @@ void game::vibreur()
 
 void game::libererDuMonstre()
 {
-    _w.setShake(true);
+    //_w.setShake(true);
 
     if (!_a.isConnected())
     {
         mettreAJourVies(-1);
-        reinitialiserPositionJoueur();
         return;
     }
 
@@ -352,7 +361,6 @@ void game::deplacerJoueur()
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player, _p.getX(), _p.getY());
     _w.setPlayerPosition(_p.getX(), _p.getY());
-    //_w.setMonsterPosition(_m.getX(), _m.getY());
 
     // Afficher le jeu complet
     afficher();
@@ -428,11 +436,11 @@ void game::deplacerMonster()
     if ( _p.getX() == _m.getX() && _p.getY() == _m.getY())
     {
         // Le monstre a attrapé le joueur
-        libererDuMonstre();
-    }
-    else
-    {
-        _gameOver = false;
+        _p.setX(0);
+        _p.setY(0);
+        _w.setPlayerPosition(_p.getX(), _p.getY());
+        mettreAJourVies(-1);
+        _w.changerVies(-1);
     }
 }
 
@@ -535,12 +543,14 @@ void game::prochainNiveau()
         _w.emptyMap();
         _f.setEcran(_player, _p.getX(), _p.getY());
         _w.setPlayerPosition(_p.getX(), _p.getY());
+        _w.resetVies();
 
         _keyCollect = false;
         _coinCollect = false;
         _flashCollect = false;
         _foodCollect = false;
         _sprint = false;
+        _vies = 3;
 
         _w.setSpeed(false);
 
@@ -598,6 +608,7 @@ void game::actualiserMap(string fichier)
         _w.addMap('l', _map.getLocker(i).x, _map.getLocker(i).y);
     }
 
+    _f.setEcran(_monster, _map.getM1().x, _map.getM1().y);
     _f.setEcran(_cle, _map.getCle().x, _map.getCle().y);
     _f.setEcran(_coin, _map.getCoin().x, _map.getCoin().y);
     _f.setEcran(_machine, _map.getMachine().x, _map.getMachine().y);
@@ -606,6 +617,8 @@ void game::actualiserMap(string fichier)
     _w.addMap('c', _map.getCoin().x, _map.getCoin().y);
     _w.addMap('m', _map.getMachine().x, _map.getMachine().y);
     _w.addMap('f', _map.getFlash().x, _map.getFlash().y);
+    _m.setX(_map.getM1().x);
+    _m.setY(_map.getM1().y);
 }
 
 bool game::collision(int x, int y)
@@ -790,18 +803,33 @@ void game::updateGame()
     {
         _w.setLocker(false);
     }
-    
+
+    _w.setMonsterPosition(_m.getX(), _m.getY());
 
     // Check for game over condition and stop the game loop if true
-    if (_gameOver) {
+    if (_gameOver == true) {
 
+        _clavier = 0;
+        _vies = 3;
+        _gameOver = false;
+        _keyCollect = false;
+        _coinCollect = false;
+        _flashCollect = false;
+        _foodCollect = false;
+        _sprint = false;
+
+        _w.resetVies();
+        _w.show();
+        actualiserMap(_mapNiveau[getNiveau()]);
+
+        /*
         // Stop the game loop
         QTimer* timer = qobject_cast<QTimer*>(sender()); // Get the sender object (the timer)
         if (timer)
         {
             timer->stop(); // Stop the timer
             QObject::disconnect(timer, &QTimer::timeout, this, &game::updateGame); // Disconnect the timeout signal
-        }
+        }*/
     }
     // Update GUI
     afficher();

@@ -2,6 +2,8 @@
 
 maps::maps()
 {
+    _m1.x = -1;
+    _m1.y = -1;
 }
 
 maps::~maps()

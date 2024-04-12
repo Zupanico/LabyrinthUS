@@ -20,6 +20,8 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30), _son(
 
     _w.show();
     actualiserMap(_mapNiveau[getNiveau()]);
+
+    //_w.setMonsterPosition(20, -2);
 }
 
 
@@ -337,10 +339,17 @@ void game::deplacerJoueur()
     {
         _f.setEcran(_door, _map.getDoor(i).x, _map.getDoor(i).y);
     }
+
+    //Prochain Niveau
+    if (_map.chercherNiveau(_p.getX(), _p.getY()))
+    {
+        prochainNiveau();
+    }
+
     // Afficher le personnage sur la fenêtre
     _f.setEcran(_player, _p.getX(), _p.getY());
     _w.setPlayerPosition(_p.getX(), _p.getY());
-
+    //_w.setMonsterPosition(_m.getX(), _m.getY());
 
     // Afficher le jeu complet
     afficher();
@@ -516,14 +525,21 @@ int game::getNiveau() const
 void game::prochainNiveau()
 {
         cout << "PROCHAIN NIVEAU" << endl;
+        _p.setX(0);
+        _p.setY(0);
         _niveau ++;
         _f.resetEcran();
         _w.emptyMap();
+        _f.setEcran(_player, _p.getX(), _p.getY());
+        _w.setPlayerPosition(_p.getX(), _p.getY());
 
         _keyCollect = false;
         _coinCollect = false;
         _flashCollect = false;
         _foodCollect = false;
+        _sprint = false;
+
+        _w.setSpeed(false);
 
         for (int i = 0; i < 4; i++)
         {

@@ -7,7 +7,7 @@ Auteur : Bakayoko Kanvali*/
 
 monster::monster()
 {
-    _actif = false;
+    _actif = true;
     _direction = 0;
     _poursuite = false;
     _range = 6;

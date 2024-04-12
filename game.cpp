@@ -16,7 +16,7 @@ game::game(int &argc, char **argv) : QApplication(argc, argv), _f(30, 30), _son(
     _foodCollect = false;
     _sprint = false;
     
-    _m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
+    //_m.addTriggerPoint(_map.getM1().x, _map.getM1().y);
 
     _w.show();
     actualiserMap(_mapNiveau[getNiveau()]);
@@ -439,7 +439,7 @@ void game::patrouillageMonster()
     int distanceY = abs(mY - pY);
 
     // Si le monstre est à portée du joueur en X
-    if( distanceX < range && mY == pY){
+    if (distanceX < range){
         for (int i = 0; i < distanceX; i++)
         {
             if (mX < pX && !collision(mX + i, mY))
@@ -456,7 +456,7 @@ void game::patrouillageMonster()
     }
 
     // Si le monstre est à portée du joueur en Y
-    if( distanceY < range && mX == pX){
+    if (distanceY < range){
         for (int i = 0; i < distanceY; i++)
         {
             if (mY < pY && !collision(mX, mY + i))

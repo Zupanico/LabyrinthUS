@@ -365,7 +365,7 @@ void MainWindow::setShake(bool etat)
 
 void MainWindow::changerSizeBar()
 {
-    _sizeBar -= width()/200;
+    _sizeBar -= width()/250;
 }
 
 void MainWindow::setSpeed(bool etat)

@@ -186,9 +186,12 @@ void game::checkMachine()
         || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
         && _coinCollect == true) 
     {
-        _son.playVendingMachine1();
-        _foodCollect = true;
-        _coinCollect = false;
+        if (_coinCollect == true)
+        {
+            _son.playVendingMachine1();
+            _foodCollect = true;
+            _coinCollect = false;
+        }
     }
 }
 
@@ -789,8 +792,8 @@ void game::updateGame()
         _w.setFood(false);
     }
 
-    if (_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
-        || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1)
+    if ((_map.chercherMachine(_p.getX()+1, _p.getY()) || _map.chercherMachine(_p.getX()-1, _p.getY())
+        || _map.chercherMachine(_p.getX(), _p.getY()+1) || _map.chercherMachine(_p.getX(), _p.getY()-1))
         && _coinCollect == true) 
     {
         _w.setMachine(true);

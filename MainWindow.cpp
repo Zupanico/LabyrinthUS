@@ -81,9 +81,9 @@ void MainWindow::MenuPrincipale()
     gridLayout->setVerticalSpacing(150);
 
     // Creation de mes Boutons
-    listButton.push_back(new QPushButton(tr("&NEW GAME")));
-    listButton.push_back(new QPushButton(tr("&LOAD GAME")));
-    QPushButton* quitButton = new QPushButton(tr("&QUIT PLAY"));
+    listButton.push_back(new QPushButton(tr("&NOUVELLE PARTIE")));
+    listButton.push_back(new QPushButton(tr("&CLASSEMENT")));
+    QPushButton* quitButton = new QPushButton(tr("&QUITTER LE JEU"));
     connect(quitButton, &QPushButton::clicked, &QCoreApplication::quit);
     listButton.push_back(quitButton);
 
@@ -134,8 +134,8 @@ void MainWindow::MenuPrincipale()
         button->setStyleSheet("QPushButton { color: red; background-color: transparent; border: none; }"
             "QPushButton:pressed { color: yellow; background-color: transparent; }");
     }
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
 }
 
 
@@ -202,8 +202,8 @@ void MainWindow::MenuPause()
         button->setStyleSheet("QPushButton { color: red; background-color: transparent; border: none; }"
             "QPushButton:pressed { color: yellow; background-color: transparent; }");
     }
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
 }
 
 

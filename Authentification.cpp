@@ -35,7 +35,7 @@ void Authentification::MenuAuthentification()
 
     QGridLayout* mainLayout = new QGridLayout(centralWidget);
 
-    LabelAuthentification = new QLabel(tr("Veuillez entrer vos Noms"), centralWidget);
+    LabelAuthentification = new QLabel(tr("Veuillez entrer votre nom"), centralWidget);
     LabelAuthentification->setAlignment(Qt::AlignCenter);
     LabelAuthentification->setStyleSheet("QLabel { color: red; }");
 
@@ -105,8 +105,8 @@ void Authentification::MenuAuthentification()
     connect(boutonPrecedent, &QPushButton::clicked, this, &Authentification::playClickSound);
     connect(EditNomJoueur, &QLineEdit::textChanged, this, &Authentification::updateDemarrerButtonState);
 
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
 }
 
 void Authentification::startGame()

@@ -150,8 +150,8 @@ void LoadGame::MenuLoadGame()
     connect(boutonDemarrer, &QPushButton::clicked, this, &LoadGame::playClickSound);
     connect(boutonPrecedent, &QPushButton::clicked, this, &LoadGame::playClickSound);
 
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
 }
 
 void LoadGame::afficherTop5(const QString& nomJoueur) 

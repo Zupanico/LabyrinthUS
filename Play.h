@@ -42,8 +42,6 @@ private:
     QFont font;
     QSoundEffect SonClick;
 
-    QMediaPlayer* LectureVideo;
-    QVideoWidget* videoWidget;
     QAudioOutput* audioOutput;
     MainWindow* mainWindow;
 };

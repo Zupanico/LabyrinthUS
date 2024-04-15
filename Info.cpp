@@ -118,8 +118,8 @@ void Info::MenuInfo()
     // Connexions
     connect(boutonPrecedent, &QPushButton::clicked, this, &Info::playClickSound);
 
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
     
     saveData();
 }

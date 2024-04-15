@@ -24,11 +24,6 @@ void Play::paintEvent(QPaintEvent* event)
 
 void Play::MenuPlay()
 {
-    // Initialisation du lecteur vidéo et du widget vidéo
-    LectureVideo = new QMediaPlayer(this);
-    videoWidget = new QVideoWidget(this);
-    audioOutput = new QAudioOutput(this);
-
     // Configuration du widget central
     centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -40,7 +35,7 @@ void Play::MenuPlay()
     QVBoxLayout* playLayout = new QVBoxLayout(playGroupBox);
 
     // Création et configuration du bouton "Play"
-    QPushButton* boutonPlay = new QPushButton(tr("PLAY"), playGroupBox);
+    QPushButton* boutonPlay = new QPushButton(tr("JOUER"), playGroupBox);
     boutonPlay->setProperty("role", "play");
     boutonPlay->setFixedSize(300, 150);
 
@@ -77,8 +72,8 @@ void Play::MenuPlay()
     connect(boutonPlay, &QPushButton::clicked, this, &Play::playClickSound);
 
     // Configuration de la fenêtre
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
 }
 
 
@@ -100,37 +95,17 @@ void Play::playClickSound()
 
         if (role == "play")
         {
-            // Configuration pour la lecture vidéo
-
-            LectureVideo->setSource(QUrl::fromLocalFile("videoInterface.webm"));
-            LectureVideo->setVideoOutput(videoWidget);
-            LectureVideo->setAudioOutput(audioOutput);
-            audioOutput->setVolume(100);
-            videoWidget->setFixedSize(1525, 785); // Ajustez à la taille désirée
-            videoWidget->show();
-            LectureVideo->play();
-
-            // Se connecter au signal positionChanged
-            connect(LectureVideo, &QMediaPlayer::positionChanged, this, [this](qint64 position) {
-                if (position >= 6) { // 60 000 millisecondes = 1 minute
-                    LectureVideo->stop(); // Arrêtez la lecture
-                    videoWidget->close(); // Fermez le widget vidéo
-
-                    // Affichage du menu principale
-                    if (mainWindow == nullptr)
-                    {
-                        mainWindow = new MainWindow(this);
-                        mainWindow->show();
-                        mainWindow->MenuPrincipale();
-                    }
-                    else
-                    {
-                        mainWindow->show();
-                        mainWindow->MenuPrincipale();
-                    }
-                    this->hide(); // Cachez la fenêtre d'authentification actuelle
-                }
-                });
+            if (mainWindow == nullptr)
+            {
+                mainWindow = new MainWindow(this);
+                mainWindow->show();
+                mainWindow->MenuPrincipale();
+            }
+            else
+            {
+                mainWindow->show();
+                mainWindow->MenuPrincipale();
+            }
         }
     }
 }

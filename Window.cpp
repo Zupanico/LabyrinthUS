@@ -113,8 +113,8 @@ void Window::MenuJeu()
     
     connect(pauseButton, &QPushButton::clicked, this, &Window::playClickSound);
 
-    setFixedSize(1525, 785);
-    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> BAKAYOKO KANVALI"));
+    setWindowState(Qt::WindowMaximized);
+    setWindowTitle(tr("LABYRINTHUS GROUPE P6 : : PROJET DE FIN DE SESSION S2 -->> OLYMPUS"));
 }
 
 void Window::playClickSound()
